@@ -1,0 +1,34 @@
+#editor > div {
+	margin-right: 190px;
+}
+#wp-shortcode-template-wrap {
+	margin-bottom: 25px;
+}
+#editor .wp-editor-container {
+	clear: none;
+	width: 85%;
+}
+.editor-control-wrap label {
+	display: block;
+}
+#file-name-error {
+	display: none;
+	color: #ba1714;
+	font-weight: bold;
+	background: #f7d9d9;
+	padding: 6px 5px 5px;
+}
+#new-file {
+	font-size: 16px;
+	text-align: right;
+	width: 250px;
+	height: 30px;
+	padding: 5px;
+	margin: 0;
+}
+.submit-wrap {
+	padding-top: 25px;
+}
+.wp-core-ui .submit-wrap .button, .wp-core-ui .submit-wrap .button-secondar {
+	margin-right: 10px;
+}

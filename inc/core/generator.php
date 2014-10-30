@@ -89,7 +89,7 @@ class Su_Generator {
 				) );
 
 			// Add add-ons links
-			if ( !su_addon_active( 'maker' ) || !su_addon_active( 'skins' ) || !su_addon_active( 'extra' ) ) $tools[] = '<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate-addons' ) . '" target="_blank" title="' . __( 'Add-ons', 'su' ) . '" class="su-add-ons">' . __( 'Add-ons', 'su' ) . '</a>';
+			if ( !defined( 'SUE_PLUGIN_FILE' ) || !defined( 'SUS_PLUGIN_FILE' ) || !defined( 'SUM_PLUGIN_FILE' ) ) $tools[] = '<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate-addons' ) . '" target="_blank" title="' . __( 'Add-ons', 'su' ) . '" class="su-add-ons">' . __( 'Add-ons', 'su' ) . '</a>';
 ?>
 		<div id="su-generator-wrap" style="display:none">
 			<div id="su-generator">
