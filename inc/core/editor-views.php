@@ -58,6 +58,34 @@ if ( $location == $current_theme ) {
 	$abs_file = trailingslashit( WP_PLUGIN_DIR ) . $location;
 }
 
+if ( empty( $file ) ) {
+	$file     = self::$dir_name . 'heading/default.tmpl';
+	$abs_file = SU_PLUGIN_DIR;
+}
+
+if ( isset( $_POST['shortcode'] ) ) {
+	// $active     = sanitize_file_name( $_POST['shortcode'] );
+	$active     = $_POST['shortcode'];
+	$_active    = explode( '/', $active );
+	$location   = $_active[0];
+	$active_tag = $_active[1];
+	$file       = self::$dir_name . "$active_tag/default.tmpl";
+	$abs_file   = trailingslashit( WP_PLUGIN_DIR ) . trailingslashit( $_active[0] );
+
+	$new_loc = menu_page_url( 'shortcode_templates_editor', 0 );
+	$query_args['file']     = urlencode( $file );
+	$query_args['location'] = $location;
+	$loc = add_query_arg( $query_args, $new_loc );
+	wp_redirect( $loc );
+	exit;
+
+} elseif ( isset( $_GET['file'] ) ) {
+	$active_tag = basename( dirname( $_GET['file'] ) );
+} else {
+	reset( $allowed_shortcodes );
+	$active_tag = current( $allowed_shortcodes );
+}
+
 if ( !empty( $file ) ) {
 	$relative_file = $file;
 	$file = trailingslashit( $abs_file ) . $relative_file;
@@ -67,15 +95,6 @@ if ( !empty( $file ) ) {
 	}
 }
 
-if ( isset( $_POST['shortcode'] ) ) {
-	$active_tag = sanitize_file_name( $_POST['shortcode'] );
-} elseif ( isset( $_GET['file'] ) ) {
-	$active_tag = basename( dirname( $_GET['file'] ) );
-} else {
-	reset( $allowed_shortcodes );
-	$active_tag = current( $allowed_shortcodes );
-}
-
 if ( isset( $_POST['save'] ) ) {
 	$action = 'save';
 } elseif ( isset( $_POST['copy'] ) ) {
@@ -83,7 +102,6 @@ if ( isset( $_POST['save'] ) ) {
 } else {
 	$action = '';
 }
-
 
 switch( $action ) {
 
@@ -155,13 +173,11 @@ switch( $action ) {
 
 							<?php foreach ( ( array ) Su_Data::shortcodes() as $id => $data ) {
 
-								$key = in_array( $id, $allowed_shortcodes );
-
-								if ( false === $key ) {
+								if ( !isset( $default_files[ $id ] ) ) {
 									continue;
 								}
 
-								echo "\n\t" . '<option value="' . esc_attr( $id ) . '" '. selected( $active_tag, $id, false ) .'>' . $data['name'] . '</option>';
+								echo "\n\t" . '<option value="' . esc_attr( key( $default_files[ $id ] ) . '/' . $id ) . '" '. selected( $active_tag, $id, false ) .'>' . $data['name'] . '</option>';
 							} ?>
 
 						</select>
