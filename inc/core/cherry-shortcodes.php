@@ -203,22 +203,120 @@ class Su_Shortcodes {
 	}
 
 	public static function row( $atts = null, $content = null ) {
-		$atts = shortcode_atts( array( 'class' => '' ), $atts );
-		return '<div class="su-row' . su_ecssc( $atts ) . '">' . su_do_shortcode( $content, 'r' ) . '</div>';
+		$atts = shortcode_atts( array(
+			'type'  => 'fixed-width',
+			'class' => '',
+		), $atts, 'row' );
+
+		$container = ( $atts['type'] === 'fixed-width' ) ? 'container' : 'container-fluid';
+
+		return '<div class="' . esc_attr( $container ) . su_ecssc( $atts ) . '"><div class="row">' . do_shortcode( $content ) . '</div></div>';
 	}
 
-	public static function column( $atts = null, $content = null ) {
+	public static function row_inner( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
-				'size'   => '1/2',
-				'center' => 'no',
-				'last'   => null,
-				'class'  => ''
-			), $atts, 'column' );
-		if ( $atts['last'] !== null && $atts['last'] == '1' ) $atts['class'] .= ' su-column-last';
-		if ( $atts['center'] === 'yes' ) $atts['class'] .= ' su-column-centered';
-		su_query_asset( 'css', 'su-box-shortcodes' );
-		return '<div class="su-column su-column-size-' . str_replace( '/', '-', $atts['size'] ) . su_ecssc( $atts ) . '"><div class="su-column-inner su-clearfix">' . su_do_shortcode( $content, 'c' ) . '</div></div>';
+			'class' => '',
+		), $atts, 'row_inner' );
+
+		return '<div class="row' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
 	}
+
+	public static function col( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'size_xs'   => 'none',
+			'size_sm'   => 'none',
+			'size_md'   => 'none',
+			'size_lg'   => 'none',
+			'offset_xs' => 'none',
+			'offset_sm' => 'none',
+			'offset_md' => 'none',
+			'offset_lg' => 'none',
+			'pull_xs'   => 'none',
+			'pull_sm'   => 'none',
+			'pull_md'   => 'none',
+			'pull_lg'   => 'none',
+			'push_xs'   => 'none',
+			'push_sm'   => 'none',
+			'push_md'   => 'none',
+			'push_lg'   => 'none',
+			'class'     => 'none',
+		), $atts, 'column' );
+		$class  = '';
+		$class .= ( $atts['size_lg'] === 'none' )   ? '' : ' col-lg-' . $atts['size_lg'];
+		$class .= ( $atts['size_md'] === 'none' )   ? '' : ' col-md-' . $atts['size_md'];
+		$class .= ( $atts['size_sm'] === 'none' )   ? '' : ' col-sm-' . $atts['size_sm'];
+		$class .= ( $atts['size_xs'] === 'none' )   ? '' : ' col-xs-' . $atts['size_xs'];
+		$class .= ( $atts['offset_lg'] === 'none' ) ? '' : ' col-lg-offset-' . $atts['offset_lg'];
+		$class .= ( $atts['offset_md'] === 'none' ) ? '' : ' col-md-offset-' . $atts['offset_md'];
+		$class .= ( $atts['offset_sm'] === 'none' ) ? '' : ' col-sm-offset-' . $atts['offset_sm'];
+		$class .= ( $atts['offset_xs'] === 'none' ) ? '' : ' col-xs-offset-' . $atts['offset_xs'];
+		$class .= ( $atts['pull_lg'] === 'none' )   ? '' : ' col-lg-pull-' . $atts['pull_lg'];
+		$class .= ( $atts['pull_md'] === 'none' )   ? '' : ' col-md-pull-' . $atts['pull_md'];
+		$class .= ( $atts['pull_sm'] === 'none' )   ? '' : ' col-sm-pull-' . $atts['pull_sm'];
+		$class .= ( $atts['pull_xs'] === 'none' )   ? '' : ' col-xs-pull-' . $atts['pull_xs'];
+		$class .= ( $atts['push_lg'] === 'none' )   ? '' : ' col-lg-push-' . $atts['push_lg'];
+		$class .= ( $atts['push_md'] === 'none' )   ? '' : ' col-md-push-' . $atts['push_md'];
+		$class .= ( $atts['push_sm'] === 'none' )   ? '' : ' col-sm-push-' . $atts['push_sm'];
+		$class .= ( $atts['push_xs'] === 'none' )   ? '' : ' col-xs-push-' . $atts['push_xs'];
+		$class .= ( $atts['class'] )                ? '' : ' ' . $atts['class'];
+
+		return '<div class="' . trim( esc_attr( $class ) ) . '">' . do_shortcode( $content ) . '</div>';
+	}
+
+	public static function col_inner( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'size_xs'   => 'none',
+			'size_sm'   => 'none',
+			'size_md'   => 'none',
+			'size_lg'   => 'none',
+			'offset_xs' => 'none',
+			'offset_sm' => 'none',
+			'offset_md' => 'none',
+			'offset_lg' => 'none',
+			'pull_xs'   => 'none',
+			'pull_sm'   => 'none',
+			'pull_md'   => 'none',
+			'pull_lg'   => 'none',
+			'push_xs'   => 'none',
+			'push_sm'   => 'none',
+			'push_md'   => 'none',
+			'push_lg'   => 'none',
+			'class'     => 'none',
+		), $atts, 'column' );
+		$class  = '';
+		$class .= ( $atts['size_lg'] === 'none' )   ? '' : ' col-lg-' . $atts['size_lg'];
+		$class .= ( $atts['size_md'] === 'none' )   ? '' : ' col-md-' . $atts['size_md'];
+		$class .= ( $atts['size_sm'] === 'none' )   ? '' : ' col-sm-' . $atts['size_sm'];
+		$class .= ( $atts['size_xs'] === 'none' )   ? '' : ' col-xs-' . $atts['size_xs'];
+		$class .= ( $atts['offset_lg'] === 'none' ) ? '' : ' col-lg-offset-' . $atts['offset_lg'];
+		$class .= ( $atts['offset_md'] === 'none' ) ? '' : ' col-md-offset-' . $atts['offset_md'];
+		$class .= ( $atts['offset_sm'] === 'none' ) ? '' : ' col-sm-offset-' . $atts['offset_sm'];
+		$class .= ( $atts['offset_xs'] === 'none' ) ? '' : ' col-xs-offset-' . $atts['offset_xs'];
+		$class .= ( $atts['pull_lg'] === 'none' )   ? '' : ' col-lg-pull-' . $atts['pull_lg'];
+		$class .= ( $atts['pull_md'] === 'none' )   ? '' : ' col-md-pull-' . $atts['pull_md'];
+		$class .= ( $atts['pull_sm'] === 'none' )   ? '' : ' col-sm-pull-' . $atts['pull_sm'];
+		$class .= ( $atts['pull_xs'] === 'none' )   ? '' : ' col-xs-pull-' . $atts['pull_xs'];
+		$class .= ( $atts['push_lg'] === 'none' )   ? '' : ' col-lg-push-' . $atts['push_lg'];
+		$class .= ( $atts['push_md'] === 'none' )   ? '' : ' col-md-push-' . $atts['push_md'];
+		$class .= ( $atts['push_sm'] === 'none' )   ? '' : ' col-sm-push-' . $atts['push_sm'];
+		$class .= ( $atts['push_xs'] === 'none' )   ? '' : ' col-xs-push-' . $atts['push_xs'];
+		$class .= ( $atts['class'] )                ? '' : ' ' . $atts['class'];
+
+		return '<div class="' . trim( esc_attr( $class ) ) . '">' . do_shortcode( $content ) . '</div>';
+	}
+
+	// public static function _column( $atts = null, $content = null ) {
+	// 	$atts = shortcode_atts( array(
+	// 			'size'   => '1/2',
+	// 			'center' => 'no',
+	// 			'last'   => null,
+	// 			'class'  => ''
+	// 		), $atts, '_column' );
+	// 	if ( $atts['last'] !== null && $atts['last'] == '1' ) $atts['class'] .= ' su-column-last';
+	// 	if ( $atts['center'] === 'yes' ) $atts['class'] .= ' su-column-centered';
+	// 	su_query_asset( 'css', 'su-box-shortcodes' );
+	// 	return '<div class="su-column su-column-size-' . str_replace( '/', '-', $atts['size'] ) . su_ecssc( $atts ) . '"><div class="su-column-inner su-clearfix">' . su_do_shortcode( $content, 'c' ) . '</div></div>';
+	// }
 
 	public static function su_list( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(

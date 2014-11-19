@@ -26,11 +26,21 @@ require_once 'inc/core/assets.php';
 // require_once 'inc/core/shortcodes.php';
 require_once 'inc/core/cherry-shortcodes.php';
 require_once 'inc/core/tools.php';
-require_once 'inc/core/data.php';
-require_once 'inc/core/generator-views.php';
+// require_once 'inc/core/data.php';
+require_once 'inc/core/cherry-data.php';
+// require_once 'inc/core/generator-views.php';
+require_once 'inc/core/cherry-generator-views.php';
 require_once 'inc/core/generator.php';
 require_once 'inc/core/widget.php';
-// require_once 'inc/core/vote.php'; <!-- disable vote
+// require_once 'inc/core/vote.php'; // disable vote
 require_once 'inc/core/counters.php';
 require_once 'inc/core/editor.php';
 require_once 'inc/core/templates.php';
+
+/**
+ * Not use `wptexturize` in content and excerpt.
+ * Removed temporary.
+ * @link  https://core.trac.wordpress.org/ticket/29557
+ */
+remove_filter( 'the_content', 'wptexturize' );
+remove_filter( 'the_excerpt', 'wptexturize' );
