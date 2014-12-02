@@ -154,9 +154,9 @@ class Su_Generator_Views {
 
 		if ( !isset( $field['values'] ) ) :
 
-			$count       = 1;
-			$grid_column = 12;
-			$_values      = array( 'none' );
+			$count       = ( $id === 'size' ) ? 1 : 0;
+			$grid_column = 12; // from option.
+			$_values     = array( 'none' );
 
 			while ( $count <= $grid_column ) {
 				array_push( $_values, $count );
