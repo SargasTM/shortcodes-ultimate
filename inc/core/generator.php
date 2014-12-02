@@ -89,7 +89,7 @@ class Su_Generator {
 				) );
 
 			// Add add-ons links
-			if ( !defined( 'SUE_PLUGIN_FILE' ) || !defined( 'SUS_PLUGIN_FILE' ) || !defined( 'SUM_PLUGIN_FILE' ) ) $tools[] = '<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate-addons' ) . '" target="_blank" title="' . __( 'Add-ons', 'su' ) . '" class="su-add-ons">' . __( 'Add-ons', 'su' ) . '</a>';
+			if ( !su_addon_active( 'maker' ) || !su_addon_active( 'skins' ) || !su_addon_active( 'extra' ) ) $tools[] = '<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate-addons' ) . '" target="_blank" title="' . __( 'Add-ons', 'su' ) . '" class="su-add-ons">' . __( 'Add-ons', 'su' ) . '</a>';
 ?>
 		<div id="su-generator-wrap" style="display:none">
 			<div id="su-generator">
@@ -159,7 +159,7 @@ class Su_Generator {
 				$return .= '</div></div>';
 			}
 			// Shortcode has atts
-			if ( count( $shortcode['atts'] ) && $shortcode['atts'] ) {
+			if ( isset( $shortcode['atts'] ) && count( $shortcode['atts'] ) ) {
 				// Loop through shortcode parameters
 				foreach ( $shortcode['atts'] as $attr_name => $attr_info ) {
 					// Prepare default value
@@ -172,6 +172,7 @@ class Su_Generator {
 					elseif ( !isset( $attr_info['type'] ) ) $attr_info['type'] = 'text';
 					if ( is_callable( array( 'Su_Generator_Views', $attr_info['type'] ) ) ) $return .= call_user_func( array( 'Su_Generator_Views', $attr_info['type'] ), $attr_name, $attr_info );
 					elseif ( isset( $attr_info['callback'] ) && is_callable( $attr_info['callback'] ) ) $return .= call_user_func( $attr_info['callback'], $attr_name, $attr_info );
+					if ( isset( $attr_info['desc'] ) ) $attr_info['desc'] = str_replace( '%su_skins_link%', su_skins_link(), $attr_info['desc'] );
 					if ( isset( $attr_info['desc'] ) ) $return .= '<div class="su-generator-attr-desc">' . str_replace( array( '<b%value>', '<b_>' ), '<b class="su-generator-set-value" title="' . __( 'Click to set this value', 'su' ) . '">', $attr_info['desc'] ) . '</div>';
 					$return .= '</div>';
 				}
@@ -179,7 +180,11 @@ class Su_Generator {
 			// Single shortcode (not closed)
 			if ( $shortcode['type'] == 'single' ) $return .= '<input type="hidden" name="su-generator-content" id="su-generator-content" value="false" />';
 			// Wrapping shortcode
-			else $return .= '<div class="su-generator-attr-container"><h5>' . __( 'Content', 'su' ) . '</h5><textarea name="su-generator-content" id="su-generator-content" rows="5">' . esc_attr( str_replace( array( '%prefix_', '__' ), su_cmpt(), $shortcode['content'] ) ) . '</textarea></div>';
+			else {
+				// Prepare shortcode content
+				$shortcode['content'] = ( isset( $shortcode['content'] ) ) ? $shortcode['content'] : '';
+				$return .= '<div class="su-generator-attr-container"><h5>' . __( 'Content', 'su' ) . '</h5><textarea name="su-generator-content" id="su-generator-content" rows="5">' . esc_attr( str_replace( array( '%prefix_', '__' ), su_cmpt(), $shortcode['content'] ) ) . '</textarea></div>';
+			}
 			$return .= '<div id="su-generator-preview"></div>';
 			$return .= '<div class="su-generator-actions su-generator-clearfix">' . implode( ' ', array_values( $actions ) ) . '</div>';
 			set_transient( 'su/generator/settings/' . sanitize_text_field( $_REQUEST['shortcode'] ), $return, 2 * DAY_IN_SECONDS );
