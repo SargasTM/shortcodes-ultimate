@@ -57,4 +57,4 @@ class Su_Vote {
 	}
 }
 
-new Su_Vote;
+new Su_Vote; ?>

@@ -55,4 +55,4 @@ class Su_Widget extends WP_Widget {
 
 }
 
-add_action( 'widgets_init', array( 'Su_Widget', 'register' ) );
+add_action( 'widgets_init', array( 'Su_Widget', 'register' ) ); ?>
