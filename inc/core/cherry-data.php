@@ -383,15 +383,15 @@ class Su_Data {
 							'name'    => __( 'Ignore sticky', 'su' ),
 							'desc'    => __( 'Select Yes to ignore posts that is sticked', 'su' ),
 						),
-						'template' => array(
-							'type'   => 'select',
-							'values' => array(
-								'default.tmpl' => 'default.tmpl',
-							),
-							'default' => 'default.tmpl',
-							'name'    => __( 'Template', 'su' ),
-							'desc'    => __( 'Shortcode template', 'su' ),
-						),
+						// 'template' => array(
+						// 	'type'   => 'select',
+						// 	'values' => array(
+						// 		'default.tmpl' => 'default.tmpl',
+						// 	),
+						// 	'default' => 'default.tmpl',
+						// 	'name'    => __( 'Template', 'su' ),
+						// 	'desc'    => __( 'Shortcode template', 'su' ),
+						// ),
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'su' ),
 					'icon' => 'th-list',
