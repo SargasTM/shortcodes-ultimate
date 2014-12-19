@@ -230,7 +230,7 @@ function su_cmpt() {
  * @return string
  */
 function su_ecssc( $atts ) {
-	return ( $atts['class'] ) ? ' ' . trim( $atts['class'] ) : '';
+	return ( $atts['class'] ) ? ' ' . esc_attr( $atts['class'] ) : '';
 }
 
 /**
@@ -643,13 +643,13 @@ class Su_Tools {
 	public static function get_types() {
 		$types = array();
 		foreach ( (array) get_post_types( '', 'objects' ) as $cpt => $cpt_data ) $types[$cpt] = $cpt_data->label;
-		return $types;
+		return apply_filters( 'su_tools_get_types', $types );
 	}
 
 	public static function get_taxonomies() {
 		$taxes = array();
 		foreach ( (array) get_taxonomies( '', 'objects' ) as $tax ) $taxes[$tax->name] = $tax->label;
-		return $taxes;
+		return apply_filters( 'su_tools_get_taxonomies', $taxes );
 	}
 
 	public static function get_terms( $tax = 'category', $key = 'id' ) {

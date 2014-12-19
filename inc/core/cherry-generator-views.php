@@ -31,7 +31,6 @@ class Su_Generator_Views {
 		$multiple = ( isset( $field['multiple'] ) ) ? ' multiple' : '';
 		$return = '<select name="' . $id . '" id="su-generator-attr-' . $id . '" class="su-generator-attr"' . $multiple . '>';
 		// Create options
-		// var_dump($field);
 		foreach ( $field['values'] as $option_value => $option_title ) {
 			// Is this option selected
 			$selected = ( $field['default'] === $option_value ) ? ' selected="selected"' : '';
@@ -167,6 +166,43 @@ class Su_Generator_Views {
 			$values = array_combine( $values, $values );
 
 			$field['values'] = $values;
+
+		endif;
+
+		$field['default'] = ( $field['default'] === 'none' ) ? array( 'none', 'none', 'none', 'none' ) : explode( ' ', $field['default'] );
+		$field_0 = $field_1 = $field_2 = $field_3 = $field;
+
+		for ( $i = 0; $i < count( $field['default'] ); $i++ ) {
+			${'field_' . $i}['default'] = ( $field['default'][ $i ] == 'none' ) ? 'none' : absint( $field['default'][ $i ] );
+		}
+
+		$return = '<div class="su-generator-responsive"><span class="su-generator-responsive-field">' . self::select( $id . '_xs', $field_0 ) . '<small>' . __( 'Extra small devices (Phones)', 'su' ) . '</small></span><span class="su-generator-responsive-field">' . self::select( $id . '_sm', $field_1 ) . '<small>' . __( 'Small devices (Tablets)', 'su' ) . '</small></span><span class="su-generator-responsive-field">' . self::select( $id . '_md', $field_2 ) . '<small>' . __( 'Medium devices (Desktops)', 'su' ) . '</small></span><span class="su-generator-responsive-field">' . self::select( $id . '_lg', $field_3 ) . '<small>' . __( 'Large devices (Desktops)', 'su' ) . '</small></span></div>';
+
+		return $return;
+	}
+
+	public static function responsive_invert( $id, $field ) {
+
+		if ( !isset( $field['values'] ) ) :
+
+			$count       = ( $id === 'size' ) ? 1 : 0;
+			$grid_column = 12; // from option.
+			// $_values     = array( 'none' );
+			$_values     = array();
+
+			while ( $count <= $grid_column ) {
+				array_push( $_values, $count );
+				$count++;
+			}
+
+			$values = array_values( $_values );
+			$keys   = array_reverse( $values );
+			$values = array_merge( array( 'none' => 'none'), $values );
+			$keys   = array_merge( array( 'none' => 'none'), $keys );
+			// $values = array_reverse( $values, true );
+			// $values = array_flip( $values );
+
+			$field['values'] = array_combine( $keys, $values );
 
 		endif;
 

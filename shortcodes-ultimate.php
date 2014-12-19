@@ -36,6 +36,38 @@ require_once 'inc/core/widget.php';
 require_once 'inc/core/counters.php';
 
 /**
+ * Default filters
+ */
+add_filter( 'su_tools_get_types', 'cherry_shortcodes_unset_type' );
+function cherry_shortcodes_unset_type( $types ) {
+	unset( $types['nav_menu_item'] );
+
+	return $types;
+}
+
+add_filter( 'su_tools_get_taxonomies', 'cherry_shortcodes_unset_taxonomy' );
+function cherry_shortcodes_unset_taxonomy( $taxes ) {
+	unset( $taxes['nav_menu'] );
+	unset( $taxes['link_category'] );
+
+	return $taxes;
+}
+
+// add_filter( 'cherry_shortcodes_output', 'cherry_shortcodes_container_wrap', 10, 3 );
+function cherry_shortcodes_container_wrap( $output, $atts, $shortcode ) {
+
+	if ( !isset( $atts['type'] ) ) {
+		return $output;
+	}
+
+	$container = sanitize_key( $atts['type'] );
+	$container = ( 'fixed-width' === $container ) ? 'container' : 'container-fluid';
+	$output    = sprintf( '<div class="%1$s">%2$s</div>', $container, $output );
+
+	return $output;
+}
+
+/**
  * Not use `wptexturize` in content and excerpt.
  * Removed temporary.
  * @link  https://core.trac.wordpress.org/ticket/29557
