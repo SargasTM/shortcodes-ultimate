@@ -132,7 +132,7 @@ class Su_Shortcodes {
 	}
 
 	public static function posts( $atts = null, $content = null ) {
-		static $instance = 0;
+		static $instance = 0, $tax = null;
 		$instance++;
 
 		// Parse attributes.
@@ -321,19 +321,20 @@ class Su_Shortcodes {
 		if ( $posts_query->have_posts() ) {
 
 			// Item template.
-			$template = self::get_template_by_name( $template_atts, 'posts' );
+			// $template = self::get_template_by_name( $template_atts, 'posts' );
 
-			if ( ( false === $template ) || is_wp_error( $template ) ) {
+			// if ( ( false === $template ) || is_wp_error( $template ) ) {
 
 				$template = '
-					%%IMAGE%%
+					<figure class="post-thumbnail">%%IMAGE%%</figure>
 					<h4 class="post-title">%%TITLE%%</h4>
 					<div class="post-meta">
-						Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%%
+						Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%% %%TAXONOMY="category"%%
 					</div>
 					%%EXCERPT%%
 					%%CONTENT%%
-					%%BUTTON%%
+					%%BUTTON="btn"%%
+					<footer>%%TAXONOMY="post_tag"%%</footer>
 					';
 
 				/**
@@ -343,8 +344,8 @@ class Su_Shortcodes {
 				 * @param  string $template  Template's file name.
 				 * @var    string $shortcode Shortcode's name.
 				 */
-				$template = apply_filters( "cherry_shortcode_posts_fallback_template", $template );
-			}
+				// $template = apply_filters( "cherry_shortcode_posts_fallback_template", $template );
+			// }
 
 			$_foo = array();
 
@@ -363,27 +364,60 @@ class Su_Shortcodes {
 				$author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
 				$_content   = get_the_content( '' );
 				$excerpt    = $thumbnail = $comments = '';
+				$taxonomy   = $tax_data = array();
 
+				// Excerpt.
 				if ( post_type_supports( $post_type, 'excerpt' ) ) {
 					$excerpt = has_excerpt( $post_id ) ? apply_filters( 'the_excerpt', get_the_excerpt() ) : '';
 				}
 
+				// Thumbnail.
 				if ( post_type_supports( $post_type, 'thumbnail' ) ) {
 					$thumbnail = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail( $post_id ) : '';
 				}
 
+				// Comments.
 				if ( post_type_supports( $post_type, 'comments' ) ) {
-					$comments = ( comments_open() || get_comments_number() ) ? sprintf( '<span class="post-comments-link"><a href="%1$s">%2$s</a></span>', esc_url( get_comments_link() ), get_comments_number() ) : '';
+					$comments = ( comments_open() || get_comments_number() ) ? get_comments_number() : '';
 				}
 
+				// Content.
 				if ( 'part' == $content_type ) {
-					// wp_trim_excerpt analog
+					/* wp_trim_excerpt analog */
 					$content = strip_shortcodes( $_content );
-					$content = apply_filters( 'the_content', $content ); // http://codex.wordpress.org/Function_Reference/the_content#Alternative_Usage
+					$content = apply_filters( 'the_content', $content );
 					$content = str_replace( ']]>', ']]&gt;', $content );
 					$content = wp_trim_words( $content, $content_length, '' );
 				} else {
 					$content = apply_filters( 'the_content', $_content );
+				}
+
+				// Taxonomy.
+				if ( null === $tax ) {
+					preg_match_all( '/TAXONOMY=".+?"/', $tpl, $match, PREG_SET_ORDER );
+
+					if ( is_array( $match ) && !empty( $match ) ) {
+
+						$tax = array();
+						foreach ( $match as $m ) {
+							$_atts = shortcode_parse_atts( $m[0] );
+							$tax[] = $_atts['taxonomy'];
+						}
+					}
+				}
+
+				// Terms.
+				if ( $tax ) {
+
+					foreach ( $tax as $t ) :
+						$terms = wp_get_post_terms( $post_id, $t );
+
+						if ( !empty( $terms ) && !is_wp_error( $terms ) ) {
+							foreach ( $terms as $term ) {
+								$tax_data[ $t ][ $term->slug ] = '<a href="' . get_term_link( $term->slug, $t ) . '">' . $term->name . '</a>';
+							}
+						}
+					endforeach;
 				}
 
 				// Apply a filters.
@@ -391,6 +425,7 @@ class Su_Shortcodes {
 				$title_attr = apply_filters( 'cherry_shortcodes_title_attr', $title_attr, $post_id, $atts, 'posts' );
 				$thumbnail  = apply_filters( 'cherry_shortcodes_thumbnail',  $thumbnail,  $post_id, $atts, 'posts' );
 				$comments   = apply_filters( 'cherry_shortcodes_comments',   $comments,   $post_id, $atts, 'posts' );
+				$tax_data   = apply_filters( 'cherry_shortcodes_taxonomy',   $tax_data,   $post_id, $atts, 'posts' );
 				$date       = apply_filters( 'cherry_shortcodes_date',       $date,       $post_id, $atts, 'posts' );
 				$author     = apply_filters( 'cherry_shortcodes_author',     $author,     $post_id, $atts, 'posts' );
 				$excerpt    = apply_filters( 'cherry_shortcodes_excerpt',    $excerpt,    $post_id, $atts, 'posts' );
@@ -405,24 +440,32 @@ class Su_Shortcodes {
 				}
 
 				if ( !empty( $thumbnail ) ) {
-					$image = ( $linked_image ) ? sprintf( '<figure class="post-thumbnail"><a href="%1$s" title="%2$s" class="%3$s">%4$s</a></figure>', esc_url( $permalink ), esc_attr( $title_attr ), 'post-thumbnail', $thumbnail ) : sprintf( '<figure class="post-thumbnail">%s</figure>', $thumbnail );
+					$image = ( $linked_image ) ? sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>', esc_url( $permalink ), esc_attr( $title_attr ), 'post-thumbnail', $thumbnail ) : sprintf( '%s', $thumbnail );
 				}
 
-				$date    = sprintf( '<time class="post-date" datetime="%1$s">%2$s</time>', esc_attr( get_the_date( 'c' ) ), esc_html( $date ) );
-				$author  = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
-				$excerpt = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
-				$content = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
-				$button  = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), 'btn', esc_html__( $button_text, 'tm' ) ) : '';
+				$comments = ( !empty( $comments ) ) ? sprintf( '<span class="post-comments-link"><a href="%1$s">%2$s</a></span>', esc_url( get_comments_link() ), $comments ) : '';
+				$date     = sprintf( '<time class="post-date" datetime="%1$s">%2$s</time>', esc_attr( get_the_date( 'c' ) ), esc_html( $date ) );
+				$author   = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
+				$excerpt  = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
+				$content  = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
+				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), 'btn btn-default', esc_html__( $button_text, 'tm' ) ) : '';
+
+				if ( $tax ) {
+					foreach ( $tax_data as $name => $data ) {
+						$taxonomy[ $name ] = sprintf( '<span class="post-tax post-tax-%1$s">%2$s</span>', sanitize_html_class( $name ), join( ' ', $data ) );
+					}
+				}
 
 				// Prepare array.
-				$_foo['image']    = $image;
 				$_foo['title']    = $title;
+				$_foo['image']    = $image;
+				$_foo['comments'] = $comments;
+				$_foo['taxonomy'] = $taxonomy;
+				$_foo['date']     = $date;
+				$_foo['author']   = $author;
 				$_foo['excerpt']  = $excerpt;
 				$_foo['content']  = $content;
 				$_foo['button']   = $button;
-				$_foo['date']     = $date;
-				$_foo['author']   = $author;
-				$_foo['comments'] = $comments;
 
 				/**
 				 * Filters
@@ -549,13 +592,35 @@ class Su_Shortcodes {
 	}
 
 	public static function replace_callback( $matches ) {
-		$key = strtolower( trim( $matches[0], '%%' ) );
 
-		if ( array_key_exists( $key, self::$foo ) ) {
-			return self::$foo[ $key ];
-		} else {
-			__return_empty_string();
+		if ( empty( $matches ) ) {
+			return '';
 		}
+
+		$key = strtolower( trim( $matches[0], '%%' ) );
+		$pos = strpos( $key, '=' );
+
+		if ( false !== $pos ) {
+			$_key = explode( '=', $key );
+			$key1 = $_key[0];
+			$key2 = trim( $_key[1], '"' );
+
+			if ( !isset( self::$foo[ $key1 ] ) ) {
+				return '';
+			}
+
+			if ( is_array( self::$foo[ $key1 ] ) ) {
+
+				if ( !isset( self::$foo[ $key1 ][ $key2 ] ) ) {
+					return '';
+				}
+				return self::$foo[ $key1 ][ $key2 ];
+			}
+
+			return self::$foo[ $key1 ];
+		}
+
+		return self::$foo[ $key ];
 	}
 
 	public static function reset_foo() {
