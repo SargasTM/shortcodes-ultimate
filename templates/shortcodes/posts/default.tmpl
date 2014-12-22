@@ -1,8 +1,9 @@
-%%IMAGE%%
+<figure class="post-thumbnail">%%IMAGE%%</figure>
 <h4 class="post-title">%%TITLE%%</h4>
 <div class="post-meta">
-	Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%%
+	<?php _e( 'Posted on', 'su' ); ?> %%DATE%% <?php _e( 'by', 'su' ); ?> %%AUTHOR%% %%COMMENTS%% %%TAXONOMY="category"%%
 </div>
 %%EXCERPT%%
 %%CONTENT%%
-%%BUTTON%%
+%%BUTTON="btn btn-default"%%
+<footer>%%TAXONOMY="post_tag"%%</footer>

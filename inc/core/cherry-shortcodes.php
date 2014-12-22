@@ -3,7 +3,7 @@ class Su_Shortcodes {
 	static $tabs = array();
 	static $tab_count = 0;
 
-	public static $foo = array();
+	public static $postdata = array();
 
 	function __construct() {}
 
@@ -132,7 +132,7 @@ class Su_Shortcodes {
 	}
 
 	public static function posts( $atts = null, $content = null ) {
-		static $instance = 0, $tax = null;
+		static $instance = 0, $tax = null, $btn_classes = null;
 		$instance++;
 
 		// Parse attributes.
@@ -320,34 +320,40 @@ class Su_Shortcodes {
 
 		if ( $posts_query->have_posts() ) {
 
-			// Item template.
-			// $template = self::get_template_by_name( $template_atts, 'posts' );
+			// Item template's file.
+			$template_file = self::get_template_by_name( $template_atts, 'posts' );
 
 			// if ( ( false === $template ) || is_wp_error( $template ) ) {
 
-				$template = '
-					<figure class="post-thumbnail">%%IMAGE%%</figure>
-					<h4 class="post-title">%%TITLE%%</h4>
-					<div class="post-meta">
-						Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%% %%TAXONOMY="category"%%
-					</div>
-					%%EXCERPT%%
-					%%CONTENT%%
-					%%BUTTON="btn"%%
-					<footer>%%TAXONOMY="post_tag"%%</footer>
-					';
+			// 	$template = '
+			// 		<figure class="post-thumbnail">%%IMAGE%%</figure>
+			// 		<h4 class="post-title">%%TITLE%%</h4>
+			// 		<div class="post-meta">
+			// 			Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%% %%TAXONOMY="category"%%
+			// 		</div>
+			// 		%%EXCERPT%%
+			// 		%%CONTENT%%
+			// 		%%BUTTON="btn btn-default"%%
+			// 		<footer>%%TAXONOMY="post_tag"%%</footer>
+			// 		';
 
-				/**
-				 * Filters a fallback template.
-				 *
-				 * @since  1.0.0
-				 * @param  string $template  Template's file name.
-				 * @var    string $shortcode Shortcode's name.
-				 */
-				// $template = apply_filters( "cherry_shortcode_posts_fallback_template", $template );
+			// 	/**
+			// 	 * Filters a fallback template.
+			// 	 *
+			// 	 * @since  1.0.0
+			// 	 * @param  string $template  Template's file name.
+			// 	 * @var    string $shortcode Shortcode's name.
+			// 	 */
+			// 	$template = apply_filters( 'cherry_shortcode_posts_fallback_template', $template, $atts );
 			// }
 
-			$_foo = array();
+			ob_start();
+			require( $template_file );
+			$template = ob_get_contents();
+			ob_end_clean();
+
+			// Temp array for post data.
+			$_postdata = array();
 
 			while ( $posts_query->have_posts() ) :
 				$posts_query->the_post();
@@ -420,17 +426,28 @@ class Su_Shortcodes {
 					endforeach;
 				}
 
+				// Button classes.
+				if ( null === $btn_classes ) {
+					preg_match_all( '/BUTTON=".+?"/', $tpl, $match, PREG_SET_ORDER );
+
+					if ( is_array( $match ) && !empty( $match ) ) {
+						$_atts       = shortcode_parse_atts( $match[0][0] );
+						$btn_classes = $_atts['button'];
+					}
+				}
+
 				// Apply a filters.
-				$title_text = apply_filters( 'cherry_shortcodes_title_text', $title_text, $post_id, $atts, 'posts' );
-				$title_attr = apply_filters( 'cherry_shortcodes_title_attr', $title_attr, $post_id, $atts, 'posts' );
-				$thumbnail  = apply_filters( 'cherry_shortcodes_thumbnail',  $thumbnail,  $post_id, $atts, 'posts' );
-				$comments   = apply_filters( 'cherry_shortcodes_comments',   $comments,   $post_id, $atts, 'posts' );
-				$tax_data   = apply_filters( 'cherry_shortcodes_taxonomy',   $tax_data,   $post_id, $atts, 'posts' );
-				$date       = apply_filters( 'cherry_shortcodes_date',       $date,       $post_id, $atts, 'posts' );
-				$author     = apply_filters( 'cherry_shortcodes_author',     $author,     $post_id, $atts, 'posts' );
-				$excerpt    = apply_filters( 'cherry_shortcodes_excerpt',    $excerpt,    $post_id, $atts, 'posts' );
-				$content    = apply_filters( 'cherry_shortcodes_content',    $content,    $post_id, $atts, 'posts' );
-				$permalink  = apply_filters( 'cherry_shortcodes_permalink',  $permalink,  $post_id, $atts, 'posts' );
+				$title_text  = apply_filters( 'cherry_shortcodes_title_text',  $title_text,  $post_id, $atts, 'posts' );
+				$title_attr  = apply_filters( 'cherry_shortcodes_title_attr',  $title_attr,  $post_id, $atts, 'posts' );
+				$thumbnail   = apply_filters( 'cherry_shortcodes_thumbnail',   $thumbnail,   $post_id, $atts, 'posts' );
+				$comments    = apply_filters( 'cherry_shortcodes_comments',    $comments,    $post_id, $atts, 'posts' );
+				$tax_data    = apply_filters( 'cherry_shortcodes_taxonomy',    $tax_data,    $post_id, $atts, 'posts' );
+				$date        = apply_filters( 'cherry_shortcodes_date',        $date,        $post_id, $atts, 'posts' );
+				$author      = apply_filters( 'cherry_shortcodes_author',      $author,      $post_id, $atts, 'posts' );
+				$excerpt     = apply_filters( 'cherry_shortcodes_excerpt',     $excerpt,     $post_id, $atts, 'posts' );
+				$content     = apply_filters( 'cherry_shortcodes_content',     $content,     $post_id, $atts, 'posts' );
+				$permalink   = apply_filters( 'cherry_shortcodes_permalink',   $permalink,   $post_id, $atts, 'posts' );
+				$btn_classes = apply_filters( 'cherry_shortcodes_btn_classes', $btn_classes, $post_id, $atts, 'posts' );
 
 				// Gets a formatted data.
 				$title = $image = '';
@@ -448,7 +465,7 @@ class Su_Shortcodes {
 				$author   = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
 				$excerpt  = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
 				$content  = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
-				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), 'btn btn-default', esc_html__( $button_text, 'tm' ) ) : '';
+				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), esc_attr( $btn_classes ), esc_html__( $button_text, 'tm' ) ) : '';
 
 				if ( $tax ) {
 					foreach ( $tax_data as $name => $data ) {
@@ -456,29 +473,29 @@ class Su_Shortcodes {
 					}
 				}
 
-				// Prepare array.
-				$_foo['title']    = $title;
-				$_foo['image']    = $image;
-				$_foo['comments'] = $comments;
-				$_foo['taxonomy'] = $taxonomy;
-				$_foo['date']     = $date;
-				$_foo['author']   = $author;
-				$_foo['excerpt']  = $excerpt;
-				$_foo['content']  = $content;
-				$_foo['button']   = $button;
+				// Prepare a current post data array.
+				$_postdata['title']    = $title;
+				$_postdata['image']    = $image;
+				$_postdata['comments'] = $comments;
+				$_postdata['taxonomy'] = $taxonomy;
+				$_postdata['date']     = $date;
+				$_postdata['author']   = $author;
+				$_postdata['excerpt']  = $excerpt;
+				$_postdata['content']  = $content;
+				$_postdata['button']   = $button;
 
 				/**
-				 * Filters
+				 * Filters the array with a current post data.
 				 *
 				 * @since 1.0.0
-				 * @param array  [varname]  [description]
+				 * @param array  $_postdata Array with a current post data.
 				 * @param int    $post_id   Post ID.
 				 * @param array  $atts      Shortcode attributes.
 				 */
-				$_foo = apply_filters( 'cherry-shortcode-posts-foo', $_foo, $post_id, $atts );
+				$_postdata = apply_filters( 'cherry-shortcode-posts-postdata', $_postdata, $post_id, $atts );
 
-				// Init a `foo` array.
-				self::$foo = $_foo;
+				// Init a `postdata` array.
+				self::$postdata = $_postdata;
 
 				// Perform a regular expression.
 				$tpl = preg_replace_callback( "/%%.+?%%/", array( 'Su_Shortcodes', 'replace_callback' ), $tpl );
@@ -535,8 +552,8 @@ class Su_Shortcodes {
 			endwhile;
 
 			// Prepare the CSS classes for list.
-			$wrap_classes   = array();
-			$wrap_classes[] = 'cherry-posts-list';
+			$wrap_classes        = array();
+			$wrap_classes[]      = 'cherry-posts-list';
 			$wrap_classes['row'] = 'row';
 
 			if ( $atts['class'] ) {
@@ -572,8 +589,8 @@ class Su_Shortcodes {
 		// Reset the query.
 		wp_reset_postdata();
 
-		// Reset the `foo`.
-		self::reset_foo();
+		// Reset the `postdata`.
+		self::reset_postdata();
 
 		// Add asset.
 		// su_query_asset( 'css', 'su-other-shortcodes' );
@@ -591,7 +608,18 @@ class Su_Shortcodes {
 		return $output;
 	}
 
+	/**
+	 * Callback-function for `preg_replace_callback`.
+	 *
+	 * @since  1.0.0
+	 * @param  array|null $matches
+	 * @return string
+	 */
 	public static function replace_callback( $matches ) {
+
+		if ( !is_array( $matches ) ) {
+			return '';
+		}
 
 		if ( empty( $matches ) ) {
 			return '';
@@ -605,26 +633,32 @@ class Su_Shortcodes {
 			$key1 = $_key[0];
 			$key2 = trim( $_key[1], '"' );
 
-			if ( !isset( self::$foo[ $key1 ] ) ) {
+			if ( !isset( self::$postdata[ $key1 ] ) ) {
 				return '';
 			}
 
-			if ( is_array( self::$foo[ $key1 ] ) ) {
+			if ( is_array( self::$postdata[ $key1 ] ) ) {
 
-				if ( !isset( self::$foo[ $key1 ][ $key2 ] ) ) {
+				if ( !isset( self::$postdata[ $key1 ][ $key2 ] ) ) {
 					return '';
 				}
-				return self::$foo[ $key1 ][ $key2 ];
+				return self::$postdata[ $key1 ][ $key2 ];
 			}
 
-			return self::$foo[ $key1 ];
+			return self::$postdata[ $key1 ];
 		}
 
-		return self::$foo[ $key ];
+		return self::$postdata[ $key ];
 	}
 
-	public static function reset_foo() {
-		self::$foo = array();
+	/**
+	 * Restores the static $postdata.
+	 *
+	 * @since  1.0.0
+	 * @return array
+	 */
+	public static function reset_postdata() {
+		self::$postdata = array();
 	}
 
 	/**
@@ -648,11 +682,12 @@ class Su_Shortcodes {
 			$file = $default;
 		}
 
-		if ( $file ) {
-			$content = self::get_contents( $file );
-		}
+		// if ( $file ) {
+		// 	$content = self::get_contents( $file );
+		// }
 
-		return $content;
+		// return $content;
+		return $file;
 	}
 
 	/**
