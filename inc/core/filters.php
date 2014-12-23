@@ -34,7 +34,7 @@ function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 		$macros_buttons['date'] = array(
 			'id'    => 'cherry_date',
 			'value' => 'Date',
-			'open'  => '%%DATE%%',
+			'open'  => '%%DATE="' . get_option( 'date_format' ) . '"%%',
 			'close' => '',
 		);
 		$macros_buttons['author'] = array(

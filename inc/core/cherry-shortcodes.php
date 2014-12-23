@@ -132,7 +132,7 @@ class Su_Shortcodes {
 	}
 
 	public static function posts( $atts = null, $content = null ) {
-		static $instance = 0, $tax = null, $btn_classes = null;
+		static $instance = 0;
 		$instance++;
 
 		// Parse attributes.
@@ -154,7 +154,7 @@ class Su_Shortcodes {
 				'linked_image'        => 'yes',
 				'content_type'        => 'part',
 				'content_length'      => 55,
-				'button_text'         => __( 'read more', 'tm' ),
+				'button_text'         => __( 'read more', 'su' ),
 				'col_xs'              => '12',
 				'col_sm'              => '6',
 				'col_md'              => '3',
@@ -190,7 +190,7 @@ class Su_Shortcodes {
 		$col_sm              = sanitize_key( $atts['col_sm'] );
 		$col_md              = sanitize_key( $atts['col_md'] );
 		$col_lg              = sanitize_key( $atts['col_lg'] );
-		$template_atts       = sanitize_file_name( $atts['template'] );
+		$template_name       = sanitize_file_name( $atts['template'] );
 
 		// Set up initial query for post.
 		$args = array(
@@ -321,31 +321,11 @@ class Su_Shortcodes {
 		if ( $posts_query->have_posts() ) {
 
 			// Item template's file.
-			$template_file = self::get_template_by_name( $template_atts, 'posts' );
+			$template_file = self::get_template_path( $template_name, 'posts' );
 
-			// if ( ( false === $template ) || is_wp_error( $template ) ) {
-
-			// 	$template = '
-			// 		<figure class="post-thumbnail">%%IMAGE%%</figure>
-			// 		<h4 class="post-title">%%TITLE%%</h4>
-			// 		<div class="post-meta">
-			// 			Posted on %%DATE%% by %%AUTHOR%% %%COMMENTS%% %%TAXONOMY="category"%%
-			// 		</div>
-			// 		%%EXCERPT%%
-			// 		%%CONTENT%%
-			// 		%%BUTTON="btn btn-default"%%
-			// 		<footer>%%TAXONOMY="post_tag"%%</footer>
-			// 		';
-
-			// 	/**
-			// 	 * Filters a fallback template.
-			// 	 *
-			// 	 * @since  1.0.0
-			// 	 * @param  string $template  Template's file name.
-			// 	 * @var    string $shortcode Shortcode's name.
-			// 	 */
-			// 	$template = apply_filters( 'cherry_shortcode_posts_fallback_template', $template, $atts );
-			// }
+			if ( false == $template_file ) {
+				return __( 'Posts not found', 'tm' );
+			}
 
 			ob_start();
 			require( $template_file );
@@ -354,6 +334,35 @@ class Su_Shortcodes {
 
 			// Temp array for post data.
 			$_postdata = array();
+
+			// Date format.
+			$date_format = get_option( 'date_format' );
+			preg_match_all( '/DATE=".+?"/', $template, $match, PREG_SET_ORDER );
+
+			if ( is_array( $match ) && !empty( $match ) ) {
+				$_atts       = shortcode_parse_atts( $match[0][0] );
+				$date_format = $_atts['date'];
+			}
+
+			// Taxonomy.
+			$tax = array();
+			preg_match_all( '/TAXONOMY=".+?"/', $template, $match, PREG_SET_ORDER );
+
+			if ( is_array( $match ) && !empty( $match ) ) {
+				foreach ( $match as $m ) {
+					$_atts = shortcode_parse_atts( $m[0] );
+					$tax[] = $_atts['taxonomy'];
+				}
+			}
+
+			// Button classes.
+			$btn_classes = '';
+			preg_match_all( '/BUTTON=".+?"/', $template, $match, PREG_SET_ORDER );
+
+			if ( is_array( $match ) && !empty( $match ) ) {
+				$_atts       = shortcode_parse_atts( $match[0][0] );
+				$btn_classes = $_atts['button'];
+			}
 
 			while ( $posts_query->have_posts() ) :
 				$posts_query->the_post();
@@ -365,12 +374,12 @@ class Su_Shortcodes {
 				$permalink  = get_permalink();
 				$title_text = get_the_title();
 				$title_attr = the_title_attribute( array( 'echo' => false ) );
-				$date       = get_the_date();
 				$author     = get_the_author();
 				$author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
+				$date       = get_the_date( $date_format ); //http://codex.wordpress.org/Function_Reference/get_the_date
 				$_content   = get_the_content( '' );
-				$excerpt    = $thumbnail = $comments = '';
-				$taxonomy   = $tax_data = array();
+				$excerpt    = $thumbnail = $comments = $taxonomy = '';
+				$tax_data   = array();
 
 				// Excerpt.
 				if ( post_type_supports( $post_type, 'excerpt' ) ) {
@@ -398,20 +407,6 @@ class Su_Shortcodes {
 					$content = apply_filters( 'the_content', $_content );
 				}
 
-				// Taxonomy.
-				if ( null === $tax ) {
-					preg_match_all( '/TAXONOMY=".+?"/', $tpl, $match, PREG_SET_ORDER );
-
-					if ( is_array( $match ) && !empty( $match ) ) {
-
-						$tax = array();
-						foreach ( $match as $m ) {
-							$_atts = shortcode_parse_atts( $m[0] );
-							$tax[] = $_atts['taxonomy'];
-						}
-					}
-				}
-
 				// Terms.
 				if ( $tax ) {
 
@@ -424,16 +419,6 @@ class Su_Shortcodes {
 							}
 						}
 					endforeach;
-				}
-
-				// Button classes.
-				if ( null === $btn_classes ) {
-					preg_match_all( '/BUTTON=".+?"/', $tpl, $match, PREG_SET_ORDER );
-
-					if ( is_array( $match ) && !empty( $match ) ) {
-						$_atts       = shortcode_parse_atts( $match[0][0] );
-						$btn_classes = $_atts['button'];
-					}
 				}
 
 				// Apply a filters.
@@ -465,9 +450,10 @@ class Su_Shortcodes {
 				$author   = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
 				$excerpt  = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
 				$content  = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
-				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), esc_attr( $btn_classes ), esc_html__( $button_text, 'tm' ) ) : '';
+				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), esc_attr( $btn_classes ), apply_filters( 'cherry_shortcodes_translate', $button_text, 'posts_button_text' ) ) : '';
 
 				if ( $tax ) {
+					$taxonomy = array();
 					foreach ( $tax_data as $name => $data ) {
 						$taxonomy[ $name ] = sprintf( '<span class="post-tax post-tax-%1$s">%2$s</span>', sanitize_html_class( $name ), join( ' ', $data ) );
 					}
@@ -667,10 +653,10 @@ class Su_Shortcodes {
 	 * @since  1.0.0
 	 * @param  string $template_name  Template's file name.
 	 * @param  string $shortcode      Shortcode's name.
-	 * @return string                 Template's content.
+	 * @return bool|string            Template's content.
 	 */
-	public static function get_template_by_name( $template_name, $shortcode ) {
-		$file    = $content = false;
+	public static function get_template_path( $template_name, $shortcode ) {
+		$file    = false;
 		$subdir  = 'templates/shortcodes/' . $shortcode . '/' . $template_name;
 		$default = SU_PLUGIN_DIR . 'templates/shortcodes/' . $shortcode . '/default.tmpl';
 
@@ -678,15 +664,10 @@ class Su_Shortcodes {
 			$file = trailingslashit( get_stylesheet_directory() ) . $subdir;
 		} elseif ( file_exists( SU_PLUGIN_DIR . $subdir ) ) {
 			$file = SU_PLUGIN_DIR . $subdir;
-		} else {
+		} elseif ( file_exists( $default ) ) {
 			$file = $default;
 		}
 
-		// if ( $file ) {
-		// 	$content = self::get_contents( $file );
-		// }
-
-		// return $content;
 		return $file;
 	}
 
