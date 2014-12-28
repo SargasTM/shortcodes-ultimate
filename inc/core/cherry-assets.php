@@ -17,15 +17,15 @@ class Su_Assets {
 	 */
 	function __construct() {
 		// Register
-		// add_action( 'wp_head',                     array( __CLASS__, 'register' ) );
-		add_action( 'wp_enqueue_scripts',          array( __CLASS__, 'register' ) );
+		add_action( 'wp_head',                     array( __CLASS__, 'register' ) );
 		add_action( 'admin_head',                  array( __CLASS__, 'register' ) );
 		add_action( 'su/generator/preview/before', array( __CLASS__, 'register' ) );
 		add_action( 'su/examples/preview/before',  array( __CLASS__, 'register' ) );
+		add_action( 'wp_enqueue_scripts',          array( __CLASS__, 'register_on_frontend' ) );
 		// Enqueue
-		// add_action( 'wp_footer',                   array( __CLASS__, 'enqueue' ) );
-		add_action( 'wp_enqueue_scripts',          array( __CLASS__, 'enqueue' ) );
+		add_action( 'wp_footer',                   array( __CLASS__, 'enqueue' ) );
 		add_action( 'admin_footer',                array( __CLASS__, 'enqueue' ) );
+		add_action( 'wp_enqueue_scripts',          array( __CLASS__, 'enqueue_on_frontend' ) );
 		// Print
 		add_action( 'su/generator/preview/after',  array( __CLASS__, 'prnt' ) );
 		add_action( 'su/examples/preview/after',   array( __CLASS__, 'prnt' ) );
@@ -39,17 +39,9 @@ class Su_Assets {
 	}
 
 	/**
-	 * Register assets
+	 * Register assets.
 	 */
 	public static function register() {
-		if ( function_exists( 'cherry_get_prefix' ) ) {
-			$theme_prefix = cherry_get_prefix();
-		} else {
-			$theme_prefix = ( is_child_theme() ) ? get_stylesheet() : get_template();
-			$theme_prefix = preg_replace( '/\W/', '_', strtolower( $theme_prefix ) );
-			$theme_prefix .= '-';
-		}
-
 		// Chart.js
 		wp_register_script( 'chartjs', plugins_url( 'assets/js/chart.js', SU_PLUGIN_FILE ), false, '0.2', true );
 		// SimpleSlider
@@ -117,13 +109,6 @@ class Su_Assets {
 		wp_register_style( 'su-galleries-shortcodes', self::skin_url( 'galleries-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
 		wp_register_style( 'su-players-shortcodes', self::skin_url( 'players-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
 
-		if ( !wp_style_is( $theme_prefix . 'grid-base' , 'registered' ) ){
-			wp_register_style( $theme_prefix . 'grid-base', plugins_url( 'assets/css/grid-base.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
-		}
-		if ( !wp_style_is( $theme_prefix . 'grid-responsive' , 'registered' ) ){
-			wp_register_style( $theme_prefix . 'grid-responsive', plugins_url( 'assets/css/grid-responsive.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
-		}
-
 		// Shortcodes scripts
 		wp_register_script( 'su-galleries-shortcodes', plugins_url( 'assets/js/galleries-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'swiper' ), SU_PLUGIN_VERSION, true );
 		wp_register_script( 'su-players-shortcodes', plugins_url( 'assets/js/players-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'jplayer' ), SU_PLUGIN_VERSION, true );
@@ -134,24 +119,9 @@ class Su_Assets {
 	}
 
 	/**
-	 * Enqueue assets
+	 * Register assets only on front pages.
 	 */
-	public static function enqueue() {
-		// // Get assets query and plugin object
-		// $assets = self::assets();
-		// // Enqueue stylesheets
-		// foreach ( $assets['css'] as $style ) wp_enqueue_style( $style );
-		// // Enqueue scripts
-		// foreach ( $assets['js'] as $script ) wp_enqueue_script( $script );
-
-
-		if ( empty( $GLOBALS['posts'] ) || !is_array( $GLOBALS['posts'] ) ) {
-			return;
-		}
-
-		// Prepare compatibility mode prefix.
-		$prefix = su_cmpt();
-
+	public static function register_on_frontend() {
 		if ( function_exists( 'cherry_get_prefix' ) ) {
 			$theme_prefix = cherry_get_prefix();
 		} else {
@@ -160,17 +130,59 @@ class Su_Assets {
 			$theme_prefix .= '-';
 		}
 
-		foreach ( $GLOBALS['posts'] as $p ) {
-			if ( has_shortcode( $p->post_content, $prefix . 'row' ) ) {
-				wp_enqueue_style( $theme_prefix . 'grid-base' );
-				wp_enqueue_style( $theme_prefix . 'grid-responsive' );
-			}
-			if ( has_shortcode( $p->post_content, $prefix . 'posts' ) ) {
-				wp_enqueue_style( 'su-other-shortcodes' );
-			}
+		if ( !wp_style_is( $theme_prefix . 'grid-base', 'registered' ) ) {
+			wp_register_style( $theme_prefix . 'grid-base', plugins_url( 'assets/css/grid-base.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
 		}
+		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'registered' ) ) {
+			wp_register_style( $theme_prefix . 'grid-responsive', plugins_url( 'assets/css/grid-responsive.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
+		}
+	}
+
+	/**
+	 * Enqueue assets.
+	 */
+	public static function enqueue() {
+		// Get assets query and plugin object
+		$assets = self::assets();
+		// Enqueue stylesheets
+		foreach ( $assets['css'] as $style ) wp_enqueue_style( $style );
+		// Enqueue scripts
+		foreach ( $assets['js'] as $script ) wp_enqueue_script( $script );
 		// Hook to dequeue assets or add custom
 		do_action( 'su/assets/enqueue' );
+	}
+
+	/**
+	 * Enqueue assets only on front pages.
+	 */
+	public static function enqueue_on_frontend() {
+
+		if ( empty( $GLOBALS['posts'] ) || !is_array( $GLOBALS['posts'] ) ) {
+			return;
+		}
+
+		// Prepare compatibility mode prefix.
+		$prefix = su_cmpt();
+
+		// Prepare unique theme prefix.
+		if ( function_exists( 'cherry_get_prefix' ) ) {
+			$theme_prefix = cherry_get_prefix();
+		} else {
+			$theme_prefix = ( is_child_theme() ) ? get_stylesheet() : get_template();
+			$theme_prefix = preg_replace( '/\W/', '_', strtolower( $theme_prefix ) );
+			$theme_prefix .= '-';
+		}
+
+		if ( !wp_style_is( $theme_prefix . 'grid-base',       'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-base' );
+		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-responsive' );
+
+		foreach ( $GLOBALS['posts'] as $p ) :
+
+			// if ( has_shortcode( $p->post_content, $prefix . 'posts' ) ) {
+			// 	wp_enqueue_style( 'su-other-shortcodes' );
+			// }
+
+		endforeach;
 	}
 
 	/**

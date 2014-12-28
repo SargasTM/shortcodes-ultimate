@@ -130,16 +130,6 @@ class Su_Data {
 					'type'  => 'wrap',
 					'group' => 'box',
 					'atts'  => array(
-						// 'type' => array(
-						// 	'type'   => 'select',
-						// 	'values' => array(
-						// 		'fixed-width' => __( 'Fixed Width', 'cherry-shortcodes' ),
-						// 		'full-width'  => __( 'Full Width', 'cherry-shortcodes' ),
-						// 	),
-						// 	'default' => 'fixed-width',
-						// 	'name'    => __( 'Type', 'cherry-shortcodes' ),
-						// 	'desc'    => __( 'Type width', 'cherry-shortcodes' ),
-						// ),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
