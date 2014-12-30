@@ -14,12 +14,11 @@ class Su_Shortcodes {
 
 		if ( isset( $atts['type'] ) ) {
 			$type = sanitize_key( $atts['type'] );
-		} else {
-			$type = 'full-width';
 		}
 
-		$container = ( 'full-width' == $type ) ? 'container-fluid' : 'container';
-		$output    = '<div class="' . esc_attr( $container ) . su_ecssc( $atts ) . '"><div class="row">' . do_shortcode( $content ) . '</div></div>';
+		$container = ( isset( $type ) && 'fixed-width' == $type ) ? '<div class="container">%s</div>' : '%s';
+		$output    = '<div class="row' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
+		$output    = sprintf( $container, $output );
 		$output    = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'row' );
 
 		return $output;
@@ -493,7 +492,6 @@ class Su_Shortcodes {
 				$item_classes[] = $post_type . '-item';
 				$item_classes[] = 'item-' . $posts_query->current_post;
 				$item_classes[] = ( $posts_query->current_post % 2 ) ? 'even' : 'odd';
-				$item_classes['clearfix'] = 'clearfix';
 
 				if ( 'none' !== $col_xs ) {
 					$item_classes['col-xs'] = 'col-xs-' . intval( $col_xs );
@@ -531,7 +529,7 @@ class Su_Shortcodes {
 				 * @param array  $atts         Shortcode attributes.
 				 * @param int    $post_id      Post ID.
 				 */
-				$item = apply_filters( 'cherry_shortcode_posts_item', '<div class="%1$s">%2$s</div>', $posts_query->current_post, $atts, $post_id );
+				$item = apply_filters( 'cherry_shortcode_posts_item', '<div class="%1$s"><div class="inner clearfix">%2$s</div></div>', $posts_query->current_post, $atts, $post_id );
 
 				$output .= sprintf( $item, join( ' ', $item_classes ), $tpl );
 				$output .= '<!--/.cherry-posts-item-->';
