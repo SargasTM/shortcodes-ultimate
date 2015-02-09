@@ -652,12 +652,14 @@ class Su_Shortcodes {
 	 * @return bool|string            Template's content.
 	 */
 	public static function get_template_path( $template_name, $shortcode ) {
-		$file    = false;
-		$subdir  = 'templates/shortcodes/' . $shortcode . '/' . $template_name;
-		$default = SU_PLUGIN_DIR . 'templates/shortcodes/' . $shortcode . '/default.tmpl';
+		$file       = false;
+		$default    = SU_PLUGIN_DIR . 'templates/shortcodes/' . $shortcode . '/default.tmpl';
+		$subdir     = 'templates/shortcodes/' . $shortcode . '/' . $template_name;
+		$upload_dir = wp_upload_dir();
+		$upload_dir = trailingslashit( $upload_dir['basedir'] );
 
-		if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $subdir ) ) {
-			$file = trailingslashit( get_stylesheet_directory() ) . $subdir;
+		if ( file_exists( $upload_dir . $subdir ) ) {
+			$file = $upload_dir . $subdir;
 		} elseif ( file_exists( SU_PLUGIN_DIR . $subdir ) ) {
 			$file = SU_PLUGIN_DIR . $subdir;
 		} elseif ( file_exists( $default ) ) {
