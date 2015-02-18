@@ -36,30 +36,35 @@ function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 			'value' => 'Date',
 			'open'  => '%%DATE="' . get_option( 'date_format' ) . '"%%',
 			'close' => '',
+			'title' => __( 'Helper information for `Date` macros', 'cherry-shortcodes-templater' ),
 		);
 		$macros_buttons['author'] = array(
 			'id'    => 'cherry_author',
 			'value' => 'Author',
 			'open'  => '%%AUTHOR%%',
 			'close' => '',
+			'title' => __( 'Helper information for `Author` macros', 'cherry-shortcodes-templater' ),
 		);
 		$macros_buttons['comments'] = array(
 			'id'    => 'cherry_comments',
 			'value' => 'Comments',
 			'open'  => '%%COMMENTS%%',
 			'close' => '',
+			'title' => __( 'Helper information for `Comments` macros', 'cherry-shortcodes-templater' ),
 		);
 		$macros_buttons['taxonomy'] = array(
 			'id'    => 'cherry_taxonomy',
 			'value' => 'Taxomomy',
 			'open'  => '%%TAXONOMY="category|post_tag|custom_taxonomy"%%',
 			'close' => '',
+			'title' => __( 'Helper information for `Taxomomy` macros', 'cherry-shortcodes-templater' ),
 		);
 		$macros_buttons['excerpt'] = array(
 			'id'    => 'cherry_excerpt',
 			'value' => 'Excerpt',
 			'open'  => '%%EXCERPT%%',
 			'close' => '',
+			'title' => __( 'Helper information for `Excerpt` macros', 'cherry-shortcodes-templater' ),
 		);
 	}
 
