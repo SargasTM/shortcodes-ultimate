@@ -648,6 +648,7 @@ body.su-mfp-shown button.mfp-arrow { z-index: 101004 !important; }
 .su-generator-responsive-field {
 	position: relative;
 	display: inline-block;
+	vertical-align: top;
 	width: 22%;
 	padding-right: 3%;
 }
