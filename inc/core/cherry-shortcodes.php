@@ -259,14 +259,15 @@ class Su_Shortcodes {
 			while ( isset( $original_atts['taxonomy_' . $count] )
 				&& !empty( $original_atts['taxonomy_' . $count] )
 				&& isset( $original_atts['tax_' . $count . '_term'] )
-				&& !empty( $original_atts['tax_' . $count . '_term'] ) ) {
+				&& !empty( $original_atts['tax_' . $count . '_term'] )
+				) {
 
 				// Sanitize values.
-				$more_tax_queries        = true;
-				$taxonomy                = sanitize_key( $original_atts['taxonomy_' . $count] );
-				$terms                   = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
-				$tax_operator            = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
-				$tax_operator            = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+				$more_tax_queries = true;
+				$taxonomy         = sanitize_key( $original_atts['taxonomy_' . $count] );
+				$terms            = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+				$tax_operator     = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
+				$tax_operator     = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
 				$tax_args['tax_query'][] = array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'slug',
@@ -279,9 +280,13 @@ class Su_Shortcodes {
 			if ( $more_tax_queries ) :
 
 				$tax_relation = 'AND';
-				if ( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) ) {
+
+				if ( isset( $original_atts['tax_relation'] )
+					&& in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) )
+					) {
 					$tax_relation = $original_atts['tax_relation'];
 				}
+
 				$args['tax_query']['relation'] = $tax_relation;
 
 			endif;
@@ -376,7 +381,7 @@ class Su_Shortcodes {
 				$title_attr = the_title_attribute( array( 'echo' => false ) );
 				$author     = get_the_author();
 				$author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
-				$date       = get_the_date( $date_format ); //http://codex.wordpress.org/Function_Reference/get_the_date
+				$date       = get_the_date( $date_format );
 				$_content   = get_the_content( '' );
 				$excerpt    = $thumbnail = $comments = $taxonomy = '';
 				$tax_data   = array();
@@ -438,24 +443,59 @@ class Su_Shortcodes {
 				$title = $image = '';
 
 				if ( !empty( $title_text ) ) {
-					$title = ( $linked_title ) ? sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>', esc_url( $permalink ), esc_attr( $title_attr ), 'post-title-link', esc_attr( $title_text ) ) : sprintf( '%s', esc_attr( $title_text ) );
+					$title = ( $linked_title ) ?
+					sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>',
+						esc_url( $permalink ),
+						esc_attr( $title_attr ),
+						'post-title-link',
+						esc_attr( $title_text )
+					) : sprintf( '%s', esc_attr( $title_text ) );
 				}
 
 				if ( !empty( $thumbnail ) ) {
-					$image = ( $linked_image ) ? sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>', esc_url( $permalink ), esc_attr( $title_attr ), 'post-thumbnail', $thumbnail ) : sprintf( '%s', $thumbnail );
+					$image = ( $linked_image ) ?
+					sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>',
+						esc_url( $permalink ),
+						esc_attr( $title_attr ),
+						'post-thumbnail',
+						$thumbnail
+					) : sprintf( '%s', $thumbnail );
 				}
 
-				$comments = ( !empty( $comments ) ) ? sprintf( '<span class="post-comments-link"><a href="%1$s">%2$s</a></span>', esc_url( get_comments_link() ), $comments ) : '';
-				$date     = sprintf( '<time class="post-date" datetime="%1$s">%2$s</time>', esc_attr( get_the_date( 'c' ) ), esc_html( $date ) );
-				$author   = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
-				$excerpt  = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
-				$content  = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
-				$button   = ( $button_text ) ? sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $permalink ), esc_attr( $btn_classes ), apply_filters( 'cherry_shortcodes_translate', $button_text, 'posts_button_text' ) ) : '';
+				$comments = ( !empty( $comments ) ) ?
+					sprintf( '<span class="post-comments-link"><a href="%1$s">%2$s</a></span>',
+						esc_url( get_comments_link() ),
+						$comments
+					) : '';
+
+				$date = sprintf( '<time class="post-date" datetime="%1$s">%2$s</time>',
+					esc_attr( get_the_date( 'c' ) ),
+					$date
+				);
+
+				$author = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ),
+					$author
+				);
+
+				$excerpt = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
+				$content = ( !empty( $content ) ) ? sprintf( '<div class="post-content">%s</div>', $content ) : '';
+
+				$button = ( $button_text ) ?
+					sprintf(
+						'<a href="%1$s" class="%2$s">%3$s</a>',
+						esc_url( $permalink ),
+						esc_attr( $btn_classes ),
+						apply_filters( 'cherry_shortcodes_translate', $button_text, 'posts_button_text' )
+					) : '';
 
 				if ( $tax ) {
 					$taxonomy = array();
 					foreach ( $tax_data as $name => $data ) {
-						$taxonomy[ $name ] = sprintf( '<span class="post-tax post-tax-%1$s">%2$s</span>', sanitize_html_class( $name ), join( ' ', $data ) );
+						$taxonomy[ $name ] = sprintf(
+							'<span class="post-tax post-tax-%1$s">%2$s</span>',
+							sanitize_html_class( $name ),
+							join( ' ', $data )
+						);
 					}
 				}
 
@@ -519,6 +559,7 @@ class Su_Shortcodes {
 				 */
 				$item_classes = apply_filters( 'cherry_shortcode_posts_item_classes', $item_classes, $atts, $post_id );
 				$item_classes = array_unique( $item_classes );
+				$item_classes = array_map( 'sanitize_html_class', $item_classes );
 
 				/**
 				 * Filters the HTML-wrap with item's content.
@@ -529,7 +570,13 @@ class Su_Shortcodes {
 				 * @param array  $atts         Shortcode attributes.
 				 * @param int    $post_id      Post ID.
 				 */
-				$item = apply_filters( 'cherry_shortcode_posts_item', '<div class="%1$s"><div class="inner clearfix">%2$s</div></div>', $posts_query->current_post, $atts, $post_id );
+				$item = apply_filters(
+					'cherry_shortcode_posts_item',
+					'<div class="%1$s"><div class="inner clearfix">%2$s</div></div>',
+					$posts_query->current_post,
+					$atts,
+					$post_id
+				);
 
 				$output .= sprintf( $item, join( ' ', $item_classes ), $tpl );
 				$output .= '<!--/.cherry-posts-item-->';
@@ -554,6 +601,7 @@ class Su_Shortcodes {
 			 */
 			$wrap_classes = apply_filters( 'cherry_shortcode_posts_list_classes', $wrap_classes, $atts );
 			$wrap_classes = array_unique( $wrap_classes );
+			$wrap_classes = array_map( 'sanitize_html_class', $wrap_classes );
 
 			/**
 			 * Filters the HTML-wrap with list content.
@@ -562,7 +610,11 @@ class Su_Shortcodes {
 			 * @param string $wrap HTML-formatted list wrapper.
 			 * @param array  $atts Shortcode attributes.
 			 */
-			$wrap = apply_filters( 'cherry_shortcode_posts_list', '<div id="cherry-posts-list-%1$d" class="%2$s">%3$s</div>', $atts );
+			$wrap = apply_filters(
+				'cherry_shortcode_posts_list',
+				'<div id="cherry-posts-list-%1$d" class="%2$s">%3$s</div>',
+				$atts
+			);
 
 			$output = sprintf( $wrap, $instance, join( ' ', $wrap_classes ), $output );
 			$output .= '<!--/.cherry-posts-list-->';
@@ -575,7 +627,7 @@ class Su_Shortcodes {
 		wp_reset_postdata();
 
 		// Reset the `postdata`.
-		self::reset_postdata();
+		self::$postdata = array();
 
 		/**
 		 * Filters $output before return.
@@ -634,41 +686,31 @@ class Su_Shortcodes {
 	}
 
 	/**
-	 * Restores the static $postdata.
+	 * Retrieve a template's file path.
 	 *
 	 * @since  1.0.0
-	 * @return array
-	 */
-	public static function reset_postdata() {
-		self::$postdata = array();
-	}
-
-	/**
-	 * Retrieve a template's file content.
-	 *
-	 * @since  1.0.0
-	 * @param  string $template_name  Template's file name.
-	 * @param  string $shortcode      Shortcode's name.
-	 * @return bool|string            Template's content.
+	 * @param  string $template_name Template's file name.
+	 * @param  string $shortcode     Shortcode's name.
+	 * @return bool|string           Path to template file.
 	 */
 	public static function get_template_path( $template_name, $shortcode ) {
-		$file       = false;
+		$path       = false;
 		$default    = SU_PLUGIN_DIR . 'templates/shortcodes/' . $shortcode . '/default.tmpl';
 		$subdir     = 'templates/shortcodes/' . $shortcode . '/' . $template_name;
 		$upload_dir = wp_upload_dir();
 		$upload_dir = trailingslashit( $upload_dir['basedir'] );
 
 		if ( file_exists( $upload_dir . $subdir ) ) {
-			$file = $upload_dir . $subdir;
+			$path = $upload_dir . $subdir;
 		} elseif ( file_exists( SU_PLUGIN_DIR . $subdir ) ) {
-			$file = SU_PLUGIN_DIR . $subdir;
+			$path = SU_PLUGIN_DIR . $subdir;
 		} elseif ( file_exists( $default ) ) {
-			$file = $default;
+			$path = $default;
 		}
 
-		$file = apply_filters( 'cherry_shortcodes_get_template_path', $file, $template_name, $shortcode );
+		$path = apply_filters( 'cherry_shortcodes_get_template_path', $path, $template_name, $shortcode );
 
-		return $file;
+		return $path;
 	}
 }
 
