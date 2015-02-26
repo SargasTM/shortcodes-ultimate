@@ -164,6 +164,12 @@ class Su_Assets {
 		// Prepare compatibility mode prefix.
 		$prefix = su_cmpt();
 
+		// Enqueue main CSS
+		wp_enqueue_style(
+			$prefix . 'shortcodes',
+			plugins_url( 'assets/css/shortcodes.css', SU_PLUGIN_FILE ), array(), SU_PLUGIN_VERSION, 'all'
+		);
+
 		// Prepare unique theme prefix.
 		if ( function_exists( 'cherry_get_prefix' ) ) {
 			$theme_prefix = cherry_get_prefix();
@@ -173,8 +179,13 @@ class Su_Assets {
 			$theme_prefix .= '-';
 		}
 
-		if ( !wp_style_is( $theme_prefix . 'grid-base',       'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-base' );
-		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-responsive' );
+		if ( !wp_style_is( $theme_prefix . 'grid-base',       'enqueued' ) ) {
+			wp_enqueue_style( $theme_prefix . 'grid-base' );
+		}
+
+		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'enqueued' ) ) {
+			wp_enqueue_style( $theme_prefix . 'grid-responsive' );
+		}
 
 		foreach ( $GLOBALS['posts'] as $p ) :
 

@@ -238,6 +238,248 @@ class Su_Data {
 					'note'    => __( 'Did you know that you need to wrap columns with [row_inner] shortcode?', 'cherry-shortcodes' ),
 					'icon'    => 'columns',
 				),
+				// spacer
+				'spacer' => array(
+					'name'  => __( 'Spacer', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'box',
+					'atts'  => array(
+						'size'  => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 300,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Spacer height', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'desc'    => __( 'Vertical spacer between blocks', 'cherry-shortcodes' ),
+					'icon'    => 'arrows-v',
+				),
+				// spacer
+				'clear' => array(
+					'name'  => __( 'Clear', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'box',
+					'atts'  => array(
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'desc'    => __( 'Clearing block', 'cherry-shortcodes' ),
+					'icon'    => 'eraser',
+				),
+				'button' => array(
+					'name'  => __( 'Button', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'content',
+					'atts'  => array(
+						'text' => array(
+							'default' => __( 'Read more', 'cherry-shortcodes' ),
+							'name'    => __( 'Text', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button text', 'cherry-shortcodes' )
+						),
+						'url' => array(
+							'default' => '#',
+							'name'    => __( 'Link', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button link', 'cherry-shortcodes' )
+						),
+						'style' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_style_presets',
+								array(
+									'primary' => __( 'Primary', 'cherry-shortcodes' ),
+									'success' => __( 'Success', 'cherry-shortcodes' ),
+									'info'    => __( 'Info', 'cherry-shortcodes' ),
+									'warning' => __( 'Warning', 'cherry-shortcodes' ),
+									'danger'  => __( 'Danger', 'cherry-shortcodes' ),
+									'link'    => __( 'Link', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'primary',
+							'name'    => __( 'Style', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button style preset', 'cherry-shortcodes' )
+						),
+						'size' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_size_presets',
+								array(
+									'extra-small' => __( 'Extra Small', 'cherry-shortcodes' ),
+									'small'       => __( 'Small', 'cherry-shortcodes' ),
+									'medium'      => __( 'Medium', 'cherry-shortcodes' ),
+									'large'       => __( 'Large', 'cherry-shortcodes' ),
+									'extra-large' => __( 'Extra Large', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'medium',
+							'name'    => __( 'Size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button size preset', 'cherry-shortcodes' )
+						),
+						'display' => array(
+							'type'   => 'select',
+							'values' => array(
+								'inline' => __( 'Inline', 'cherry-shortcodes' ),
+								'wide'   => __( 'Wide', 'cherry-shortcodes' )
+							),
+							'default' => 'inline',
+							'name'    => __( 'Display', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button display type', 'cherry-shortcodes' )
+						),
+						'radius' => array(
+							'type' => 'slider',
+							'min' => 0,
+							'max' => 60,
+							'step' => 1,
+							'default' => 0,
+							'name' => __( 'Border radius', 'cherry-shortcodes' ),
+							'desc' => __( 'Button border radius', 'cherry-shortcodes' )
+						),
+						'centered' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Centered', 'cherry-shortcodes' ),
+							'desc' => __( 'Is button centered on the page', 'cherry-shortcodes' )
+						),
+						'fluid' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Fluid', 'cherry-shortcodes' ),
+							'desc' => __( 'Is button fluid', 'cherry-shortcodes' )
+						),
+						'fluid_position' => array(
+							'type'   => 'select',
+							'values' => array(
+								'left'  => __( 'Left', 'cherry-shortcodes' ),
+								'right' => __( 'Right', 'cherry-shortcodes' )
+							),
+							'default' => 'left',
+							'name'    => __( 'Fluid Position', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button fluid position', 'cherry-shortcodes' )
+						),
+						'icon' => array(
+							'type' => 'icon',
+							'default' => '',
+							'name' => __( 'Icon', 'cherry-shortcodes' ),
+							'desc' => __( 'You can upload custom icon for this button or pick a built-in icon', 'cherry-shortcodes' )
+						),
+						'icon_position' => array(
+							'type'   => 'select',
+							'values' => array(
+								'left'   => __( 'Left', 'cherry-shortcodes' ),
+								'top'    => __( 'Top', 'cherry-shortcodes' ),
+								'right'  => __( 'Right', 'cherry-shortcodes' ),
+								'bottom' => __( 'Bottom', 'cherry-shortcodes' ),
+							),
+							'default' => 'left',
+							'name'    => __( 'Icon Position', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button icon position', 'cherry-shortcodes' )
+						),
+						'desc' => array(
+							'default' => '',
+							'name' => __( 'Description', 'cherry-shortcodes' ),
+							'desc' => __( 'Small description under button text.', 'cherry-shortcodes' )
+						),
+						'bg_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#2D89EF',
+							'name'    => __( 'Background', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button background color', 'cherry-shortcodes' )
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#FFFFFF',
+							'name'    => __( 'Text color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button text color', 'cherry-shortcodes' )
+						),
+						'min_width' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 400,
+							'step'    => 1,
+							'default' => 0,
+							'name'    => __( 'Min width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button minimal width', 'cherry-shortcodes' )
+						),
+						'target' => array(
+							'type'   => 'select',
+							'values' => array(
+								'self'  => __( 'Same tab', 'cherry-shortcodes' ),
+								'blank' => __( 'New tab', 'cherry-shortcodes' )
+							),
+							'default' => 'self',
+							'name' => __( 'Target', 'cherry-shortcodes' ),
+							'desc' => __( 'Button link target', 'cherry-shortcodes' )
+						),
+						'rel' => array(
+							'default' => '',
+							'name' => __( 'Rel attribute', 'cherry-shortcodes' ),
+							'desc' => __( 'Here you can add value for the rel attribute.', 'cherry-shortcodes' )
+						),
+						'hover_animation' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_hover_presets',
+								array(
+									'fade'  => __( 'Fade', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'self',
+							'name' => __( 'Hover animation', 'cherry-shortcodes' ),
+							'desc' => __( 'Button hover aniamtion type', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'desc'    => __( 'Styled button', 'cherry-shortcodes' ),
+					'icon'    => 'heart'
+				),
+				// list
+				/**
+				 * @todo Choose way to get bullets for list items from. Without this shortcode doesn't have any sense
+				 */
+				/*
+				'list' => array(
+					'name'  => __( 'List', 'cherry-shortcodes' ),
+					'type'  => 'wrap',
+					'group' => 'box',
+					'atts'  => array(
+						'type'  => array(
+							'type'    => 'select',
+							'values' => array(
+								'circle'       => __( 'Circle', 'cherry-shortcodes' ),
+								'arrow'        => __( 'Arrow', 'cherry-shortcodes' ),
+								'double-arrow' => __( 'Double Arrow', 'cherry-shortcodes' ),
+							),
+							'default' => 'circle',
+							'name'    => __( 'Type', 'cherry-shortcodes' ),
+							'desc'    => __( 'Select list bullet type', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'content'  => sprintf( '<ul><li>%s</li></ul>', __( 'List Item', 'cherry-shortcodes' ) ),
+					'desc'     => __( 'List', 'cherry-shortcodes' ),
+					'icon'     => 'list-ul',
+					'function' => array( 'Su_Shortcodes', 'list_' )
+				),*/
 				// posts
 				'posts' => array(
 					'name'  => __( 'Posts', 'cherry-shortcodes' ),

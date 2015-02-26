@@ -5,6 +5,203 @@ class Su_Shortcodes {
 
 	function __construct() {}
 
+	public static function button( $atts = null, $content = null ) {
+		$atts = shortcode_atts(
+			array(
+				'text'            => __( 'Read More', 'cherry-shortcodes' ),
+				'url'             => '#',
+				'style'           => 'default',
+				'size'            => 'medium', // large, medium, small + filter
+				'display'         => 'inline', // wide, inline
+				'radius'          => 0,
+				'centered'        => 'no',
+				'fluid'           => 'no',
+				'fluid_position'  => 'left',
+				'icon'            => '',
+				'icon_position'   => 'left',
+				'desc'            => '',
+				'bg_color'        => '',
+				'color'           => '',
+				'min_width'       => 0,
+				'target'          => '_self',
+				'rel'             => '',
+				'hover_animation' => 'fade',
+				'class'           => '',
+			), $atts, 'button'
+		);
+
+		// define button attributes array
+		$btn_atts = array();
+
+		// Prepare button classes
+		$classes   = array();
+		$base      = apply_filters( 'cherry_shortcodes_button_base_class', 'cherry-btn', $atts );
+		$classes[] = $base;
+		$classes[] = $base . '-' . esc_attr( $atts['style'] );
+		$classes[] = $base . '-' . esc_attr( $atts['size'] );
+		$classes[] = $base . '-' . esc_attr( $atts['display'] );
+		$classes[] = $base . '-' . esc_attr( $atts['hover_animation'] );
+
+		if ( 'yes' == esc_attr( $atts['fluid'] ) ) {
+			$classes[] = $base . '-' . esc_attr( $atts['fluid_position'] );
+		}
+		if ( ! empty( $atts['class'] ) ) {
+			$classes[] = esc_attr( $atts['class'] );
+		}
+
+		// prepare button inline style
+		$inline_styles = array();
+
+		if ( 0 != (int)$atts['radius'] ) {
+			$inline_styles['border-radius'] = (int)$atts['radius'] . 'px';
+		}
+		if ( !empty($atts['bg_color']) ) {
+			$inline_styles['background-color'] = esc_attr( $atts['bg_color'] );
+		}
+		if ( !empty($atts['color']) ) {
+			$inline_styles['color'] = esc_attr( $atts['color'] );
+		}
+		if ( 0 != (int)$atts['min_width'] ) {
+			$inline_styles['min-width'] = (int)$atts['min_width'] . 'px';
+		}
+
+		if ( !empty( $inline_styles ) ) {
+			$attr_style = '';
+			foreach ( $inline_styles as $property => $value ) {
+				$attr_style .= $property . ':' . $value . ';';
+			}
+			unset( $property, $value );
+			$btn_atts['style'] = $attr_style;
+		}
+
+		$btn_atts['class'] = implode( ' ', $classes );
+
+		if ( ! empty( $atts['target'] ) && in_array( $atts['target'], array( '_self', '_blank' ) ) ) {
+			$btn_atts['target'] = esc_attr( $atts['target'] );
+		}
+
+		if ( ! empty( $atts['rel'] ) ) {
+			$btn_atts['rel'] = esc_attr( $atts['rel'] );
+		}
+
+		$btn_atts['href'] = esc_url( $atts['url'] );
+
+		/**
+		 * Filter button attributes before adding to tag
+		 *
+		 * @param array  $btn_atts  default attributes
+		 * @param array  $atts      current shortcode attributes
+		 */
+		$btn_atts = apply_filters( 'cherry_shortcodes_button_atts', $btn_atts, $atts );
+
+		$btn_atts_string = '';
+
+		if ( ! empty( $btn_atts ) && is_array( $btn_atts ) ) {
+			foreach ( $btn_atts as $property => $value ) {
+				$btn_atts_string .= ' ' . $property . '="' . esc_attr( $value ) . '"';
+			}
+		}
+
+		if ( 'yes' == $atts['centered'] ) {
+			$custom_wraping = ( ! empty( $atts['class'] ) ) ? esc_attr( $atts['class'] ) . '-wrapper' : '';
+			$before         = '<div class="aligncenter ' . $custom_wraping . '">';
+			$after          = '</div>';
+		}
+
+		if ( 'yes' == $atts['fluid'] ) {
+			$custom_wraping = ( ! empty( $atts['class'] ) ) ? esc_attr( $atts['class'] ) . '-wrapper' : '';
+			$fluid_position = ( ! empty( $atts['fluid_position'] ) ) ? esc_attr( $atts['fluid_position'] ) : 'left';
+			$before         = '<div class="fluid-button-' . $fluid_position . ' ' . $custom_wraping . '">';
+			$after          = '</div>';
+		}
+
+		// build icon
+		$icon = $atts['icon'];
+		if ( ! empty( $atts['icon'] ) ) {
+			$icon = '<span class="' . $base . '-icon icon-position-' . esc_attr( $atts['icon_position'] ) . '">' .
+						esc_attr( $atts['icon'] ) .
+					'</span>';
+		}
+
+		$btn_text = sanitize_text_field( $atts['text'] );
+
+		$desc_class = ( 'wide' == $atts['display'] ) ? ' desc-wide' : '';
+		$desc       = sanitize_text_field( $atts['desc'] );
+
+		$btn_desc = ( ! empty( $desc ) )
+						? '<small class="' . $base . '-desc' . $desc_class . '">' . $desc . '</small>'
+						: '';
+
+		// build open button element
+		$open_el = $before . '<a' . $btn_atts_string . '>';
+
+		// build button content
+		$btn_content = $btn_text . $btn_desc;
+
+		$content_wrap_open  = '';
+		$content_wrap_close = '';
+		if ( in_array( $atts['icon_position'], array( 'left', 'right' ) ) ) {
+			$content_wrap_open  = '<span class="' . $base . '-content-wrap">';
+			$content_wrap_close = '</span>';
+		}
+
+		if ( ! empty( $icon ) && in_array( $atts['icon_position'], array( 'left', 'top' ) ) ) {
+			$btn_content = $icon . $content_wrap_open . $btn_content . $content_wrap_close;
+		} elseif ( ! empty( $icon ) && in_array( $atts['icon_position'], array( 'right', 'bottom' ) ) ) {
+			$btn_content = $content_wrap_open . $btn_content . $content_wrap_close . $icon;
+		}
+
+		/**
+		 * Filter button content before output
+		 *
+		 * @param string  $btn_content  default button content
+		 * @param array   $atts         current shortcode attributes
+		 */
+		$btn_content = apply_filters( 'cherry_shortcodes_button_content', $btn_content, $atts );
+
+		// build close button element
+		$close_el = '</a>' . $after;
+
+		// build final putput
+		$output = $open_el . $btn_content . $close_el;
+
+		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'button' );
+	}
+
+	public static function spacer( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'size'  => '20',
+			'class' => ''
+		), $atts, 'spacer' );
+
+		$output = '<div class="cherry-spacer' . su_ecssc( $atts ) . '" style="height:' . (string)$atts['size'] . 'px"></div>';
+
+		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'spacer' );
+	}
+
+	public static function clear( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'class' => ''
+		), $atts, 'clear' );
+
+		$output = '<div class="cherry-clear' . su_ecssc( $atts ) . '"></div>';
+
+		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'clear' );
+	}
+
+	public static function list_( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'type'  => 'circle',
+			'class' => ''
+		), $atts, 'list' );
+
+		$output  = '<div class="cherry-list list-type-' . esc_attr( $atts['type'] ) . su_ecssc( $atts ) . '">';
+		$output .= do_shortcode( $content );
+		$output .= '</div>';
+
+		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'list' );
+	}
+
 	public static function row( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'class' => '',

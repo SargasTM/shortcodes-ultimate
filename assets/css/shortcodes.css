@@ -1,0 +1,105 @@
+/*      Clear
+---------------------------------------------------------------*/
+.cherry-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #286090;
+  color: #fff;
+  text-decoration: none !important;
+  text-align: center;
+  -webkit-transition: all 200ms linear;
+  -moz-transition: all 200ms linear;
+  transition: all 200ms linear; }
+  .cherry-btn:hover {
+    background-color: #1d4568;
+    color: #fff; }
+  .cherry-btn-wide {
+    display: block;
+    width: 100%;
+    margin: 10px 0; }
+  .cherry-btn-content-wrap {
+    display: inline-block;
+    vertical-align: middle; }
+  .cherry-btn-desc {
+    display: block;
+    text-align: left;
+    font-size: .8em; }
+    .aligncenter .cherry-btn-desc, .cherry-btn-desc.desc-wide {
+      text-align: center; }
+  .cherry-btn-icon.icon-position-left {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px 0 0; }
+  .cherry-btn-icon.icon-position-top {
+    display: block;
+    margin: 0 0 10px 0; }
+  .cherry-btn-icon.icon-position-right {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 10px; }
+  .cherry-btn-icon.icon-position-bottom {
+    display: block;
+    margin: 10px 0 0 0; }
+  .cherry-btn-extra-small {
+    padding: 2px 5px;
+    font-size: 0.8em;
+    line-height: 0.8em; }
+  .cherry-btn-small {
+    padding: 5px 15px;
+    font-size: 0.9em;
+    line-height: 0.9em; }
+  .cherry-btn-medium {
+    padding: 10px 20px;
+    font-size: 1em;
+    line-height: 1em; }
+  .cherry-btn-large {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    line-height: 1.1em; }
+  .cherry-btn-extra-large {
+    padding: 20px 35px;
+    font-size: 1.2em;
+    line-height: 1.2em; }
+  .cherry-btn-success {
+    background-color: #2fcc08; }
+    .cherry-btn-success:hover {
+      background-color: #249b06; }
+  .cherry-btn-info {
+    background-color: #00a4f7; }
+    .cherry-btn-info:hover {
+      background-color: #0082c4; }
+  .cherry-btn-warning {
+    background-color: #fcce00; }
+    .cherry-btn-warning:hover {
+      background-color: #c9a400; }
+  .cherry-btn-danger {
+    background-color: #f20000; }
+    .cherry-btn-danger:hover {
+      background-color: #bf0000; }
+  .cherry-btn-link {
+    background: none !important;
+    padding: 0 !important;
+    color: #286090; }
+    .cherry-btn-link:hover {
+      color: #122b40; }
+
+.fluid-button-left {
+  text-align: left; }
+
+.fluid-button-right {
+  text-align: right; }
+
+.aligncenter {
+  text-align: center; }
+
+/*      Clear
+---------------------------------------------------------------*/
+.cherry-clear {
+  width: 100%;
+  clear: both;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  line-height: 0; }
+
+/*# sourceMappingURL=shortcodes.css.map */
