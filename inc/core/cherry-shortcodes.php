@@ -102,6 +102,9 @@ class Su_Shortcodes {
 			}
 		}
 
+		$before = '';
+		$after  = '';
+
 		if ( 'yes' == $atts['centered'] ) {
 			$custom_wraping = ( ! empty( $atts['class'] ) ) ? esc_attr( $atts['class'] ) . '-wrapper' : '';
 			$before         = '<div class="aligncenter ' . $custom_wraping . '">';
