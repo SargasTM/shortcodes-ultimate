@@ -10,7 +10,7 @@ class Su_Shortcodes {
 			array(
 				'text'            => __( 'Read More', 'cherry-shortcodes' ),
 				'url'             => '#',
-				'style'           => 'default',
+				'style'           => 'primary',
 				'size'            => 'medium', // large, medium, small + filter
 				'display'         => 'inline', // wide, inline
 				'radius'          => 0,
