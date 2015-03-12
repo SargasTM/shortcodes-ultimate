@@ -842,6 +842,195 @@ class Su_Shortcodes {
 		return $output;
 	}
 
+	public static function swiper_carousel( $atts = null, $content = null ) {
+		static $instance = 0;
+		$instance++;
+
+		// Parse attributes.
+		$atts = shortcode_atts( array(
+			'id'                  => false,
+			'posts_per_page'      => get_option( 'posts_per_page' ),
+			'post_type'           => 'post',
+			'taxonomy'            => 'category',
+			'tax_term'            => false,
+			'tax_operator'        => 'IN',
+			'author'              => '',
+			'offset'              => 0,
+			'order'               => 'DESC',
+			'orderby'             => 'date',
+			'post_parent'         => false,
+			'post_status'         => 'publish',
+			'ignore_sticky_posts' => 'no',
+			'linked_title'        => 'yes',
+			'linked_image'        => 'yes',
+			'content_type'        => 'part',
+			'content_length'      => 55,
+			'button_text'         => __( 'read more', 'su' ),
+			'class'               => '',
+			'template'            => 'default.tmpl',
+		), $atts, 'swiper_carousel' );
+
+		$id                  = $atts['id'];
+		$posts_per_page      = intval( $atts['posts_per_page'] );
+		$post_type           = sanitize_text_field( $atts['post_type'] );
+		$post_type           = explode( ',', $post_type );
+		$taxonomy            = sanitize_key( $atts['taxonomy'] );
+		$tax_term            = sanitize_text_field( $atts['tax_term'] );
+		$tax_operator        = $atts['tax_operator'];
+		$author              = sanitize_text_field( $atts['author'] );
+		$offset              = intval( $atts['offset'] );
+		$order               = sanitize_key( $atts['order'] );
+		$orderby             = sanitize_key( $atts['orderby'] );
+		$post_parent         = $atts['post_parent'];
+		$post_status         = $atts['post_status'];
+		$ignore_sticky_posts = ( bool ) ( $atts['ignore_sticky_posts'] === 'yes' ) ? true : false;
+		$linked_title        = ( bool ) ( $atts['linked_title'] === 'yes' ) ? true : false;
+		$linked_image        = ( bool ) ( $atts['linked_image'] === 'yes' ) ? true : false;
+		$content_type        = sanitize_key( $atts['content_type'] );
+		$content_length      = intval( $atts['content_length'] );
+		$button_text         = sanitize_text_field( $atts['button_text'] );
+		$template_name       = sanitize_file_name( $atts['template'] );
+
+		// Set up initial query for post.
+		$args = array(
+			'category_name'  => '',
+			'order'          => $order,
+			'orderby'        => $orderby,
+			'post_type'      => $post_type,
+			'posts_per_page' => $posts_per_page,
+		);
+
+		// Ignore Sticky Posts.
+		if ( $ignore_sticky_posts ) {
+			$args['ignore_sticky_posts'] = true;
+		}
+
+		// If Post IDs
+		if ( $id ) {
+			$posts_in = array_map( 'intval', explode( ',', $id ) );
+			$args['post__in'] = $posts_in;
+		}
+
+		// Post Author
+		if ( !empty( $author ) ) {
+			$args['author'] = $author;
+		}
+
+		// Offset
+		if ( !empty( $offset ) ) {
+			$args['offset'] = $offset;
+		}
+
+		// Post Status
+		$post_status = explode( ', ', $post_status );
+		$validated   = array();
+		$available   = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
+
+		foreach ( $post_status as $unvalidated ) {
+			if ( in_array( $unvalidated, $available ) ) {
+				$validated[] = $unvalidated;
+			}
+		}
+		if ( !empty( $validated ) ) {
+			$args['post_status'] = $validated;
+		}
+
+		// If taxonomy attributes, create a taxonomy query.
+		if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
+
+			// Term string to array.
+			$tax_term = explode( ',', $tax_term );
+
+			// Validate operator.
+			if ( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ) {
+				$tax_operator = 'IN';
+			}
+			$tax_args = array( 'tax_query' => array( array(
+						'taxonomy' => $taxonomy,
+						'field'    => ( is_numeric( $tax_term[0] ) ) ? 'id' : 'slug',
+						'terms'    => $tax_term,
+						'operator' => $tax_operator ) ) );
+
+			// Check for multiple taxonomy queries.
+			$count = 2;
+			$more_tax_queries = false;
+
+			while ( isset( $original_atts['taxonomy_' . $count] )
+				&& !empty( $original_atts['taxonomy_' . $count] )
+				&& isset( $original_atts['tax_' . $count . '_term'] )
+				&& !empty( $original_atts['tax_' . $count . '_term'] )
+				) {
+
+				// Sanitize values.
+				$more_tax_queries = true;
+				$taxonomy         = sanitize_key( $original_atts['taxonomy_' . $count] );
+				$terms            = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+				$tax_operator     = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
+				$tax_operator     = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+				$tax_args['tax_query'][] = array(
+					'taxonomy' => $taxonomy,
+					'field'    => 'slug',
+					'terms'    => $terms,
+					'operator' => $tax_operator,
+				);
+				$count++;
+			}
+
+			if ( $more_tax_queries ) :
+
+				$tax_relation = 'AND';
+
+				if ( isset( $original_atts['tax_relation'] )
+					&& in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) )
+					) {
+					$tax_relation = $original_atts['tax_relation'];
+				}
+
+				$args['tax_query']['relation'] = $tax_relation;
+
+			endif;
+
+			$args = array_merge( $args, $tax_args );
+		}
+
+		// If post parent attribute, set up parent.
+		if ( $post_parent ) {
+			if ( 'current' == $post_parent ) {
+				global $post;
+				$post_parent = $post->ID;
+			}
+			$args['post_parent'] = intval( $post_parent );
+		}
+
+		// Exclude current post/page (fix aborting).
+		if ( in_array( get_post_type(), (array) $post_type ) && ( 'full' === $content_type ) ) {
+			$args['post__not_in'] = array( get_the_ID() );
+		}
+
+		/**
+		 * Filter the array of arguments for query.
+		 *
+		 * @since 1.0.0
+		 * @param array $args Query arguments.
+		 * @param array $atts Shortcode attributes.
+		 */
+		$args = apply_filters( 'cherry_shortcode_swiper_carousel_query_args', $args, $atts );
+
+		$output = '';
+		var_dump($args);
+		/**
+		 * Filters $output before return.
+		 *
+		 * @since 1.0.0
+		 * @param string $output
+		 * @param array  $atts
+		 * @param string $shortcode
+		 */
+		$output = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'swiper_carousel' );
+
+		return $output;
+	}
+
 	/**
 	 * Callback-function for `preg_replace_callback`.
 	 *
