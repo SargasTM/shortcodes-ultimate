@@ -298,6 +298,9 @@ class Su_Data {
 								'cherry_shortcodes_button_style_presets',
 								array(
 									'primary' => __( 'Primary', 'cherry-shortcodes' ),
+									'primary-light' => __( 'Primary-light', 'cherry-shortcodes' ),
+									'default' => __( 'Default', 'cherry-shortcodes' ),
+									'gray' => __( 'Gray', 'cherry-shortcodes' ),
 									'success' => __( 'Success', 'cherry-shortcodes' ),
 									'info'    => __( 'Info', 'cherry-shortcodes' ),
 									'warning' => __( 'Warning', 'cherry-shortcodes' ),

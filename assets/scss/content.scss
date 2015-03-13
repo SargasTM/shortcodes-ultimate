@@ -11,7 +11,7 @@
 	-moz-transition: all 200ms linear;
 	transition: all 200ms linear;
 	&:hover {
-		background-color: darken($primary, 10%);
+		//background-color: darken($primary, 10%);
 		color: $button-text;
 	}
 	// wide display
@@ -107,6 +107,12 @@
 			background-color: darken($danger, 10%);
 		}
 	}
+	&-default {
+		background-color: $default;
+		&:hover {
+			background-color: white;
+		}
+	}
 	&-link {
 		background: none !important;
 		padding: 0 !important;
@@ -114,6 +120,12 @@
 		&:hover {
 			color: darken($primary, 20%);
 		}
+	}
+	&-primary-light {
+		background: #FFF;
+	}
+	&-gray {
+		background-color: #FFF;
 	}
 
 }
