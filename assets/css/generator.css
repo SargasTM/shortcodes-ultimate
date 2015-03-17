@@ -406,7 +406,7 @@
 /* Range pickers */
 .su-generator-range-picker { }
 .su-generator-range-picker .slider {
-	width: 420px;
+	width: 350px;
 	margin: 10px 0 0 0 !important;
 	padding: 0;
 	float: left;

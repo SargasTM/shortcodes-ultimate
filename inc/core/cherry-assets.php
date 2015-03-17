@@ -114,6 +114,12 @@ class Su_Assets {
 		wp_register_script( 'su-players-shortcodes', plugins_url( 'assets/js/players-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'jplayer' ), SU_PLUGIN_VERSION, true );
 		wp_register_script( 'su-other-shortcodes', plugins_url( 'assets/js/other-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
 		wp_localize_script( 'su-other-shortcodes', 'su_other_shortcodes', array( 'no_preview' => __( 'This shortcode doesn\'t work in live preview. Please insert it into editor and preview on the site.', 'su' ) ) );
+
+		// Cherry Shortcodes scripts
+		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'swiper' ), SU_PLUGIN_VERSION, true );
+		// Cherry Shortcodes stylesheets
+		wp_register_style( 'cherry-swiper-carousel', self::skin_url( 'cherry-swiper-carousel.css' ), false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'swiper-css', self::skin_url( 'swiper.css' ), false, SU_PLUGIN_VERSION, 'all' );
 		// Hook to deregister assets or add custom
 		do_action( 'su/assets/register' );
 	}

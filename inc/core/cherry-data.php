@@ -647,6 +647,120 @@ class Su_Data {
 							'name'    => __( 'Template', 'cherry-shortcodes' ),
 							'desc'    => __( 'Shortcode template', 'cherry-shortcodes' ),
 						),
+						'crop_image' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Using cropped image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Slider Loop Mode', 'cherry-shortcodes' ),
+						),
+						'crop_width' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 540,
+							'name'    => __( 'Cropping image width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Width value(px)' ),
+						),
+						'crop_height' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 320,
+							'name'    => __( 'Cropping image width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Width value(px)' ),
+						),
+						'slides_per_view' => array(
+							'type'    => 'slider',
+							'min'     => 1,
+							'max'     => 25,
+							'step'    => 1,
+							'default' => 3,
+							'name'    => __( 'Number slides per view', 'cherry-shortcodes' ),
+							'desc'    => __( 'Specify number of slides per view', 'cherry-shortcodes' ),
+						),
+						'slides_per_column' => array(
+							'type'    => 'slider',
+							'min'     => 1,
+							'max'     => 5,
+							'step'    => 1,
+							'default' => 1,
+							'name'    => __( 'Multi Row Slides Layout', 'cherry-shortcodes' ),
+							'desc'    => __( 'Multi Row Slides Layout', 'cherry-shortcodes' ),
+						),
+						'space_between_slides' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 500,
+							'step'    => 1,
+							'default' => 10,
+							'name'    => __( 'Space Between Slides', 'cherry-shortcodes' ),
+							'desc'    => __( 'With difine space between slides(px)', 'cherry-shortcodes' ),
+						),
+						'swiper_duration_speed' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 10000,
+							'step'    => 100,
+							'default' => 300,
+							'name'    => __( 'Duration of transition', 'cherry-shortcodes' ),
+							'desc'    => __( 'Duration of transition between slides (ms)', 'cherry-shortcodes' ),
+						),
+						'swiper_loop' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider Infinite Loop', 'cherry-shortcodes' ),
+							'desc'    => __( 'Slider Loop Mode', 'cherry-shortcodes' ),
+						),
+						'swiper_free_mode' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Free Mode sliding', 'cherry-shortcodes' ),
+							'desc'    => __( 'No fixed positions for slides', 'cherry-shortcodes' ),
+						),
+						'swiper_grab_cursor' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Grab Cusor', 'cherry-shortcodes' ),
+							'desc'    => __( 'Using Grab Cusor for slider', 'cherry-shortcodes' ),
+						),
+						'swiper_mouse_wheel' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Mousewheel Control', 'cherry-shortcodes' ),
+							'desc'    => __( 'Mousewheel control mode', 'cherry-shortcodes' ),
+						),
+						'swiper_centered_slide' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Centered Slides', 'cherry-shortcodes' ),
+							'desc'    => __( 'Centered slides mode', 'cherry-shortcodes' ),
+						),
+						'swiper_effect' => array(
+							'type'   => 'select',
+							'values' => array(
+								'slide'     => __( 'Slide', 'cherry-shortcodes' ),
+								'fade'      => __( 'Fade', 'cherry-shortcodes' ),
+								'cube'      => __( 'Cube', 'cherry-shortcodes' ),
+								'coverflow' => __( 'Coverflow', 'cherry-shortcodes' ),
+							),
+							'default' => 'slide',
+							'name'    => __( 'Effect Layout', 'cherry-shortcodes' ),
+							'desc'    => __( 'Could be "slide", "fade", "cube" or "coverflow" effect', 'cherry-shortcodes' ),
+						),
+						'swiper_pagination' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider pagination', 'cherry-shortcodes' ),
+							'desc'    => __( 'Displaying slider pagination', 'cherry-shortcodes' ),
+						),
+						'swiper_navigation' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider navigation', 'cherry-shortcodes' ),
+							'desc'    => __( 'Displaying slider navigation', 'cherry-shortcodes' ),
+						),
 					)
 				),
 				// posts
@@ -829,6 +943,47 @@ class Su_Data {
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
 					'icon' => 'th-list',
+				),
+				// tabs
+				'tabs' => array(
+					'name' => __( 'Tabs', 'su' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'style' => array(
+							'type' => 'select',
+							'values' => array(
+								'default' => __( 'Default', 'su' )
+							),
+							'default' => 'default',
+							'name' => __( 'Style', 'su' ),
+							'desc' => __( 'Choose style for this tabs', 'su' ) . '%su_skins_link%'
+						),
+						'active' => array(
+							'type' => 'number',
+							'min' => 1,
+							'max' => 100,
+							'step' => 1,
+							'default' => 1,
+							'name' => __( 'Active tab', 'su' ),
+							'desc' => __( 'Select which tab is open by default', 'su' )
+						),
+						'vertical' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Vertical', 'su' ),
+							'desc' => __( 'Show tabs vertically', 'su' )
+						),
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'su' ),
+							'desc' => __( 'Extra CSS class', 'su' )
+						)
+					),
+					'content' => __( "[%prefix_tab title=\"Title 1\"]Content 1[/%prefix_tab]\n[%prefix_tab title=\"Title 2\"]Content 2[/%prefix_tab]\n[%prefix_tab title=\"Title 3\"]Content 3[/%prefix_tab]", 'su' ),
+					'desc' => __( 'Tabs container', 'su' ),
+					'example' => 'tabs',
+					'icon' => 'list-alt'
 				),
 			) );
 

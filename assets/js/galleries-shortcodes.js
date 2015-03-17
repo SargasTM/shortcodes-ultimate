@@ -91,4 +91,5 @@ jQuery(document).ready(function ($) {
 			tLoading: su_magnific_popup.loading
 		}, $(this).data('index'));
 	});
+
 });
