@@ -12,7 +12,6 @@
   transition: all 200ms linear;
 }
 .cherry-btn:hover {
-  background-color: #1d4568;
   color: white;
 }
 .cherry-btn-wide {
@@ -99,6 +98,12 @@
 .cherry-btn-danger:hover {
   background-color: #bf0000;
 }
+.cherry-btn-default {
+  background-color: transparent;
+}
+.cherry-btn-default:hover {
+  background-color: white;
+}
 .cherry-btn-link {
   background: none !important;
   padding: 0 !important;
@@ -106,6 +111,12 @@
 }
 .cherry-btn-link:hover {
   color: #122b40;
+}
+.cherry-btn-primary-light {
+  background: #FFF;
+}
+.cherry-btn-gray {
+  background-color: #FFF;
 }
 
 .fluid-button-left {
