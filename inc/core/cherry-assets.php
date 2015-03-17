@@ -75,8 +75,7 @@ class Su_Assets {
 			) );
 		// Ace
 		wp_register_script( 'ace', plugins_url( 'assets/js/ace/ace.js', SU_PLUGIN_FILE ), false, '1.1.3', true );
-		// Swiper
-		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.6.1', true );
+
 		// jPlayer
 		wp_register_script( 'jplayer', plugins_url( 'assets/js/jplayer.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.4.0', true );
 		// Options page
@@ -116,10 +115,11 @@ class Su_Assets {
 		wp_localize_script( 'su-other-shortcodes', 'su_other_shortcodes', array( 'no_preview' => __( 'This shortcode doesn\'t work in live preview. Please insert it into editor and preview on the site.', 'su' ) ) );
 
 		// Cherry Shortcodes scripts
-		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'swiper' ), SU_PLUGIN_VERSION, true );
-		// Cherry Shortcodes stylesheets
-		wp_register_style( 'cherry-swiper-carousel', self::skin_url( 'cherry-swiper-carousel.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'swiper-css', self::skin_url( 'swiper.css' ), false, SU_PLUGIN_VERSION, 'all' );
+		// Swiper
+		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '3.0.0', true );
+		// Cherry Shortcodes
+		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
+
 		// Hook to deregister assets or add custom
 		do_action( 'su/assets/register' );
 	}

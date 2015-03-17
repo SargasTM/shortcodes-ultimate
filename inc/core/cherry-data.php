@@ -949,18 +949,18 @@ class Su_Data {
 				),
 				// tabs
 				'tabs' => array(
-					'name' => __( 'Tabs', 'su' ),
+					'name' => __( 'Tabs', 'cherry-shortcodes' ),
 					'type' => 'wrap',
 					'group' => 'box',
 					'atts' => array(
 						'style' => array(
 							'type' => 'select',
 							'values' => array(
-								'default' => __( 'Default', 'su' )
+								'default' => __( 'Default', 'cherry-shortcodes' )
 							),
 							'default' => 'default',
-							'name' => __( 'Style', 'su' ),
-							'desc' => __( 'Choose style for this tabs', 'su' ) . '%su_skins_link%'
+							'name' => __( 'Style', 'cherry-shortcodes' ),
+							'desc' => __( 'Choose style for this tabs', 'cherry-shortcodes' )
 						),
 						'active' => array(
 							'type' => 'number',
@@ -968,23 +968,72 @@ class Su_Data {
 							'max' => 100,
 							'step' => 1,
 							'default' => 1,
-							'name' => __( 'Active tab', 'su' ),
-							'desc' => __( 'Select which tab is open by default', 'su' )
+							'name' => __( 'Active tab', 'cherry-shortcodes' ),
+							'desc' => __( 'Select which tab is open by default', 'cherry-shortcodes' )
 						),
 						'vertical' => array(
 							'type' => 'bool',
 							'default' => 'no',
-							'name' => __( 'Vertical', 'su' ),
-							'desc' => __( 'Show tabs vertically', 'su' )
+							'name' => __( 'Vertical', 'cherry-shortcodes' ),
+							'desc' => __( 'Show tabs vertically', 'cherry-shortcodes' )
 						),
 						'class' => array(
 							'default' => '',
-							'name' => __( 'Class', 'su' ),
-							'desc' => __( 'Extra CSS class', 'su' )
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
 						)
 					),
 					'content' => __( "[%prefix_tab title=\"Title 1\"]Content 1[/%prefix_tab]\n[%prefix_tab title=\"Title 2\"]Content 2[/%prefix_tab]\n[%prefix_tab title=\"Title 3\"]Content 3[/%prefix_tab]", 'su' ),
-					'desc' => __( 'Tabs container', 'su' ),
+					'desc' => __( 'Tabs container', 'cherry-shortcodes' ),
+					'example' => 'tabs',
+					'icon' => 'list-alt'
+				),
+				// tab
+				'tab' => array(
+					'name' => __( 'Tab', 'cherry-shortcodes' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'title' => array(
+							'default' => __( 'Tab name', 'cherry-shortcodes' ),
+							'name' => __( 'Title', 'cherry-shortcodes' ),
+							'desc' => __( 'Enter tab name', 'cherry-shortcodes' )
+						),
+						'disabled' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Disabled', 'cherry-shortcodes' ),
+							'desc' => __( 'Is this tab disabled', 'cherry-shortcodes' )
+						),
+						'anchor' => array(
+							'default' => '',
+							'name' => __( 'Anchor', 'cherry-shortcodes' ),
+							'desc' => __( 'You can use unique anchor for this tab to access it with hash in page url. For example: type here <b%value>Hello</b> and then use url like http://example.com/page-url#Hello. This tab will be activated and scrolled in', 'su' )
+						),
+						'url' => array(
+							'default' => '',
+							'name' => __( 'URL', 'cherry-shortcodes' ),
+							'desc' => __( 'You can link this tab to any webpage. Enter here full URL to switch this tab into link', 'cherry-shortcodes' )
+						),
+						'target' => array(
+							'type' => 'select',
+							'values' => array(
+								'self'  => __( 'Open link in same window/tab', 'cherry-shortcodes' ),
+								'blank' => __( 'Open link in new window/tab', 'cherry-shortcodes' )
+							),
+							'default' => 'blank',
+							'name' => __( 'Link target', 'cherry-shortcodes' ),
+							'desc' => __( 'Choose how to open the custom tab link', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( 'Tab content', 'cherry-shortcodes' ),
+					'desc' => __( 'Single tab', 'cherry-shortcodes' ),
+					'note' => __( 'Did you know that you need to wrap single tabs with [tabs] shortcode?', 'cherry-shortcodes' ),
 					'example' => 'tabs',
 					'icon' => 'list-alt'
 				),

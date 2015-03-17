@@ -2,6 +2,8 @@
 class Su_Shortcodes {
 
 	public static $postdata = array();
+	public static $tabs = array();
+	public static $tab_count = 0;
 
 	function __construct() {}
 
@@ -843,8 +845,7 @@ class Su_Shortcodes {
 	}
 
 	public static function swiper_carousel( $atts = null, $content = null ) {
-		su_query_asset( 'css', 'swiper-css' );
-		su_query_asset( 'css', 'cherry-swiper-carousel' );
+		su_query_asset( 'js', 'swiper' );
 		su_query_asset( 'js', 'cherry-shortcodes' );
 
 		static $instance = 0;
@@ -1381,7 +1382,60 @@ class Su_Shortcodes {
 		return $output;
 	}
 
+	public static function tabs( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+				'active'   => 1,
+				'vertical' => 'no',
+				'style'    => 'default', // 3.x
+				'class'    => ''
+			), $atts, 'tabs' );
+		if ( $atts['style'] === '3' ) $atts['vertical'] = 'yes';
+		do_shortcode( $content );
+		$return = '';
+		$tabs = $panes = array();
 
+		if ( is_array( self::$tabs ) ) {
+			if ( self::$tab_count < $atts['active'] ) $atts['active'] = self::$tab_count;
+			foreach ( self::$tabs as $tab ) {
+				$tabs[] = '<span class="' . su_ecssc( $tab ) . $tab['disabled'] . '"' . $tab['anchor'] . $tab['url'] . $tab['target'] . '>' . su_scattr( $tab['title'] ) . '</span>';
+				$panes[] = '<div class="cherry-tabs-pane cherry-clearfix' . su_ecssc( $tab ) . '">' . $tab['content'] . '</div>';
+			}
+			$atts['vertical'] = ( $atts['vertical'] === 'yes' ) ? ' cherry-tabs-vertical' : '';
+			$return = '<div class="cherry-tabs cherry-tabs-style-' . $atts['style'] . $atts['vertical'] . su_ecssc( $atts ) . '" data-active="' . (string) $atts['active'] . '"><div class="cherry-tabs-nav">' . implode( '', $tabs ) . '</div><div class="cherry-tabs-panes">' . implode( "\n", $panes ) . '</div></div>';
+		}
+		// Reset tabs
+		self::$tabs = array();
+		self::$tab_count = 0;
+
+		su_query_asset( 'js', 'jquery' );
+		su_query_asset( 'js', 'cherry-shortcodes' );
+
+		do_action( 'su/shortcode/tabs', $atts );
+		return $return;
+	}
+
+	public static function tab( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+				'title'    => __( 'Tab title', 'cherry-shortcodes' ),
+				'disabled' => 'no',
+				'anchor'   => '',
+				'url'      => '',
+				'target'   => 'blank',
+				'class'    => ''
+			), $atts, 'tab' );
+		$x = self::$tab_count;
+		self::$tabs[$x] = array(
+			'title'    => $atts['title'],
+			'content'  => do_shortcode( $content ),
+			'disabled' => ( $atts['disabled'] === 'yes' ) ? ' cherry-tabs-disabled' : '',
+			'anchor'   => ( $atts['anchor'] ) ? ' data-anchor="' . str_replace( array( ' ', '#' ), '', sanitize_text_field( $atts['anchor'] ) ) . '"' : '',
+			'url'      => ' data-url="' . $atts['url'] . '"',
+			'target'   => ' data-target="' . $atts['target'] . '"',
+			'class'    => $atts['class']
+		);
+		self::$tab_count++;
+		do_action( 'su/shortcode/tab', $atts );
+	}
 
 	/**
 	 * Get cropped image.
