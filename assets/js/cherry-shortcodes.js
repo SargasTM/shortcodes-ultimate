@@ -69,24 +69,24 @@ jQuery(document).ready(function ($) {
 	})
 
 	// Tabs
-	$('body:not(.su-other-shortcodes-loaded)').on('click', '.su-tabs-nav span', function (e) {
+	$('body').on('click', '.cherry-tabs-nav span', function (e) {
 		var $tab = $(this),
 			data = $tab.data(),
 			index = $tab.index(),
-			is_disabled = $tab.hasClass('su-tabs-disabled'),
-			$tabs = $tab.parent('.su-tabs-nav').children('span'),
-			$panes = $tab.parents('.su-tabs').find('.su-tabs-pane'),
-			$gmaps = $panes.eq(index).find('.su-gmap:not(.su-gmap-reloaded)');
+			is_disabled = $tab.hasClass('cherry-tabs-disabled'),
+			$tabs = $tab.parent('.cherry-tabs-nav').children('span'),
+			$panes = $tab.parents('.cherry-tabs').find('.cherry-tabs-pane'),
+			$gmaps = $panes.eq(index).find('.cherry-gmap:not(.cherry-gmap-reloaded)');
 		// Check tab is not disabled
 		if (is_disabled) return false;
 		// Hide all panes, show selected pane
 		$panes.hide().eq(index).show();
 		// Disable all tabs, enable selected tab
-		$tabs.removeClass('su-tabs-current').eq(index).addClass('su-tabs-current');
+		$tabs.removeClass('cherry-tabs-current').eq(index).addClass('cherry-tabs-current');
 		// Reload gmaps
 		if ($gmaps.length > 0) $gmaps.each(function () {
 			var $iframe = $(this).find('iframe:first');
-			$(this).addClass('su-gmap-reloaded');
+			$(this).addClass('cherry-gmap-reloaded');
 			$iframe.attr('src', $iframe.attr('src'));
 		});
 		// Set height for vertical tabs
@@ -100,9 +100,9 @@ jQuery(document).ready(function ($) {
 	});
 
 	// Activate tabs
-	$('.su-tabs').each(function () {
+	$('.cherry-tabs').each(function () {
 		var active = parseInt($(this).data('active')) - 1;
-		$(this).children('.su-tabs-nav').children('span').eq(active).trigger('click');
+		$(this).children('.cherry-tabs-nav').children('span').eq(active).trigger('click');
 		tabs_height();
 	});
 
@@ -110,10 +110,10 @@ jQuery(document).ready(function ($) {
 	anchor_nav();
 
 	function tabs_height() {
-		$('.su-tabs-vertical').each(function () {
+		$('.cherry-tabs-vertical').each(function () {
 			var $tabs = $(this),
-				$nav = $tabs.children('.su-tabs-nav'),
-				$panes = $tabs.find('.su-tabs-pane'),
+				$nav = $tabs.children('.cherry-tabs-nav'),
+				$panes = $tabs.find('.cherry-tabs-pane'),
 				height = 0;
 			$panes.css('min-height', $nav.outerHeight(true));
 		});
@@ -123,9 +123,9 @@ jQuery(document).ready(function ($) {
 		// Check hash
 		if (document.location.hash === '') return;
 		// Go through tabs
-		$('.su-tabs-nav span[data-anchor]').each(function () {
+		$('.cherry-tabs-nav span[data-anchor]').each(function () {
 			if ('#' + $(this).data('anchor') === document.location.hash) {
-				var $tabs = $(this).parents('.su-tabs'),
+				var $tabs = $(this).parents('.cherry-tabs'),
 					bar = ($('#wpadminbar').length > 0) ? 28 : 0;
 				// Activate tab
 				$(this).trigger('click');
@@ -136,12 +136,12 @@ jQuery(document).ready(function ($) {
 			}
 		});
 		// Go through spoilers
-		$('.su-spoiler[data-anchor]').each(function () {
+		$('.cherry-spoiler[data-anchor]').each(function () {
 			if ('#' + $(this).data('anchor') === document.location.hash) {
 				var $spoiler = $(this),
 					bar = ($('#wpadminbar').length > 0) ? 28 : 0;
 				// Activate tab
-				if ($spoiler.hasClass('su-spoiler-closed')) $spoiler.find('.su-spoiler-title:first').trigger('click');
+				if ($spoiler.hasClass('cherry-spoiler-closed')) $spoiler.find('.cherry-spoiler-title:first').trigger('click');
 				// Scroll-in tabs container
 				window.setTimeout(function () {
 					$(window).scrollTop($spoiler.offset().top - bar - 10);
