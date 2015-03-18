@@ -75,8 +75,7 @@ class Su_Assets {
 			) );
 		// Ace
 		wp_register_script( 'ace', plugins_url( 'assets/js/ace/ace.js', SU_PLUGIN_FILE ), false, '1.1.3', true );
-		// Swiper
-		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.6.1', true );
+
 		// jPlayer
 		wp_register_script( 'jplayer', plugins_url( 'assets/js/jplayer.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.4.0', true );
 		// Options page
@@ -114,6 +113,13 @@ class Su_Assets {
 		wp_register_script( 'su-players-shortcodes', plugins_url( 'assets/js/players-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'jplayer' ), SU_PLUGIN_VERSION, true );
 		wp_register_script( 'su-other-shortcodes', plugins_url( 'assets/js/other-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
 		wp_localize_script( 'su-other-shortcodes', 'su_other_shortcodes', array( 'no_preview' => __( 'This shortcode doesn\'t work in live preview. Please insert it into editor and preview on the site.', 'su' ) ) );
+
+		// Cherry Shortcodes scripts
+		// Swiper
+		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '3.0.0', true );
+		// Cherry Shortcodes
+		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
+
 		// Hook to deregister assets or add custom
 		do_action( 'su/assets/register' );
 	}
@@ -164,6 +170,12 @@ class Su_Assets {
 		// Prepare compatibility mode prefix.
 		$prefix = su_cmpt();
 
+		// Enqueue main CSS
+		wp_enqueue_style(
+			$prefix . 'shortcodes',
+			plugins_url( 'assets/css/shortcodes.css', SU_PLUGIN_FILE ), array(), SU_PLUGIN_VERSION, 'all'
+		);
+
 		// Prepare unique theme prefix.
 		if ( function_exists( 'cherry_get_prefix' ) ) {
 			$theme_prefix = cherry_get_prefix();
@@ -173,8 +185,13 @@ class Su_Assets {
 			$theme_prefix .= '-';
 		}
 
-		if ( !wp_style_is( $theme_prefix . 'grid-base',       'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-base' );
-		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'enqueued' ) ) wp_enqueue_style( $theme_prefix . 'grid-responsive' );
+		if ( !wp_style_is( $theme_prefix . 'grid-base',       'enqueued' ) ) {
+			wp_enqueue_style( $theme_prefix . 'grid-base' );
+		}
+
+		if ( !wp_style_is( $theme_prefix . 'grid-responsive', 'enqueued' ) ) {
+			wp_enqueue_style( $theme_prefix . 'grid-responsive' );
+		}
 
 		foreach ( $GLOBALS['posts'] as $p ) :
 

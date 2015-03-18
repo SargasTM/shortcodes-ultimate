@@ -1,0 +1,31 @@
+// Define variables
+// ----------------
+
+// Main colors:
+$primary: #286090;
+$default: transparent;
+$success: #2fcc08;
+$info:    #00a4f7;
+$warning: #fcce00;
+$danger:  #f20000;
+
+// Buttons:
+$button-text: #fff;
+$xs-indents:  2px 5px;
+$xs-size:     .8em;
+$sm-indents:  5px 15px;
+$sm-size:     .9em;
+$md-indents:  10px 20px;
+$md-size:     1em;
+$lg-indents:  15px 30px;
+$lg-size:     1.1em;
+$xl-indents:  20px 35px;
+$xl-size:     1.2em;
+
+// Include styles by groups
+// ------------------------
+@import "content.scss";
+@import "boxes.scss";
+@import "swiper.scss";
+@import "swiper-carousel.scss";
+@import "other-shortcodes.scss";

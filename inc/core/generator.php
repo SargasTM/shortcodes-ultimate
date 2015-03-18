@@ -151,6 +151,7 @@ class Su_Generator {
 			$return = '<div id="su-generator-breadcrumbs">';
 			$return .= apply_filters( 'su/generator/breadcrumbs', '<a href="javascript:void(0);" class="su-generator-home" title="' . __( 'Click to return to the shortcodes list', 'su' ) . '">' . __( 'All shortcodes', 'su' ) . '</a> &rarr; <span>' . $shortcode['name'] . '</span> <small class="alignright">' . $shortcode['desc'] . '</small><div class="su-generator-clear"></div>' );
 			$return .= '</div>';
+
 			// Shortcode note
 			if ( isset( $shortcode['note'] ) || isset( $shortcode['example'] ) ) {
 				$return .= '<div class="su-generator-note"><i class="fa fa-info-circle"></i><div class="su-generator-note-content">';
@@ -161,22 +162,34 @@ class Su_Generator {
 			// Shortcode has atts
 			if ( isset( $shortcode['atts'] ) && count( $shortcode['atts'] ) ) {
 				// Loop through shortcode parameters
+				$counter = 0;
+				$left_container = '';
+				$right_container = '';
+				$half = ceil( count($shortcode['atts']) / 2 );
 				foreach ( $shortcode['atts'] as $attr_name => $attr_info ) {
 					// Prepare default value
+					$item = '';
 					$default = (string) ( isset( $attr_info['default'] ) ) ? $attr_info['default'] : '';
 					$attr_info['name'] = (isset( $attr_info['name'] )) ? $attr_info['name'] : $attr_name;
-					$return .= '<div class="su-generator-attr-container' . $skip . '" data-default="' . esc_attr( $default ) . '">';
-					$return .= '<h5>' . $attr_info['name'] . '</h5>';
+					$item .= '<div class="su-generator-attr-container' . $skip . '" data-default="' . esc_attr( $default ) . '">';
+					$item .= '<h5>' . $attr_info['name'] . '</h5>';
 					// Create field types
 					if ( !isset( $attr_info['type'] ) && isset( $attr_info['values'] ) && is_array( $attr_info['values'] ) && count( $attr_info['values'] ) ) $attr_info['type'] = 'select';
 					elseif ( !isset( $attr_info['type'] ) ) $attr_info['type'] = 'text';
-					if ( is_callable( array( 'Su_Generator_Views', $attr_info['type'] ) ) ) $return .= call_user_func( array( 'Su_Generator_Views', $attr_info['type'] ), $attr_name, $attr_info );
-					elseif ( isset( $attr_info['callback'] ) && is_callable( $attr_info['callback'] ) ) $return .= call_user_func( $attr_info['callback'], $attr_name, $attr_info );
+					if ( is_callable( array( 'Su_Generator_Views', $attr_info['type'] ) ) ) $item .= call_user_func( array( 'Su_Generator_Views', $attr_info['type'] ), $attr_name, $attr_info );
+					elseif ( isset( $attr_info['callback'] ) && is_callable( $attr_info['callback'] ) ) $item .= call_user_func( $attr_info['callback'], $attr_name, $attr_info );
 					if ( isset( $attr_info['desc'] ) ) $attr_info['desc'] = str_replace( '%su_skins_link%', su_skins_link(), $attr_info['desc'] );
-					if ( isset( $attr_info['desc'] ) ) $return .= '<div class="su-generator-attr-desc">' . str_replace( array( '<b%value>', '<b_>' ), '<b class="su-generator-set-value" title="' . __( 'Click to set this value', 'su' ) . '">', $attr_info['desc'] ) . '</div>';
-					$return .= '</div>';
+					if ( isset( $attr_info['desc'] ) ) $item .= '<div class="su-generator-attr-desc">' . str_replace( array( '<b%value>', '<b_>' ), '<b class="su-generator-set-value" title="' . __( 'Click to set this value', 'su' ) . '">', $attr_info['desc'] ) . '</div>';
+					$item .= '</div>';
+
+					( $counter < $half ) ? $left_container .= $item : $right_container .= $item;
+
+					$counter++;
 				}
 			}
+			$return .= '<div class="su-generator-attr-left-container">' . $left_container . '</div>';
+			$return .= '<div class="su-generator-attr-right-container">' . $right_container . '</div>';
+			$return .= '<div class="clear"></div>';
 			// Single shortcode (not closed)
 			if ( $shortcode['type'] == 'single' ) $return .= '<input type="hidden" name="su-generator-content" id="su-generator-content" value="false" />';
 			// Wrapping shortcode

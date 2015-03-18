@@ -238,6 +238,534 @@ class Su_Data {
 					'note'    => __( 'Did you know that you need to wrap columns with [row_inner] shortcode?', 'cherry-shortcodes' ),
 					'icon'    => 'columns',
 				),
+				// spacer
+				'spacer' => array(
+					'name'  => __( 'Spacer', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'box',
+					'atts'  => array(
+						'size'  => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 300,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Spacer height', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'desc'    => __( 'Vertical spacer between blocks', 'cherry-shortcodes' ),
+					'icon'    => 'arrows-v',
+				),
+				// spacer
+				'clear' => array(
+					'name'  => __( 'Clear', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'box',
+					'atts'  => array(
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'desc'    => __( 'Clearing block', 'cherry-shortcodes' ),
+					'icon'    => 'eraser',
+				),
+				'button' => array(
+					'name'  => __( 'Button', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'content',
+					'atts'  => array(
+						'text' => array(
+							'default' => __( 'Read more', 'cherry-shortcodes' ),
+							'name'    => __( 'Text', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button text', 'cherry-shortcodes' )
+						),
+						'url' => array(
+							'default' => '#',
+							'name'    => __( 'Link', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button link', 'cherry-shortcodes' )
+						),
+						'style' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_style_presets',
+								array(
+									'primary' => __( 'Primary', 'cherry-shortcodes' ),
+									'primary-light' => __( 'Primary-light', 'cherry-shortcodes' ),
+									'default' => __( 'Default', 'cherry-shortcodes' ),
+									'gray' => __( 'Gray', 'cherry-shortcodes' ),
+									'success' => __( 'Success', 'cherry-shortcodes' ),
+									'info'    => __( 'Info', 'cherry-shortcodes' ),
+									'warning' => __( 'Warning', 'cherry-shortcodes' ),
+									'danger'  => __( 'Danger', 'cherry-shortcodes' ),
+									'link'    => __( 'Link', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'primary',
+							'name'    => __( 'Style', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button style preset', 'cherry-shortcodes' )
+						),
+						'size' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_size_presets',
+								array(
+									'extra-small' => __( 'Extra Small', 'cherry-shortcodes' ),
+									'small'       => __( 'Small', 'cherry-shortcodes' ),
+									'medium'      => __( 'Medium', 'cherry-shortcodes' ),
+									'large'       => __( 'Large', 'cherry-shortcodes' ),
+									'extra-large' => __( 'Extra Large', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'medium',
+							'name'    => __( 'Size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button size preset', 'cherry-shortcodes' )
+						),
+						'display' => array(
+							'type'   => 'select',
+							'values' => array(
+								'inline' => __( 'Inline', 'cherry-shortcodes' ),
+								'wide'   => __( 'Wide', 'cherry-shortcodes' )
+							),
+							'default' => 'inline',
+							'name'    => __( 'Display', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button display type', 'cherry-shortcodes' )
+						),
+						'radius' => array(
+							'type' => 'slider',
+							'min' => 0,
+							'max' => 60,
+							'step' => 1,
+							'default' => 0,
+							'name' => __( 'Border radius', 'cherry-shortcodes' ),
+							'desc' => __( 'Button border radius', 'cherry-shortcodes' )
+						),
+						'centered' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Centered', 'cherry-shortcodes' ),
+							'desc' => __( 'Is button centered on the page', 'cherry-shortcodes' )
+						),
+						'fluid' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Fluid', 'cherry-shortcodes' ),
+							'desc' => __( 'Is button fluid', 'cherry-shortcodes' )
+						),
+						'fluid_position' => array(
+							'type'   => 'select',
+							'values' => array(
+								'left'  => __( 'Left', 'cherry-shortcodes' ),
+								'right' => __( 'Right', 'cherry-shortcodes' )
+							),
+							'default' => 'left',
+							'name'    => __( 'Fluid Position', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button fluid position', 'cherry-shortcodes' )
+						),
+						'icon' => array(
+							'type' => 'icon',
+							'default' => '',
+							'name' => __( 'Icon', 'cherry-shortcodes' ),
+							'desc' => __( 'You can upload custom icon for this button or pick a built-in icon', 'cherry-shortcodes' )
+						),
+						'icon_position' => array(
+							'type'   => 'select',
+							'values' => array(
+								'left'   => __( 'Left', 'cherry-shortcodes' ),
+								'top'    => __( 'Top', 'cherry-shortcodes' ),
+								'right'  => __( 'Right', 'cherry-shortcodes' ),
+								'bottom' => __( 'Bottom', 'cherry-shortcodes' ),
+							),
+							'default' => 'left',
+							'name'    => __( 'Icon Position', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button icon position', 'cherry-shortcodes' )
+						),
+						'desc' => array(
+							'default' => '',
+							'name' => __( 'Description', 'cherry-shortcodes' ),
+							'desc' => __( 'Small description under button text.', 'cherry-shortcodes' )
+						),
+						'bg_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#2D89EF',
+							'name'    => __( 'Background', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button background color', 'cherry-shortcodes' )
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#FFFFFF',
+							'name'    => __( 'Text color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button text color', 'cherry-shortcodes' )
+						),
+						'min_width' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 400,
+							'step'    => 1,
+							'default' => 0,
+							'name'    => __( 'Min width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button minimal width', 'cherry-shortcodes' )
+						),
+						'target' => array(
+							'type'   => 'select',
+							'values' => array(
+								'self'  => __( 'Same tab', 'cherry-shortcodes' ),
+								'blank' => __( 'New tab', 'cherry-shortcodes' )
+							),
+							'default' => 'self',
+							'name' => __( 'Target', 'cherry-shortcodes' ),
+							'desc' => __( 'Button link target', 'cherry-shortcodes' )
+						),
+						'rel' => array(
+							'default' => '',
+							'name' => __( 'Rel attribute', 'cherry-shortcodes' ),
+							'desc' => __( 'Here you can add value for the rel attribute.', 'cherry-shortcodes' )
+						),
+						'hover_animation' => array(
+							'type'   => 'select',
+							'values' => apply_filters(
+								'cherry_shortcodes_button_hover_presets',
+								array(
+									'fade'  => __( 'Fade', 'cherry-shortcodes' )
+								)
+							),
+							'default' => 'self',
+							'name' => __( 'Hover animation', 'cherry-shortcodes' ),
+							'desc' => __( 'Button hover aniamtion type', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'desc'    => __( 'Styled button', 'cherry-shortcodes' ),
+					'icon'    => 'heart'
+				),
+				// list
+				/**
+				 * @todo Choose way to get bullets for list items from. Without this shortcode doesn't have any sense
+				 */
+				/*
+				'list' => array(
+					'name'  => __( 'List', 'cherry-shortcodes' ),
+					'type'  => 'wrap',
+					'group' => 'box',
+					'atts'  => array(
+						'type'  => array(
+							'type'    => 'select',
+							'values' => array(
+								'circle'       => __( 'Circle', 'cherry-shortcodes' ),
+								'arrow'        => __( 'Arrow', 'cherry-shortcodes' ),
+								'double-arrow' => __( 'Double Arrow', 'cherry-shortcodes' ),
+							),
+							'default' => 'circle',
+							'name'    => __( 'Type', 'cherry-shortcodes' ),
+							'desc'    => __( 'Select list bullet type', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'content'  => sprintf( '<ul><li>%s</li></ul>', __( 'List Item', 'cherry-shortcodes' ) ),
+					'desc'     => __( 'List', 'cherry-shortcodes' ),
+					'icon'     => 'list-ul',
+					'function' => array( 'Su_Shortcodes', 'list_' )
+				),*/
+				'swiper_carousel' => array(
+					'name'  => __( 'Swiper carousel', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'gallery',
+					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
+					'icon' => 'photo',
+					'atts'  => array(
+						'posts_per_page' => array(
+							'type'    => 'number',
+							'min'     => -1,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => get_option( 'posts_per_page' ),
+							'name'    => __( 'Posts per page', 'cherry-shortcodes' ),
+							'desc'    => __( 'Specify number of posts that you want to show. Enter -1 to get all posts', 'cherry-shortcodes' ),
+						),
+						'post_type' => array(
+							'type'     => 'select',
+							'multiple' => true,
+							'values'   => Su_Tools::get_types(),
+							'default'  => 'post',
+							'name'     => __( 'Post types', 'cherry-shortcodes' ),
+							'desc'     => __( 'Select post types. Hold Ctrl key to select multiple post types', 'cherry-shortcodes' ),
+						),
+						'taxonomy' => array(
+							'type'    => 'select',
+							'values'  => Su_Tools::get_taxonomies(),
+							'default' => 'category',
+							'name'    => __( 'Taxonomy', 'cherry-shortcodes' ),
+							'desc'    => __( 'Select taxonomy to show posts from', 'cherry-shortcodes' ),
+						),
+						'tax_term' => array(
+							'type'     => 'select',
+							'multiple' => true,
+							'values'   => Su_Tools::get_terms( 'category' ),
+							'default'  => '',
+							'name'     => __( 'Terms', 'cherry-shortcodes' ),
+							'desc'     => __( 'Select terms to show posts from', 'cherry-shortcodes' ),
+						),
+						'tax_operator' => array(
+							'type'    => 'select',
+							'values'  => array( 'IN', 'NOT IN', 'AND' ),
+							'default' => 'IN',
+							'name'    => __( 'Taxonomy term operator', 'cherry-shortcodes' ),
+							'desc'    => __( 'IN - posts that have any of selected categories terms<br/>NOT IN - posts that is does not have any of selected terms<br/>AND - posts that have all selected terms', 'cherry-shortcodes' ),
+						),
+						'author' => array(
+							'default' => '',
+							'name'    => __( 'Authors', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter here comma-separated list of author\'s IDs. Example: 1,7,18', 'cherry-shortcodes' ),
+						),
+						'offset' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 0,
+							'name'    => __( 'Offset', 'cherry-shortcodes' ),
+							'desc'    => __( 'Specify offset to start posts loop not from first post', 'cherry-shortcodes' ),
+						),
+						'order' => array(
+							'type'   => 'select',
+							'values' => array(
+								'desc' => __( 'Descending', 'cherry-shortcodes' ),
+								'asc'  => __( 'Ascending', 'cherry-shortcodes' ),
+							),
+							'default' => 'DESC',
+							'name'    => __( 'Order', 'cherry-shortcodes' ),
+							'desc'    => __( 'Posts order', 'cherry-shortcodes' ),
+						),
+						'orderby' => array(
+							'type'   => 'select',
+							'values' => array(
+								'none'          => __( 'None', 'cherry-shortcodes' ),
+								'id'            => __( 'Post ID', 'cherry-shortcodes' ),
+								'author'        => __( 'Post author', 'cherry-shortcodes' ),
+								'title'         => __( 'Post title', 'cherry-shortcodes' ),
+								'name'          => __( 'Post slug', 'cherry-shortcodes' ),
+								'date'          => __( 'Date', 'cherry-shortcodes' ),
+								'modified'      => __( 'Last modified date', 'cherry-shortcodes' ),
+								'parent'        => __( 'Post parent', 'cherry-shortcodes' ),
+								'rand'          => __( 'Random', 'cherry-shortcodes' ),
+								'comment_count' => __( 'Comments number', 'cherry-shortcodes' ),
+								'menu_order'    => __( 'Menu order', 'cherry-shortcodes' ),
+							),
+							'default' => 'date',
+							'name'    => __( 'Order by', 'cherry-shortcodes' ),
+							'desc'    => __( 'Order posts by', 'cherry-shortcodes' ),
+						),
+						'post_parent' => array(
+							'default' => '',
+							'name'    => __( 'Post parent', 'cherry-shortcodes' ),
+							'desc'    => __( 'Show childrens of entered post (enter post ID)', 'cherry-shortcodes' ),
+						),
+						'post_status' => array(
+							'type'   => 'select',
+							'values' => array(
+								'publish'    => __( 'Published', 'cherry-shortcodes' ),
+								'pending'    => __( 'Pending', 'cherry-shortcodes' ),
+								'draft'      => __( 'Draft', 'cherry-shortcodes' ),
+								'auto-draft' => __( 'Auto-draft', 'cherry-shortcodes' ),
+								'future'     => __( 'Future post', 'cherry-shortcodes' ),
+								'private'    => __( 'Private post', 'cherry-shortcodes' ),
+								'inherit'    => __( 'Inherit', 'cherry-shortcodes' ),
+								'trash'      => __( 'Trashed', 'cherry-shortcodes' ),
+								'any'        => __( 'Any', 'cherry-shortcodes' ),
+							),
+							'default' => 'publish',
+							'name'    => __( 'Post status', 'cherry-shortcodes' ),
+							'desc'    => __( 'Show only posts with selected status', 'cherry-shortcodes' ),
+						),
+						'ignore_sticky_posts' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Ignore sticky', 'cherry-shortcodes' ),
+							'desc'    => __( 'Select Yes to ignore posts that is sticked', 'cherry-shortcodes' ),
+						),
+						'linked_title' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Linked title', 'cherry-shortcodes' ),
+							'desc'    => __( 'Linked title description', 'cherry-shortcodes' ),
+						),
+						'linked_image' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Linked featured image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Linked featured image description', 'cherry-shortcodes' ),
+						),
+						'content_type' => array(
+							'type' => 'select',
+							'values' => array(
+								'part'    => __( 'Part of content', 'cherry-shortcodes' ),
+								'full'    => __( 'Full content', 'cherry-shortcodes' ),
+							),
+							'default' => 'part',
+							'name'    => __( 'Post content', 'cherry-shortcodes' ),
+							'desc'    => __( 'Choose to display an teaser, part or full content (http://codex.wordpress.org/Excerpt#Excerpt.2C_automatic_excerpt.2C_and_teaser)', 'cherry-shortcodes' ),
+						),
+						'content_length' => array(
+							'type'    => 'number',
+							'min'     => 1,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 55,
+							'name'    => __( 'Content Length', 'cherry-shortcodes' ),
+							'desc'    => __( 'Insert the number of words you want to show in the post content.', 'cherry-shortcodes' ),
+						),
+						'button_text' => array(
+							'default' => __( 'read more', 'cherry-shortcodes' ),
+							'name'    => __( 'Button text', 'cherry-shortcodes' ),
+							'desc'    => __( 'Button text description', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						),
+						'template' => array(
+							'type'   => 'select',
+							'values' => array(
+								'default.tmpl' => 'default.tmpl',
+							),
+							'default' => 'default.tmpl',
+							'name'    => __( 'Template', 'cherry-shortcodes' ),
+							'desc'    => __( 'Shortcode template', 'cherry-shortcodes' ),
+						),
+						'crop_image' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Using cropped image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Slider Loop Mode', 'cherry-shortcodes' ),
+						),
+						'crop_width' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 540,
+							'name'    => __( 'Cropping image width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Width value(px)' ),
+						),
+						'crop_height' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 10000,
+							'step'    => 1,
+							'default' => 320,
+							'name'    => __( 'Cropping image width', 'cherry-shortcodes' ),
+							'desc'    => __( 'Width value(px)' ),
+						),
+						'slides_per_view' => array(
+							'type'    => 'slider',
+							'min'     => 1,
+							'max'     => 25,
+							'step'    => 1,
+							'default' => 3,
+							'name'    => __( 'Number slides per view', 'cherry-shortcodes' ),
+							'desc'    => __( 'Specify number of slides per view', 'cherry-shortcodes' ),
+						),
+						'slides_per_column' => array(
+							'type'    => 'slider',
+							'min'     => 1,
+							'max'     => 5,
+							'step'    => 1,
+							'default' => 1,
+							'name'    => __( 'Multi Row Slides Layout', 'cherry-shortcodes' ),
+							'desc'    => __( 'Multi Row Slides Layout', 'cherry-shortcodes' ),
+						),
+						'space_between_slides' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 500,
+							'step'    => 1,
+							'default' => 10,
+							'name'    => __( 'Space Between Slides', 'cherry-shortcodes' ),
+							'desc'    => __( 'With difine space between slides(px)', 'cherry-shortcodes' ),
+						),
+						'swiper_duration_speed' => array(
+							'type'    => 'slider',
+							'min'     => 0,
+							'max'     => 10000,
+							'step'    => 100,
+							'default' => 300,
+							'name'    => __( 'Duration of transition', 'cherry-shortcodes' ),
+							'desc'    => __( 'Duration of transition between slides (ms)', 'cherry-shortcodes' ),
+						),
+						'swiper_loop' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider Infinite Loop', 'cherry-shortcodes' ),
+							'desc'    => __( 'Slider Loop Mode', 'cherry-shortcodes' ),
+						),
+						'swiper_free_mode' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Free Mode sliding', 'cherry-shortcodes' ),
+							'desc'    => __( 'No fixed positions for slides', 'cherry-shortcodes' ),
+						),
+						'swiper_grab_cursor' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Grab Cusor', 'cherry-shortcodes' ),
+							'desc'    => __( 'Using Grab Cusor for slider', 'cherry-shortcodes' ),
+						),
+						'swiper_mouse_wheel' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Mousewheel Control', 'cherry-shortcodes' ),
+							'desc'    => __( 'Mousewheel control mode', 'cherry-shortcodes' ),
+						),
+						'swiper_centered_slide' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Centered Slides', 'cherry-shortcodes' ),
+							'desc'    => __( 'Centered slides mode', 'cherry-shortcodes' ),
+						),
+						'swiper_effect' => array(
+							'type'   => 'select',
+							'values' => array(
+								'slide'     => __( 'Slide', 'cherry-shortcodes' ),
+								'fade'      => __( 'Fade', 'cherry-shortcodes' ),
+								'cube'      => __( 'Cube', 'cherry-shortcodes' ),
+								'coverflow' => __( 'Coverflow', 'cherry-shortcodes' ),
+							),
+							'default' => 'slide',
+							'name'    => __( 'Effect Layout', 'cherry-shortcodes' ),
+							'desc'    => __( 'Could be "slide", "fade", "cube" or "coverflow" effect', 'cherry-shortcodes' ),
+						),
+						'swiper_pagination' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider pagination', 'cherry-shortcodes' ),
+							'desc'    => __( 'Displaying slider pagination', 'cherry-shortcodes' ),
+						),
+						'swiper_navigation' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Slider navigation', 'cherry-shortcodes' ),
+							'desc'    => __( 'Displaying slider navigation', 'cherry-shortcodes' ),
+						),
+					)
+				),
 				// posts
 				'posts' => array(
 					'name'  => __( 'Posts', 'cherry-shortcodes' ),
@@ -418,6 +946,96 @@ class Su_Data {
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
 					'icon' => 'th-list',
+				),
+				// tabs
+				'tabs' => array(
+					'name' => __( 'Tabs', 'cherry-shortcodes' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'style' => array(
+							'type' => 'select',
+							'values' => array(
+								'default' => __( 'Default', 'cherry-shortcodes' )
+							),
+							'default' => 'default',
+							'name' => __( 'Style', 'cherry-shortcodes' ),
+							'desc' => __( 'Choose style for this tabs', 'cherry-shortcodes' )
+						),
+						'active' => array(
+							'type' => 'number',
+							'min' => 1,
+							'max' => 100,
+							'step' => 1,
+							'default' => 1,
+							'name' => __( 'Active tab', 'cherry-shortcodes' ),
+							'desc' => __( 'Select which tab is open by default', 'cherry-shortcodes' )
+						),
+						'vertical' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Vertical', 'cherry-shortcodes' ),
+							'desc' => __( 'Show tabs vertically', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( "[%prefix_tab title=\"Title 1\"]Content 1[/%prefix_tab]\n[%prefix_tab title=\"Title 2\"]Content 2[/%prefix_tab]\n[%prefix_tab title=\"Title 3\"]Content 3[/%prefix_tab]", 'su' ),
+					'desc' => __( 'Tabs container', 'cherry-shortcodes' ),
+					'example' => 'tabs',
+					'icon' => 'list-alt'
+				),
+				// tab
+				'tab' => array(
+					'name' => __( 'Tab', 'cherry-shortcodes' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'title' => array(
+							'default' => __( 'Tab name', 'cherry-shortcodes' ),
+							'name' => __( 'Title', 'cherry-shortcodes' ),
+							'desc' => __( 'Enter tab name', 'cherry-shortcodes' )
+						),
+						'disabled' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Disabled', 'cherry-shortcodes' ),
+							'desc' => __( 'Is this tab disabled', 'cherry-shortcodes' )
+						),
+						'anchor' => array(
+							'default' => '',
+							'name' => __( 'Anchor', 'cherry-shortcodes' ),
+							'desc' => __( 'You can use unique anchor for this tab to access it with hash in page url. For example: type here <b%value>Hello</b> and then use url like http://example.com/page-url#Hello. This tab will be activated and scrolled in', 'su' )
+						),
+						'url' => array(
+							'default' => '',
+							'name' => __( 'URL', 'cherry-shortcodes' ),
+							'desc' => __( 'You can link this tab to any webpage. Enter here full URL to switch this tab into link', 'cherry-shortcodes' )
+						),
+						'target' => array(
+							'type' => 'select',
+							'values' => array(
+								'self'  => __( 'Open link in same window/tab', 'cherry-shortcodes' ),
+								'blank' => __( 'Open link in new window/tab', 'cherry-shortcodes' )
+							),
+							'default' => 'blank',
+							'name' => __( 'Link target', 'cherry-shortcodes' ),
+							'desc' => __( 'Choose how to open the custom tab link', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( 'Tab content', 'cherry-shortcodes' ),
+					'desc' => __( 'Single tab', 'cherry-shortcodes' ),
+					'note' => __( 'Did you know that you need to wrap single tabs with [tabs] shortcode?', 'cherry-shortcodes' ),
+					'example' => 'tabs',
+					'icon' => 'list-alt'
 				),
 			) );
 

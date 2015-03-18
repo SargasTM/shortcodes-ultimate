@@ -22,17 +22,25 @@ require_once 'inc/vendor/sunrise.php';
 require_once 'inc/core/admin-views.php';
 require_once 'inc/core/requirements.php';
 require_once 'inc/core/load.php';
+
 // require_once 'inc/core/assets.php';
 require_once 'inc/core/cherry-assets.php';
+
 // require_once 'inc/core/shortcodes.php';
 require_once 'inc/core/cherry-shortcodes.php';
+
 require_once 'inc/core/tools.php';
+
 // require_once 'inc/core/data.php';
 require_once 'inc/core/cherry-data.php';
+
 // require_once 'inc/core/generator-views.php';
 require_once 'inc/core/cherry-generator-views.php';
+
 require_once 'inc/core/generator.php';
 require_once 'inc/core/widget.php';
 // require_once 'inc/core/vote.php'; // disable vote
 require_once 'inc/core/counters.php';
 require_once 'inc/core/filters.php';
+//custom
+require_once 'inc/core/aq_resizer.php';

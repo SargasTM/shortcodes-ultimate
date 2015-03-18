@@ -41,7 +41,10 @@
 	-moz-transition: max-width .2s;
 	transition: max-width .2s;
 }
-#su-generator.su-generator-narrow { max-width: 500px; }
+#su-generator.su-generator-narrow {
+	max-width: 1024px;
+	width: 75%;
+}
 
 /* Generator tools */
 #su-generator-tools { margin: 0 20px 20px 0; }
@@ -151,7 +154,7 @@
 
 /* Breadcrumbs */
 #su-generator-breadcrumbs {
-	margin: 0 -20px;
+	margin: 0 -20px 10px -20px;
 	padding: 14px 20px;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
@@ -172,7 +175,7 @@
 /* Notes */
 .su-generator-note {
 	position: relative;
-	margin: 0 -20px;
+	margin: 0 -20px 20px -20px;
 	padding: 5px 20px;
 	background: #FFFFB8;
 	border-bottom: 1px solid #ccc;
@@ -202,11 +205,34 @@
 
 /* Attribute container */
 #su-generator-settings .su-generator-attr-container {
-	margin: 0 -20px;
 	padding: 1.5em 20px;
-	border-bottom: 1px solid #ccc;
+	border: 1px solid #ccc;
+	background: #fff;
 }
-
+#su-generator-settings .su-generator-attr-left-container{
+	float: left;
+	width: 50%;
+}
+#su-generator-settings .su-generator-attr-left-container .su-generator-attr-container{
+	margin: 0 5px 10px 0;
+}
+#su-generator-settings .su-generator-attr-right-container{
+	float: left;
+	width: 50%;
+}
+#su-generator-settings .su-generator-attr-right-container .su-generator-attr-container{
+	margin: 0 0 10px 5px;
+}
+@media screen and (max-width: 782px){
+	#su-generator-settings .su-generator-attr-left-container{
+		float: none;
+		width: 100%;
+	}
+	#su-generator-settings .su-generator-attr-right-container{
+		float: none;
+		width: 100%;
+	}
+}
 /* Attribute name */
 #su-generator-settings h5,
 #su-generator-preview h5 {
@@ -380,7 +406,7 @@
 /* Range pickers */
 .su-generator-range-picker { }
 .su-generator-range-picker .slider {
-	width: 420px;
+	width: 350px;
 	margin: 10px 0 0 0 !important;
 	padding: 0;
 	float: left;
@@ -558,6 +584,14 @@
 	margin: 0 -20px -20px;
 	padding: 1.5em 15px;
 	background: #eee;
+	border-top: 1px solid #ccc;
+}
+.su-generator-actions-header {
+	margin: 0 -20px -20px;
+	padding: 1.5em 15px;
+	background: #eee;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 .su-generator-actions > .button { margin: 0 5px; }
 .su-generator-actions .button i { margin: 0 5px 0 -3px; }
