@@ -130,6 +130,16 @@ class Su_Data {
 					'type'  => 'wrap',
 					'group' => 'box',
 					'atts'  => array(
+						'type' => array(
+							'type'   => 'select',
+							'values' => array(
+								'fixed-width' => __( 'Fixed Width', 'cherry-shortcodes' ),
+								'full-width'  => __( 'Full Width', 'cherry-shortcodes' ),
+							),
+							'default' => 'full-width',
+							'name'    => __( 'Type', 'cherry-shortcodes' ),
+							'desc'    => __( 'Type width', 'cherry-shortcodes' ),
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
@@ -146,6 +156,16 @@ class Su_Data {
 					'type'  => 'wrap',
 					'group' => 'box',
 					'atts'  => array(
+						'type' => array(
+							'type'   => 'select',
+							'values' => array(
+								'fixed-width' => __( 'Fixed Width', 'cherry-shortcodes' ),
+								'full-width'  => __( 'Full Width', 'cherry-shortcodes' ),
+							),
+							'default' => 'full-width',
+							'name'    => __( 'Type', 'cherry-shortcodes' ),
+							'desc'    => __( 'Type width', 'cherry-shortcodes' ),
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
@@ -770,7 +790,7 @@ class Su_Data {
 				'posts' => array(
 					'name'  => __( 'Posts', 'cherry-shortcodes' ),
 					'type'  => 'single',
-					'group' => 'other',
+					'group' => 'data',
 					'atts'  => array(
 						'id' => array(
 							'default' => '',
