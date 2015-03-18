@@ -212,8 +212,6 @@ class Su_Shortcodes {
 			'class' => '',
 		), $atts, 'row' );
 
-		do_action( 'cherry_shortcode_row', $atts );
-
 		if ( isset( $atts['type'] ) ) {
 			$type = sanitize_key( $atts['type'] );
 		}
@@ -230,8 +228,6 @@ class Su_Shortcodes {
 		$atts = shortcode_atts( array(
 			'class' => '',
 		), $atts, 'row_inner' );
-
-		do_action( 'cherry_shortcode_row_inner', $atts );
 
 		$output = '<div class="row' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
 		$output = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'row_inner' );
@@ -259,8 +255,6 @@ class Su_Shortcodes {
 			'push_lg'   => 'none',
 			'class'     => '',
 		), $atts, 'col' );
-
-		do_action( 'cherry_shortcode_col', $atts );
 
 		$class  = '';
 		$class .= ( 'none' == $atts['size_lg'] )   ? '' : ' col-lg-' . sanitize_key( $atts['size_lg'] );
@@ -306,8 +300,6 @@ class Su_Shortcodes {
 			'push_lg'   => 'none',
 			'class'     => '',
 		), $atts, 'col_inner' );
-
-		do_action( 'cherry_shortcode_col_inner', $atts );
 
 		$class  = '';
 		$class .= ( 'none' == $atts['size_lg'] )   ? '' : ' col-lg-' . sanitize_key( $atts['size_lg'] );
@@ -364,8 +356,6 @@ class Su_Shortcodes {
 				'class'               => '',
 				'template'            => 'default.tmpl',
 			), $atts, 'posts' );
-
-		do_action( 'cherry_shortcode_posts', $atts );
 
 		$original_atts = $atts;
 
