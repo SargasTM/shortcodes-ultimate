@@ -355,7 +355,7 @@ class Su_Data {
 						),
 						'ignore_sticky_posts' => array(
 							'type'    => 'bool',
-							'default' => 'no',
+							'default' => 'yes',
 							'name'    => __( 'Ignore sticky', 'cherry-shortcodes' ),
 							'desc'    => __( 'Select Yes to ignore posts that is sticked', 'cherry-shortcodes' ),
 						),

@@ -149,7 +149,7 @@ class Su_Shortcodes {
 				'orderby'             => 'date',
 				'post_parent'         => false,
 				'post_status'         => 'publish',
-				'ignore_sticky_posts' => 'no',
+				'ignore_sticky_posts' => 'yes',
 				'linked_title'        => 'yes',
 				'linked_image'        => 'yes',
 				'content_type'        => 'part',
@@ -500,15 +500,7 @@ class Su_Shortcodes {
 				}
 
 				// Prepare a current post data array.
-				$_postdata['title']    = $title;
-				$_postdata['image']    = $image;
-				$_postdata['comments'] = $comments;
-				$_postdata['taxonomy'] = $taxonomy;
-				$_postdata['date']     = $date;
-				$_postdata['author']   = $author;
-				$_postdata['excerpt']  = $excerpt;
-				$_postdata['content']  = $content;
-				$_postdata['button']   = $button;
+				$_postdata = compact( 'title', 'image', 'comments', 'taxonomy', 'date', 'author', 'excerpt', 'content', 'button' );
 
 				/**
 				 * Filters the array with a current post data.
