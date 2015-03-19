@@ -1037,6 +1037,103 @@ class Su_Data {
 					'example' => 'tabs',
 					'icon' => 'list-alt'
 				),
+				// spoiler
+				'spoiler' => array(
+					'name' => __( 'Spoiler', 'cherry-shortcodes' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'title' => array(
+							'default' => __( 'Spoiler title', 'cherry-shortcodes' ),
+							'name' => __( 'Title', 'cherry-shortcodes' ), 'desc' => __( 'Text in spoiler title', 'cherry-shortcodes' )
+						),
+						'open' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Open', 'cherry-shortcodes' ),
+							'desc' => __( 'Is spoiler content visible by default', 'cherry-shortcodes' )
+						),
+						'style' => array(
+							'type' => 'select',
+							'values' => array(
+								'default' => __( 'Default', 'cherry-shortcodes' ),
+								'fancy' => __( 'Fancy', 'cherry-shortcodes' ),
+								'simple' => __( 'Simple', 'cherry-shortcodes' )
+							),
+							'default' => 'default',
+							'name' => __( 'Style', 'cherry-shortcodes' ),
+							'desc' => __( 'Choose style for this spoiler', 'cherry-shortcodes' )
+						),
+						'icon' => array(
+							'type' => 'select',
+							'values' => array(
+								'plus'           => __( 'Plus', 'cherry-shortcodes' ),
+								'plus-circle'    => __( 'Plus circle', 'cherry-shortcodes' ),
+								'plus-square-1'  => __( 'Plus square 1', 'cherry-shortcodes' ),
+								'plus-square-2'  => __( 'Plus square 2', 'cherry-shortcodes' ),
+								'arrow'          => __( 'Arrow', 'cherry-shortcodes' ),
+								'arrow-circle-1' => __( 'Arrow circle 1', 'cherry-shortcodes' ),
+								'arrow-circle-2' => __( 'Arrow circle 2', 'cherry-shortcodes' ),
+								'chevron'        => __( 'Chevron', 'cherry-shortcodes' ),
+								'chevron-circle' => __( 'Chevron circle', 'cherry-shortcodes' ),
+								'caret'          => __( 'Caret', 'cherry-shortcodes' ),
+								'caret-square'   => __( 'Caret square', 'cherry-shortcodes' ),
+								'folder-1'       => __( 'Folder 1', 'cherry-shortcodes' ),
+								'folder-2'       => __( 'Folder 2', 'cherry-shortcodes' )
+							),
+							'default' => 'plus',
+							'name' => __( 'Icon', 'cherry-shortcodes' ),
+							'desc' => __( 'Icons for spoiler', 'cherry-shortcodes' )
+						),
+						'anchor' => array(
+							'default' => '',
+							'name' => __( 'Anchor', 'cherry-shortcodes' ),
+							'desc' => __( 'You can use unique anchor for this spoiler to access it with hash in page url. For example: type here <b%value>Hello</b> and then use url like http://example.com/page-url#Hello. This spoiler will be open and scrolled in', 'su' )
+						),
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( 'Hidden content', 'cherry-shortcodes' ),
+					'desc' => __( 'Spoiler with hidden content', 'cherry-shortcodes' ),
+					'note' => __( 'Did you know that you can wrap multiple spoilers with [accordion] shortcode to create accordion effect?', 'cherry-shortcodes' ),
+					'example' => 'spoilers',
+					'icon' => 'list-ul'
+				),
+				// accordion
+				'accordion' => array(
+					'name' => __( 'Accordion', 'cherry-shortcodes' ),
+					'type' => 'wrap',
+					'group' => 'box',
+					'atts' => array(
+						'class' => array(
+							'default' => '',
+							'name' => __( 'Class', 'cherry-shortcodes' ),
+							'desc' => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( "[%prefix_spoiler]Content[/%prefix_spoiler]\n[%prefix_spoiler]Content[/%prefix_spoiler]\n[%prefix_spoiler]Content[/%prefix_spoiler]", 'cherry-shortcodes' ),
+					'desc' => __( 'Accordion with spoilers', 'cherry-shortcodes' ),
+					'note' => __( 'Did you know that you can wrap multiple spoilers with [accordion] shortcode to create accordion effect?', 'cherry-shortcodes' ),
+					'example' => 'spoilers',
+					'icon' => 'list'
+				),
+				'google_map' => array(
+					'name'  => __( 'Google map', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'other',
+					'atts'  => array(
+						'id' => array(
+							'default' => '',
+							'name'    => __( 'Post ID\'s', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter comma separated ID\'s of the posts that you want to show', 'cherry-shortcodes' ),
+						),
+					),
+					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
+					'icon' => 'th-list',
+				)
 			) );
 
 		// Return result.

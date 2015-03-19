@@ -1437,6 +1437,65 @@ class Su_Shortcodes {
 		do_action( 'su/shortcode/tab', $atts );
 	}
 
+	public static function spoiler( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+				'title'  => __( 'Spoiler title', 'cherry-shortcodes' ),
+				'open'   => 'no',
+				'style'  => 'default',
+				'icon'   => 'plus',
+				'anchor' => '',
+				'class'  => ''
+			), $atts, 'spoiler' );
+		$atts['style'] = str_replace( array( '1', '2' ), array( 'default', 'fancy' ), $atts['style'] );
+		$atts['anchor'] = ( $atts['anchor'] ) ? ' data-anchor="' . str_replace( array( ' ', '#' ), '', sanitize_text_field( $atts['anchor'] ) ) . '"' : '';
+		if ( $atts['open'] !== 'yes' ) $atts['class'] .= ' cherry-spoiler-closed';
+		su_query_asset( 'css', 'font-awesome' );
+		su_query_asset( 'js', 'jquery' );
+		su_query_asset( 'js', 'cherry-shortcodes' );
+		do_action( 'su/shortcode/spoiler', $atts );
+		return '<div class="cherry-spoiler cherry-spoiler-style-' . $atts['style'] . ' cherry-spoiler-icon-' . $atts['icon'] . su_ecssc( $atts ) . '"' . $atts['anchor'] . '><div class="cherry-spoiler-title"><span class="cherry-spoiler-icon"></span>' . su_scattr( $atts['title'] ) . '</div><div class="cherry-spoiler-content cherry-clearfix" style="display:none">' . su_do_shortcode( $content, 's' ) . '</div></div>';
+	}
+
+	public static function accordion( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array( 'class' => '' ), $atts, 'accordion' );
+		do_action( 'su/shortcode/accordion', $atts );
+		return '<div class="cherry-accordion' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
+	}
+
+	public static function google_map( $atts = null, $content = null ) {
+		// Parse attributes.
+		$atts = shortcode_atts( array(
+			'lat_value'			=> '41.850033',
+			'lng_value'			=> '-87.6500523',
+			'zoom_value'		=> '8',
+			'zoom_wheel'		=> 'yes',
+			'custom_class'		=> '',
+		), $atts, 'google_map' );
+
+		do_action( 'cherry_shortcode_google_map', $atts );
+
+		$random_id        = rand();
+		$lat_value        = floatval( $atts['lat_value'] );
+		$lng_value        = floatval( $atts['lng_value'] );
+		$zoom_value       = intval( $atts['zoom_value'] );
+		$zoom_wheel       = ( bool ) ( $atts['zoom_wheel'] === 'yes' ) ? true : false;
+		$custom_class     = sanitize_text_field( $atts['custom_class'] );
+
+		$data_attr_line = '';
+			$data_attr_line .= 'data-map-id="google-map-' . $random_id . '"';
+
+
+		$html = '<div class="google-map-container '.$custom_class.'" ' . $data_attr_line . '>';
+			$html .= '<div id="google-map-' . $random_id . '" class="google-map"></div>';
+		$html .= '</div>';
+
+		su_query_asset( 'js', 'googlemapapis' );
+		su_query_asset( 'js', 'google-map' );
+		su_query_asset( 'js', 'cherry-shortcodes' );
+		do_action( 'su/shortcode/google_map', $atts );
+		return $html;
+	}
+
 	/**
 	 * Get cropped image.
 	 *

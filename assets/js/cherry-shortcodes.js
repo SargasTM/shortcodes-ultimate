@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
 	// Enable swiper carousels
 	jQuery('.cherry-swiper-carousel').each(function(){
 		var
@@ -39,7 +40,6 @@ jQuery(document).ready(function ($) {
 			}
 		;
 
-
 		swiper = new Swiper( jQuery(this), {
 				slidesPerView: widthLayoutChanger(),
 				slidesPerColumn: slides_per_column,
@@ -67,6 +67,24 @@ jQuery(document).ready(function ($) {
 			swiper.params.slidesPerView = slidesNumber;
 		});
 	})
+
+	// Google map
+	$('.google-map-container').cherryGoogleMap();
+
+	// Spoiler
+	$('body').on('click', '.cherry-spoiler-title', function (e) {
+		var $title = $(this),
+			$spoiler = $title.parent(),
+			bar = ($('#wpadminbar').length > 0) ? 28 : 0;
+		// Open/close spoiler
+		$spoiler.toggleClass('cherry-spoiler-closed');
+		// Close other spoilers in accordion
+		$spoiler.parent('.cherry-accordion').children('.cherry-spoiler').not($spoiler).addClass('cherry-spoiler-closed');
+		// Scroll in spoiler in accordion
+		if ($(window).scrollTop() > $title.offset().top) $(window).scrollTop($title.offset().top - $title.height() - bar);
+		e.preventDefault();
+	});
+	$('.cherry-spoiler-content').removeAttr('style');
 
 	// Tabs
 	$('body').on('click', '.cherry-tabs-nav span', function (e) {
