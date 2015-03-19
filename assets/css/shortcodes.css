@@ -118,6 +118,16 @@
 .cherry-btn-gray {
   background-color: #FFF;
 }
+.cherry-btn-transparent {
+  border: 2px solid #FFF;
+  background: transparent;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.cherry-btn-transparent:hover {
+  background: #FFF;
+}
 
 .fluid-button-left {
   text-align: left;
@@ -140,4 +150,8 @@
   padding: 0;
   margin: 0;
   line-height: 0;
+}
+
+.test {
+  display: block;
 }
