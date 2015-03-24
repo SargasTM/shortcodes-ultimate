@@ -1453,8 +1453,14 @@ class Su_Shortcodes {
 		$atts = shortcode_atts( array(
 			'lat_value'			=> '41.850033',
 			'lng_value'			=> '-87.6500523',
-			'zoom_value'		=> '8',
-			'zoom_wheel'		=> 'yes',
+			'zoom_value'		=> '4',
+			'scroll_wheel'		=> 'yes',
+			'map_style'			=> 'blue-water',
+			'map_height'		=> '400',
+			'pan_control'		=> 'yes',
+			'zoom_control'		=> 'yes',
+			'map_draggable'		=> 'yes',
+			'map_marker'		=> '',
 			'custom_class'		=> '',
 		), $atts, 'google_map' );
 
@@ -1463,16 +1469,39 @@ class Su_Shortcodes {
 		$random_id        = rand();
 		$lat_value        = floatval( $atts['lat_value'] );
 		$lng_value        = floatval( $atts['lng_value'] );
-		$zoom_value       = intval( $atts['zoom_value'] );
-		$zoom_wheel       = ( bool ) ( $atts['zoom_wheel'] === 'yes' ) ? true : false;
+		$zoom_value       = floatval( $atts['zoom_value'] );
+		$scroll_wheel     = ( bool ) ( $atts['scroll_wheel'] === 'yes' ) ? true : false;
+		$map_style        = sanitize_text_field( $atts['map_style'] );
 		$custom_class     = sanitize_text_field( $atts['custom_class'] );
+		$map_height       = intval( $atts['map_height'] );
+		$pan_control      = ( bool ) ( $atts['pan_control'] === 'yes' ) ? true : false;
+		$zoom_control     = ( bool ) ( $atts['zoom_control'] === 'yes' ) ? true : false;
+		$map_draggable     = ( bool ) ( $atts['map_draggable'] === 'yes' ) ? true : false;
+		$map_marker       = sanitize_text_field( $atts['map_marker'] );
+		$marker_desc      = do_shortcode( $content );
+		$style            = self::get_map_style_json( $map_style );
+
+		$map_marker_attachment_id = self::get_attachment_id_from_src( $map_marker );
+		if( isset($map_marker_attachment_id) ){
+			$map_marker = wp_get_attachment_image_src( $map_marker_attachment_id );
+			$map_marker = json_encode($map_marker);
+		}
 
 		$data_attr_line = '';
 			$data_attr_line .= 'data-map-id="google-map-' . $random_id . '"';
+			$data_attr_line .= 'data-lat-value="' . $lat_value . '"';
+			$data_attr_line .= 'data-lng-value="' . $lng_value . '"';
+			$data_attr_line .= 'data-zoom-value="' . $zoom_value . '"';
+			$data_attr_line .= 'data-scroll-wheel="' . $scroll_wheel . '"';
+			$data_attr_line .= 'data-pan-control="' . $pan_control . '"';
+			$data_attr_line .= 'data-zoom-control="' . $zoom_control . '"';
+			$data_attr_line .= 'data-map-draggable="' . $map_draggable . '"';
+			$data_attr_line .= "data-map-marker='" . $map_marker . "'";
+			$data_attr_line .= "data-map-style='" . $style . "'";
 
-
-		$html = '<div class="google-map-container '.$custom_class.'" ' . $data_attr_line . '>';
+		$html = '<div class="google-map-container '.$custom_class.'" style="height:' . $map_height . 'px;" ' . $data_attr_line . '>';
 			$html .= '<div id="google-map-' . $random_id . '" class="google-map"></div>';
+			$html .= '<div class="marker-desc">' . $marker_desc . '</div>';
 		$html .= '</div>';
 
 		su_query_asset( 'js', 'googlemapapis' );
@@ -1480,6 +1509,25 @@ class Su_Shortcodes {
 		su_query_asset( 'js', 'cherry-shortcodes' );
 		do_action( 'su/shortcode/google_map', $atts );
 		return $html;
+	}
+
+	public static function get_map_style_json( $map_style ){
+		$theme_path       = get_stylesheet_directory().'/assets/googlemap/';
+		$plugin_path      = SU_PLUGIN_DIR .'/assets/googlemap/';
+
+		$map_style_path = $theme_path . $map_style . '.json';
+		if ( file_exists( $map_style_path ) ) {
+			$style = file_get_contents( $map_style_path );
+			return $style;
+		}
+
+		$map_style_path = $plugin_path . $map_style . '.json';
+		if ( file_exists( $map_style_path ) ) {
+			$style = file_get_contents( $map_style_path );
+			return $style;
+		}
+
+		return '';
 	}
 
 	/**

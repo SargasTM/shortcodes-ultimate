@@ -1140,19 +1140,89 @@ class Su_Data {
 					'example' => 'spoilers',
 					'icon' => 'list'
 				),
+
+				// google_map
 				'google_map' => array(
 					'name'  => __( 'Google map', 'cherry-shortcodes' ),
 					'type'  => 'single',
 					'group' => 'other',
 					'atts'  => array(
-						'id' => array(
-							'default' => '',
-							'name'    => __( 'Post ID\'s', 'cherry-shortcodes' ),
-							'desc'    => __( 'Enter comma separated ID\'s of the posts that you want to show', 'cherry-shortcodes' ),
+						'lat_value' => array(
+							'type'    => 'number',
+							'min'     => -90,
+							'max'     => 90,
+							'step'    => 0.001,
+							'default' => 40.7143528,
+							'name'    => __( 'Latitude  geographical coordinates', 'cherry-shortcodes' ),
+							'desc'    => __( 'Latitude ranges between -90 and 90 degrees, inclusive. Values above or below this range will be clamped to the range [-90, 90]. This means that if the value specified is less than -90, it will be set to -90. And if the value is greater than 90, it will be set to 90.', 'cherry-shortcodes' ),
+						),
+						'lng_value' => array(
+							'type'    => 'number',
+							'min'     => -180,
+							'max'     => 180,
+							'step'    => 0.001,
+							'default' => -74.0059731,
+							'name'    => __( 'Longitude geographical coordinates', 'cherry-shortcodes' ),
+							'desc'    => __( 'Longitude ranges between -180 and 180 degrees, inclusive. Values above or below this range will be wrapped so that they fall within the range. For example, a value of -190 will be converted to 170. A value of 190 will be converted to -170. This reflects the fact that longitudes wrap around the globe.', 'cherry-shortcodes' ),
+						),
+						'zoom_value' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 10,
+							'step'    => 0.1,
+							'default' => 4,
+							'name'    => __( 'Map zoom level', 'cherry-shortcodes' ),
+							'desc'    => __( 'The initial Map zoom level. Required.', 'cherry-shortcodes' ),
+						),
+						'scroll_wheel' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Scroll wheel', 'cherry-shortcodes' ),
+							'desc'    => __( 'If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.', 'cherry-shortcodes' ),
+						),
+						'map_style' => array(
+							'type'     => 'select',
+							'values'   => Su_Tools::get_google_map_styles(),
+							'default'  => '',
+							'name'     => __( 'Map Style', 'cherry-shortcodes' ),
+							'desc'    => __( 'Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain modes, these styles will only apply to labels and geometry.', 'cherry-shortcodes' ),
+						),
+						'map_height' => array(
+							'type'    => 'number',
+							'min'     => 50,
+							'max'     => 1000,
+							'step'    => 10,
+							'default' => 400,
+							'name'    => __( 'Map height', 'cherry-shortcodes' ),
+							'desc'    => __( 'Map height value(px)', 'cherry-shortcodes' ),
+						),
+						'pan_control' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Pan control', 'cherry-shortcodes' ),
+							'desc'    => __( 'The display options for the Pan control.', 'cherry-shortcodes' ),
+						),
+						'zoom_control' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Zoom control', 'cherry-shortcodes' ),
+							'desc'    => __( 'The enabled/disabled state of the Zoom control.', 'cherry-shortcodes' ),
+						),
+						'map_draggable' => array(
+							'type'    => 'bool',
+							'default' => 'yes',
+							'name'    => __( 'Draggable map', 'cherry-shortcodes' ),
+							'desc'    => __( 'If false, prevents the map from being dragged. Dragging is enabled by default.', 'cherry-shortcodes' ),
+						),
+						'map_marker' => array(
+							'type'    => 'upload',
+							'default' => 'upload image',
+							'name'    => __( 'Marker source', 'cherry-shortcodes' ),
+							'desc'    => __( 'Upload marker url source', 'cherry-shortcodes' ),
 						),
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
-					'icon' => 'th-list',
+					'icon' => 'map-marker',
 				)
 			) );
 
