@@ -29,6 +29,7 @@ class Su_Shortcodes {
 		do_shortcode( $content );
 		$return = '';
 		$tabs = $panes = array();
+
 		if ( is_array( self::$tabs ) ) {
 			if ( self::$tab_count < $atts['active'] ) $atts['active'] = self::$tab_count;
 			foreach ( self::$tabs as $tab ) {

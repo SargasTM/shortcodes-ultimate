@@ -75,8 +75,7 @@ class Su_Assets {
 			) );
 		// Ace
 		wp_register_script( 'ace', plugins_url( 'assets/js/ace/ace.js', SU_PLUGIN_FILE ), false, '1.1.3', true );
-		// Swiper
-		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.6.1', true );
+
 		// jPlayer
 		wp_register_script( 'jplayer', plugins_url( 'assets/js/jplayer.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.4.0', true );
 		// Options page
@@ -114,6 +113,16 @@ class Su_Assets {
 		wp_register_script( 'su-players-shortcodes', plugins_url( 'assets/js/players-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery', 'jplayer' ), SU_PLUGIN_VERSION, true );
 		wp_register_script( 'su-other-shortcodes', plugins_url( 'assets/js/other-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
 		wp_localize_script( 'su-other-shortcodes', 'su_other_shortcodes', array( 'no_preview' => __( 'This shortcode doesn\'t work in live preview. Please insert it into editor and preview on the site.', 'su' ) ) );
+
+		// Google map apis
+		wp_register_script( 'googlemapapis', 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true', array(), false, false );
+		// Google map plugin
+		wp_register_script( 'google-map', plugins_url( 'assets/js/cherry-google-map.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.0.0', true );
+		// Swiper
+		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '3.0.0', true );
+		// Cherry Shortcodes
+		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
+
 		// Hook to deregister assets or add custom
 		do_action( 'su/assets/register' );
 	}

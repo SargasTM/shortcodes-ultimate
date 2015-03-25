@@ -42,3 +42,5 @@ require_once 'inc/core/widget.php';
 // require_once 'inc/core/vote.php'; // disable vote
 require_once 'inc/core/counters.php';
 require_once 'inc/core/filters.php';
+//custom
+require_once 'inc/core/aq_resizer.php';
