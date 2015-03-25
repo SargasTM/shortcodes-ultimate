@@ -17,7 +17,7 @@
 .cherry-tabs .cherry-tabs-nav {
   text-align: center;
 }
-.cherry-tabs .cherry-tabs-nav-nav span {
+.cherry-tabs-nav span {
   display: inline-block;
   padding: 15px 0px;
   font-size: 15px;
@@ -31,21 +31,21 @@
   -o-transition: all .2s;
   transition: all .2s;
 }
-.cherry-tabs .cherry-tabs-nav-nav span.cherry-tabs-current {
+.cherry-tabs-nav span.cherry-tabs-current {
   background: #fff;
   cursor: default;
 }
-.cherry-tabs .cherry-tabs-nav-nav span.cherry-tabs-disabled {
+.cherry-tabs-nav span.cherry-tabs-disabled {
   opacity: 0.5;
   filter: alpha(opacity=50);
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  .cherry-tabs .cherry-tabs-nav-nav {
+  .cherry-tabs-nav {
     float: none;
     width: auto;
   }
-  .cherry-tabs .cherry-tabs-nav-nav span {
+  .cherry-tabs-nav span {
     display: block;
   }
 }
