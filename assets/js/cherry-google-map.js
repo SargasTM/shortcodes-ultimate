@@ -17,10 +17,10 @@
 				,	latValue = parseFloat( _this.data('lat-value') )
 				,	lngValue = parseFloat( _this.data('lng-value') )
 				,	zoomValue = parseFloat( _this.data('zoom-value') )
-				,	scrollWheel = parseFloat( _this.data('scroll-wheel') )
-				,	panControl = parseFloat( _this.data('pan-control') )
-				,	zoomControl = parseFloat( _this.data('zoom-control') )
-				,	mapDraggable = parseFloat( _this.data('map-draggable') )
+				,	scrollWheel = ( _this.data('scroll-wheel' ) == 1) ? true : false
+				,	panControl = ( _this.data('pan-control' ) == 1) ? true : false
+				,	zoomControl = ( _this.data('zoom-control' ) == 1) ? true : false
+				,	mapDraggable = ( _this.data('map-draggable' ) == 1) ? true : false
 				,	mapMarkerImage = _this.data('map-marker')
 				,	mapStyle = _this.data('map-style')
 				,	contentString = $('.marker-desc', _this).html()
@@ -29,6 +29,7 @@
 					})
 				,	addEventsFunction = function(){}
 				,	mapInit = function(){
+						console.log(latValue+'  -  '+lngValue);
 						var
 							map
 						,	coordData = new google.maps.LatLng( latValue, lngValue )

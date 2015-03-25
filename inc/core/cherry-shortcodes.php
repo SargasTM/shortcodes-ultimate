@@ -1451,10 +1451,11 @@ class Su_Shortcodes {
 	public static function google_map( $atts = null, $content = null ) {
 		// Parse attributes.
 		$atts = shortcode_atts( array(
+			'geo_address'		=> '',
 			'lat_value'			=> '41.850033',
 			'lng_value'			=> '-87.6500523',
 			'zoom_value'		=> '4',
-			'scroll_wheel'		=> 'yes',
+			'scroll_wheel'		=> 'no',
 			'map_style'			=> 'blue-water',
 			'map_height'		=> '400',
 			'pan_control'		=> 'yes',
@@ -1467,6 +1468,7 @@ class Su_Shortcodes {
 		do_action( 'cherry_shortcode_google_map', $atts );
 
 		$random_id        = rand();
+		$addr             = sanitize_text_field( $atts['geo_address'] );
 		$lat_value        = floatval( $atts['lat_value'] );
 		$lng_value        = floatval( $atts['lng_value'] );
 		$zoom_value       = floatval( $atts['zoom_value'] );
@@ -1476,10 +1478,16 @@ class Su_Shortcodes {
 		$map_height       = intval( $atts['map_height'] );
 		$pan_control      = ( bool ) ( $atts['pan_control'] === 'yes' ) ? true : false;
 		$zoom_control     = ( bool ) ( $atts['zoom_control'] === 'yes' ) ? true : false;
-		$map_draggable     = ( bool ) ( $atts['map_draggable'] === 'yes' ) ? true : false;
+		$map_draggable    = ( bool ) ( $atts['map_draggable'] === 'yes' ) ? true : false;
 		$map_marker       = sanitize_text_field( $atts['map_marker'] );
 		$marker_desc      = do_shortcode( $content );
 		$style            = self::get_map_style_json( $map_style );
+
+		if( '' !== $addr ){
+			$geo_position = self::google_geocoding( $addr );
+			$lat_value    = floatval( $geo_position['lat'] );
+			$lng_value    = floatval( $geo_position['lng'] );
+		}
 
 		$map_marker_attachment_id = self::get_attachment_id_from_src( $map_marker );
 		if( isset($map_marker_attachment_id) ){
@@ -1511,6 +1519,38 @@ class Su_Shortcodes {
 		return $html;
 	}
 
+	public static function paralax_image( $atts = null, $content = null ) {
+		// Parse attributes.
+		$atts = shortcode_atts( array(
+			'bg_image'			=> '',
+			'speed'				=> '1.5',
+			'invert'			=> 'no',
+			'custom_class'		=> '',
+		), $atts, 'paralax_image' );
+
+		do_action( 'cherry_shortcode_paralax', $atts );
+
+		$bg_image			= sanitize_text_field( $atts['bg_image'] );
+		$speed				= floatval( $atts['speed'] );
+		$invert				= ( bool ) ( $atts['invert'] === 'yes' ) ? true : false;
+		$custom_class		= sanitize_text_field( $atts['bg_image'] );
+
+		if ( !$bg_image ) {
+			return;
+		}
+
+		$html = '<section class="parallax-box image-parallax-box ' . esc_attr( $custom_class ) . '" >';
+			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
+			$html .= '<div class="parallax-bg" data-parallax-type="image" data-img-url="'. $bg_image .'" data-speed="' . $speed . '" data-invert="' . $invert . '" ></div>';
+		$html .= '</section>';
+
+		su_query_asset( 'js', 'device' );
+		su_query_asset( 'js', 'cherry-parallax' );
+
+		do_action( 'su/shortcode/paralax_image', $atts );
+		return $html;
+	}
+
 	public static function get_map_style_json( $map_style ){
 		$theme_path       = get_stylesheet_directory().'/assets/googlemap/';
 		$plugin_path      = SU_PLUGIN_DIR .'/assets/googlemap/';
@@ -1528,6 +1568,38 @@ class Su_Shortcodes {
 		}
 
 		return '';
+	}
+
+	public static function google_geocoding( $addr ){
+		$cache_key = md5( $addr );
+
+		$return = get_transient( $cache_key );
+
+		if( $return ){
+			return $return;
+		}
+
+		$url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".urlencode($addr);
+		$response = wp_remote_get($url);
+		if (! $response){
+			return false;
+		}
+
+		$json_arr = json_decode($response['body'], TRUE);
+
+		if ($json_arr["status"] != "OK")
+			return false;
+
+		$result = $json_arr["results"][0];
+		$return = array(
+			"addr" => $addr,
+			"faddr" => $result["formatted_address"],
+			"lat" => $result["geometry"]["location"]["lat"],
+			"lng" => $result["geometry"]["location"]["lng"]
+		);
+
+		set_transient( $cache_key, $return, 10 );
+		return $return;
 	}
 
 	/**

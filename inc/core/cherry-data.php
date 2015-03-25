@@ -29,14 +29,14 @@ class Su_Data {
 	 */
 	public static function borders() {
 		return apply_filters( 'su/data/borders', array(
-				'none'   => __( 'None', 'cherry-shortcodes' ),
-				'solid'  => __( 'Solid', 'cherry-shortcodes' ),
-				'dotted' => __( 'Dotted', 'cherry-shortcodes' ),
-				'dashed' => __( 'Dashed', 'cherry-shortcodes' ),
-				'double' => __( 'Double', 'cherry-shortcodes' ),
-				'groove' => __( 'Groove', 'cherry-shortcodes' ),
-				'ridge'  => __( 'Ridge', 'cherry-shortcodes' )
-			) );
+			'none'   => __( 'None', 'cherry-shortcodes' ),
+			'solid'  => __( 'Solid', 'cherry-shortcodes' ),
+			'dotted' => __( 'Dotted', 'cherry-shortcodes' ),
+			'dashed' => __( 'Dashed', 'cherry-shortcodes' ),
+			'double' => __( 'Double', 'cherry-shortcodes' ),
+			'groove' => __( 'Groove', 'cherry-shortcodes' ),
+			'ridge'  => __( 'Ridge', 'cherry-shortcodes' )
+		) );
 	}
 
 	/**
@@ -1140,13 +1140,18 @@ class Su_Data {
 					'example' => 'spoilers',
 					'icon' => 'list'
 				),
-
 				// google_map
 				'google_map' => array(
 					'name'  => __( 'Google map', 'cherry-shortcodes' ),
 					'type'  => 'single',
 					'group' => 'other',
 					'atts'  => array(
+						'geo_address' => array(
+							'type'    => 'text',
+							'default' => 'London',
+							'name'    => __( 'Address', 'cherry-shortcodes' ),
+							'desc'    => __( 'The display options for the Pan control.', 'cherry-shortcodes' ),
+						),
 						'lat_value' => array(
 							'type'    => 'number',
 							'min'     => -90,
@@ -1223,7 +1228,44 @@ class Su_Data {
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
 					'icon' => 'map-marker',
-				)
+				),
+				// cherry paralax
+				'paralax_image' => array(
+					'name'  => __( 'Paralax image', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'other',
+					'atts'  => array(
+						'bg_image' => array(
+							'type'    => 'upload',
+							'default' => 'upload image',
+							'name'    => __( 'Paralax image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Upload paralax image url source', 'cherry-shortcodes' ),
+						),
+						'speed' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 10,
+							'step'    => 0.1,
+							'default' => 1.5,
+							'name'    => __( 'Paralax speed', 'cherry-shortcodes' ),
+							'desc'    => __( 'Paralax speed value (s)', 'cherry-shortcodes' ),
+						),
+						'invert' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Paralax invert', 'cherry-shortcodes' ),
+							'desc'    => __( 'Paralax invert direction move', 'cherry-shortcodes' ),
+						),
+						'custom_class' => array(
+							'type'    => 'text',
+							'default' => '',
+							'name'    => __( 'Custom class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter custom class', 'cherry-shortcodes' ),
+						),
+					),
+					'desc' => __( 'Paralax block', 'cherry-shortcodes' ),
+					'icon' => 'star-half-o',
+				),
 			) );
 
 		// Return result.

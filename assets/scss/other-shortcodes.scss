@@ -11,7 +11,7 @@
 	margin: 0 0 1.5em 0;
 	padding: 3px;
 	background: #eee;
-		.cherry-tabs-nav{
+		&-nav{
 			span {
 				display: inline-block;
 				margin-right: 3px;
@@ -252,12 +252,11 @@
 				}
 		}
 }
-
+/*---------------------------- Google Map --------------------------------------------------*/
 .google-map-container{
 	width: 100%;
 	height: 400px;
 	min-height: 100px;
-	margin-bottom: 1.5em;
 		.google-map{
 			width: 100%;
 			height: 100%;
@@ -269,4 +268,32 @@
 		.marker-desc{
 			display: none;
 		}
+}
+/*---------------------------- Paralax --------------------------------------------------*/
+body .main-holder {
+	overflow: hidden;
+	position: static;
+}
+.parallax-box {
+	position: relative;
+	overflow: hidden;
+}
+.parallax-content {
+	position: relative;
+	z-index: 2;
+}
+.parallax-bg {
+	position: absolute;
+	overflow:hidden;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+}
+.parallax-bg-inner {
+	position:relative;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	max-width:none;
 }

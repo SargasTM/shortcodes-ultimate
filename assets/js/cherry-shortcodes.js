@@ -69,7 +69,9 @@ jQuery(document).ready(function ($) {
 	})
 
 	// Google map
-	$('.google-map-container').cherryGoogleMap();
+	if( $('.google-map-container').length !== 0 ){
+		$('.google-map-container').cherryGoogleMap();
+	}
 
 	// Spoiler
 	$('body').on('click', '.cherry-spoiler-title', function (e) {
