@@ -912,6 +912,26 @@ class Su_Tools {
 		// Return array with numbers
 		return $numbers;
 	}
+
+
+	public static function get_google_map_styles() {
+		$map_style_array = array();
+		$theme_path = get_stylesheet_directory().'/assets/googlemap/';
+		$plugin_path = SU_PLUGIN_DIR .'/assets/googlemap/';
+
+		$theme_map_styles = scandir( $theme_path );
+		$theme_map_styles = array_diff( $theme_map_styles, array( '.', '..', 'index.php' ) );
+		$plugin_map_styles = scandir( $plugin_path );
+		$plugin_map_styles = array_diff( $plugin_map_styles, array( '.', '..', 'index.php' ) );
+
+		$map_style_array = array_merge( $theme_map_styles, $plugin_map_styles);
+		foreach ( $map_style_array as $key => $value) {
+			$result_array[str_replace('.json', '', $value)] = $value;
+		}
+
+		return $result_array;
+	}
+
 }
 
 new Su_Tools;

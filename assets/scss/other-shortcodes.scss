@@ -10,9 +10,9 @@
 .cherry-tabs {
 	margin: 0 0 1.5em 0;
 	padding: 3px;
-	//background: #eee;
-		.cherry-tabs-nav{
-			text-align: center;
+	.cherry-tabs-nav{
+		text-align: center;
+		&-nav{
 			span {
 				display: inline-block;
 				padding: 15px 0px;
@@ -20,16 +20,12 @@
 				font-weight: bold;
 				min-height: 40px;
 				line-height: 20px;
-				//color: #333;
 				margin: 0 20px;
 				cursor: pointer;
 				-webkit-transition: all .2s;
 				-moz-transition: all .2s;
 				-o-transition: all .2s;
 				transition: all .2s;
-					&:hover{
-						//background: #f5f5f5;
-					}
 					&.cherry-tabs-current {
 						background: #fff;
 						cursor: default;
@@ -48,12 +44,11 @@
 					}
 			}
 		}
+	}
 		.cherry-tabs-panes {
 			.cherry-tabs-pane {
 				padding: 15px;
-				//font-size: 13px;
 				background: #fff;
-				//color: #333;
 			}
 			@media only screen and (max-width: 768px) {
 				float: none;
@@ -254,15 +249,48 @@
 				}
 		}
 }
-
+/*---------------------------- Google Map --------------------------------------------------*/
 .google-map-container{
 	width: 100%;
-	position: relative;
+	height: 400px;
+	min-height: 100px;
 		.google-map{
 			width: 100%;
-			height: 300px;
+			height: 100%;
+			position: relative;
 				img{
 					max-width: none !important;
 				}
 		}
+		.marker-desc{
+			display: none;
+		}
+}
+/*---------------------------- Paralax --------------------------------------------------*/
+body .main-holder {
+	overflow: hidden;
+	position: static;
+}
+.parallax-box {
+	position: relative;
+	overflow: hidden;
+}
+.parallax-content {
+	position: relative;
+	z-index: 2;
+}
+.parallax-bg {
+	position: absolute;
+	overflow:hidden;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+}
+.parallax-bg-inner {
+	position:relative;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	max-width:none;
 }
