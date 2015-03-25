@@ -1551,6 +1551,44 @@ class Su_Shortcodes {
 		return $html;
 	}
 
+	public static function paralax_html_video( $atts = null, $content = null ) {
+		// Parse attributes.
+		$atts = shortcode_atts( array(
+			'poster'			=> '',
+			'mp4'				=> '',
+			'webm'				=> '',
+			'ogv'				=> '',
+			'speed'				=> '1.5',
+			'invert'			=> 'no',
+			'custom_class'		=> '',
+		), $atts, 'paralax_html_video' );
+
+		do_action( 'cherry_shortcode_paralax', $atts );
+
+		$poster			= sanitize_text_field( $atts['poster'] );
+		$mp4			= sanitize_text_field( $atts['mp4'] );
+		$webm			= sanitize_text_field( $atts['webm'] );
+		$ogv			= sanitize_text_field( $atts['ogv'] );
+		$speed			= floatval( $atts['speed'] );
+		$invert			= ( bool ) ( $atts['invert'] === 'yes' ) ? true : false;
+		$custom_class	= sanitize_text_field( $atts['bg_image'] );
+
+		if ( !$bg_image ) {
+			return;
+		}
+
+		$html = '<section class="parallax-box image-parallax-box ' . esc_attr( $custom_class ) . '" >';
+			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
+			$html .= '<div class="parallax-bg" data-parallax-type="image" data-img-url="'. $bg_image .'" data-speed="' . $speed . '" data-invert="' . $invert . '" ></div>';
+		$html .= '</section>';
+
+		su_query_asset( 'js', 'device' );
+		su_query_asset( 'js', 'cherry-parallax' );
+
+		do_action( 'su/shortcode/paralax_html_video', $atts );
+		return $html;
+	}
+
 	public static function get_map_style_json( $map_style ){
 		$theme_path       = get_stylesheet_directory().'/assets/googlemap/';
 		$plugin_path      = SU_PLUGIN_DIR .'/assets/googlemap/';
