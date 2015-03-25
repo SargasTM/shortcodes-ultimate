@@ -1229,7 +1229,7 @@ class Su_Data {
 					'desc' => __( 'Custom posts query with customizable template', 'cherry-shortcodes' ),
 					'icon' => 'map-marker',
 				),
-				// cherry paralax
+				// cherry paralax image
 				'paralax_image' => array(
 					'name'  => __( 'Paralax image', 'cherry-shortcodes' ),
 					'type'  => 'single',
@@ -1237,9 +1237,64 @@ class Su_Data {
 					'atts'  => array(
 						'bg_image' => array(
 							'type'    => 'upload',
-							'default' => 'upload image',
+							'default' => '',
 							'name'    => __( 'Paralax image', 'cherry-shortcodes' ),
 							'desc'    => __( 'Upload paralax image url source', 'cherry-shortcodes' ),
+						),
+						'speed' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 10,
+							'step'    => 0.1,
+							'default' => 1.5,
+							'name'    => __( 'Paralax speed', 'cherry-shortcodes' ),
+							'desc'    => __( 'Paralax speed value (s)', 'cherry-shortcodes' ),
+						),
+						'invert' => array(
+							'type'    => 'bool',
+							'default' => 'no',
+							'name'    => __( 'Paralax invert', 'cherry-shortcodes' ),
+							'desc'    => __( 'Paralax invert direction move', 'cherry-shortcodes' ),
+						),
+						'custom_class' => array(
+							'type'    => 'text',
+							'default' => '',
+							'name'    => __( 'Custom class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter custom class', 'cherry-shortcodes' ),
+						),
+					),
+					'desc' => __( 'Paralax block', 'cherry-shortcodes' ),
+					'icon' => 'star-half-o',
+				),
+				// cherry paralax image
+				'paralax_html_video' => array(
+					'name'  => __( 'Paralax html video', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'other',
+					'atts'  => array(
+						'poster' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'Poster', 'cherry-shortcodes' ),
+							'desc'    => __( 'Poster image url', 'cherry-shortcodes' ),
+						),
+						'mp4' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'mp4 file', 'cherry-shortcodes' ),
+							'desc'    => __( 'Poster image url', 'cherry-shortcodes' ),
+						),
+						'webm' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'webm file', 'cherry-shortcodes' ),
+							'desc'    => __( 'Poster image url', 'cherry-shortcodes' ),
+						),
+						'ogv' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'Poster', 'cherry-shortcodes' ),
+							'desc'    => __( 'Poster image url', 'cherry-shortcodes' ),
 						),
 						'speed' => array(
 							'type'    => 'number',
