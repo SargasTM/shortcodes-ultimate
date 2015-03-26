@@ -1573,13 +1573,24 @@ class Su_Shortcodes {
 		$invert			= ( bool ) ( $atts['invert'] === 'yes' ) ? true : false;
 		$custom_class	= sanitize_text_field( $atts['bg_image'] );
 
-		if ( !$bg_image ) {
+		if ( $mp4 == '' || $webm == '' || $ogv == '' ) {
 			return;
 		}
 
 		$html = '<section class="parallax-box image-parallax-box ' . esc_attr( $custom_class ) . '" >';
 			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
 			$html .= '<div class="parallax-bg" data-parallax-type="image" data-img-url="'. $bg_image .'" data-speed="' . $speed . '" data-invert="' . $invert . '" ></div>';
+		$html .= '</section>';
+
+		$html = '<section class="parallax-box video-parallax-box ' . esc_attr( $custom_class ) . '" >';
+			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
+			$html .= '<div class="parallax-bg" data-parallax-type="video" data-img-url="' . $poster . '" data-speed="' . $speed . '" data-invert="' . $invert . '" >';
+				$html .= '<video class="parallax_media parallax-bg-inner" poster="' . $poster . '" loop>';
+					$html .= '<source src="' . $mp4 . '" type="video/mp4">';
+					$html .= '<source src="' . $webm . '" type="video/webm">';
+					$html .= '<source src="' . $ogv . '" type="video/ogg">';
+				$html .= '</video>';
+			$html .= '</div>';
 		$html .= '</section>';
 
 		su_query_asset( 'js', 'device' );

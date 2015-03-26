@@ -976,7 +976,8 @@ class Su_Data {
 						'style' => array(
 							'type' => 'select',
 							'values' => array(
-								'default' => __( 'Default', 'cherry-shortcodes' )
+								'default' => __( 'Default', 'cherry-shortcodes' ),
+								'simple' => __( 'Simple', 'cherry-shortcodes' )
 							),
 							'default' => 'default',
 							'name' => __( 'Style', 'cherry-shortcodes' ),

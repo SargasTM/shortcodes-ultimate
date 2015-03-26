@@ -15,13 +15,6 @@ jQuery(document).ready(function ($) {
 	});
 	$('.su-spoiler-content').removeAttr('style');
 
-	if( isOpen == true ){
-		isOpen = false;
-		$(this).addClass('active').parent().find('ul.menu-content').stop().slideDown(500);
-	}else{
-		isOpen = true;
-		$(this).addClass('active').parent().find('ul.menu-content').stop().slideUp(500);
-	}
 	// Tabs
 	$('body:not(.su-other-shortcodes-loaded)').on('click', '.su-tabs-nav span', function (e) {
 		var $tab = $(this),
