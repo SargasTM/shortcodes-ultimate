@@ -1571,16 +1571,11 @@ class Su_Shortcodes {
 		$ogv			= sanitize_text_field( $atts['ogv'] );
 		$speed			= floatval( $atts['speed'] );
 		$invert			= ( bool ) ( $atts['invert'] === 'yes' ) ? true : false;
-		$custom_class	= sanitize_text_field( $atts['bg_image'] );
+		$custom_class	= sanitize_text_field( $atts['custom_class'] );
 
 		if ( $mp4 == '' || $webm == '' || $ogv == '' ) {
 			return;
 		}
-
-		$html = '<section class="parallax-box image-parallax-box ' . esc_attr( $custom_class ) . '" >';
-			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
-			$html .= '<div class="parallax-bg" data-parallax-type="image" data-img-url="'. $bg_image .'" data-speed="' . $speed . '" data-invert="' . $invert . '" ></div>';
-		$html .= '</section>';
 
 		$html = '<section class="parallax-box video-parallax-box ' . esc_attr( $custom_class ) . '" >';
 			$html .= '<div class="parallax-content">' . do_shortcode( $content ) . '<div class="clear"></div></div>';
@@ -1597,6 +1592,44 @@ class Su_Shortcodes {
 		su_query_asset( 'js', 'cherry-parallax' );
 
 		do_action( 'su/shortcode/paralax_html_video', $atts );
+		return $html;
+	}
+
+	public static function counter( $atts = null, $content = null ) {
+		// Parse attributes.
+		$atts = shortcode_atts( array(
+			'counter_value'		=> '100.00',
+			'delay'				=> '10',
+			'time'				=> '1000',
+			'before_content'	=> '',
+			'after_content'		=> '',
+			'custom_class'		=> '',
+		), $atts, 'counter' );
+
+		$counter_value	= (string)$atts['counter_value'];
+		$delay			= intval( $atts['delay'] );
+		$time			= intval( $atts['time'] );
+		$before_content	= sanitize_text_field( $atts['before_content'] );
+		$after_content	= sanitize_text_field( $atts['after_content'] );
+		$custom_class	= sanitize_text_field( $atts['custom_class'] );
+
+		$data_attr_line = '';
+			$data_attr_line .= 'data-delay="' . $delay . '"';
+			$data_attr_line .= 'data-time="' . $time . '"';
+
+		$html = '<div class="cherry-counter ' . esc_attr( $custom_class ) . '" ' . $data_attr_line . '>';
+			if('' !==  $before_content ){
+				$html .= '<span class="before">' . $before_content . '</span>';
+			}
+			$html .= '<span class="count">' . $counter_value . '</span>';
+			if('' !==  $after_content ){
+				$html .= '<span class="after">' . $after_content . '</span>';
+			}
+		$html .= '</div>';
+
+		su_query_asset( 'js', 'jquery-counterup' );
+
+		do_action( 'su/shortcode/counter', $atts );
 		return $html;
 	}
 

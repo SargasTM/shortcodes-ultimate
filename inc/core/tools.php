@@ -916,15 +916,23 @@ class Su_Tools {
 
 	public static function get_google_map_styles() {
 		$map_style_array = array();
-		$theme_path = get_stylesheet_directory().'/assets/googlemap/';
+
 		$plugin_path = SU_PLUGIN_DIR .'/assets/googlemap/';
+		$theme_path = get_stylesheet_directory().'/assets/googlemap/';
 
-		$theme_map_styles = scandir( $theme_path );
-		$theme_map_styles = array_diff( $theme_map_styles, array( '.', '..', 'index.php' ) );
-		$plugin_map_styles = scandir( $plugin_path );
-		$plugin_map_styles = array_diff( $plugin_map_styles, array( '.', '..', 'index.php' ) );
+		if( file_exists( $plugin_path ) && is_dir( $plugin_path ) ){
+			$plugin_map_styles = scandir( $plugin_path );
+			$plugin_map_styles = array_diff( $plugin_map_styles, array( '.', '..', 'index.php' ) );
+		}
 
-		$map_style_array = array_merge( $theme_map_styles, $plugin_map_styles);
+		if( file_exists( $theme_path ) && is_dir( $theme_path ) ){
+			$theme_map_styles = scandir( $theme_path );
+			$theme_map_styles = array_diff( $theme_map_styles, array( '.', '..', 'index.php' ) );
+			$map_style_array = array_merge( $theme_map_styles, $plugin_map_styles);
+		}else{
+			$map_style_array = $plugin_map_styles;
+		}
+
 		foreach ( $map_style_array as $key => $value) {
 			$result_array[str_replace('.json', '', $value)] = $value;
 		}

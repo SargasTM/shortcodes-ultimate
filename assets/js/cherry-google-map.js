@@ -29,7 +29,6 @@
 					})
 				,	addEventsFunction = function(){}
 				,	mapInit = function(){
-						console.log(latValue+'  -  '+lngValue);
 						var
 							map
 						,	coordData = new google.maps.LatLng( latValue, lngValue )

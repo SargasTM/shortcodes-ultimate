@@ -124,6 +124,10 @@ class Su_Assets {
 		wp_register_script( 'device', plugins_url( 'assets/js/device.min.js', SU_PLUGIN_FILE ), array( 'jquery' ), '0.1.58', true );
 		// cherry-parallax js
 		wp_register_script( 'cherry-parallax', plugins_url( 'assets/js/cherry.parallax.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.0.0', true );
+		// waypoints js
+		wp_register_script( 'waypoints', plugins_url( 'assets/js/waypoints.min.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.6.2', true );
+		// counterup js
+		wp_register_script( 'jquery-counterup', plugins_url( 'assets/js/jquery.counterup.js', SU_PLUGIN_FILE ), array( 'jquery', 'waypoints' ), '1.0.0', true );
 		// Cherry Shortcodes
 		wp_register_script( 'cherry-shortcodes', plugins_url( 'assets/js/cherry-shortcodes.js', SU_PLUGIN_FILE ), array( 'jquery' ), SU_PLUGIN_VERSION, true );
 

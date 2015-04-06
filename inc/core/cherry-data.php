@@ -1322,6 +1322,58 @@ class Su_Data {
 					'desc' => __( 'Paralax block', 'cherry-shortcodes' ),
 					'icon' => 'star-half-o',
 				),
+				// cherry paralax image
+				'counter' => array(
+					'name'  => __( 'Counter', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'other',
+					'atts'  => array(
+						'counter_value' => array(
+							'type'    => 'text',
+							'default' => '100.00',
+							'name'    => __( 'Value', 'cherry-shortcodes' ),
+							'desc'    => __( 'Value for counter', 'cherry-shortcodes' ),
+						),
+						'delay' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 100,
+							'step'    => 1,
+							'default' => 10,
+							'name'    => __( 'Counter delay', 'cherry-shortcodes' ),
+							'desc'    => __( 'Counter delay (ms)', 'cherry-shortcodes' ),
+						),
+						'time' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 10000,
+							'step'    => 100,
+							'default' => 1000,
+							'name'    => __( 'Speed time', 'cherry-shortcodes' ),
+							'desc'    => __( 'Speed time (ms)', 'cherry-shortcodes' ),
+						),
+						'before_content' => array(
+							'type'    => 'text',
+							'default' => '',
+							'name'    => __( 'Before content', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter before custom content', 'cherry-shortcodes' ),
+						),
+						'after_content' => array(
+							'type'    => 'text',
+							'default' => '',
+							'name'    => __( 'After content', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter after custom content', 'cherry-shortcodes' ),
+						),
+						'custom_class' => array(
+							'type'    => 'text',
+							'default' => '',
+							'name'    => __( 'Custom class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Enter custom class', 'cherry-shortcodes' ),
+						),
+					),
+					'desc' => __( 'Counter', 'cherry-shortcodes' ),
+					'icon' => 'dot-circle-o',
+				),
 			) );
 
 		// Return result.

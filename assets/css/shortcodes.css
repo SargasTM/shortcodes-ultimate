@@ -914,3 +914,12 @@ body .main-holder {
   background-position: center;
   max-width: none;
 }
+
+.cherry-counter {
+  text-align: center;
+}
+.cherry-counter span {
+  font-size: 20px;
+  line-height: 20px;
+  color: #f62e46;
+}

@@ -73,6 +73,20 @@ jQuery(document).ready(function ($) {
 		$('.google-map-container').cherryGoogleMap();
 	}
 
+	// Counter Up init
+	jQuery('.cherry-counter').each(function(){
+		var
+			counterItem = jQuery(this)
+		,	delay = parseFloat( counterItem.data('delay') )
+		,	time = parseFloat( counterItem.data('time') )
+		;
+
+		jQuery('.count', counterItem).counterUp({
+			delay: delay,
+			time: time
+		});
+	})
+
 	// Spoiler
 	$('body').on('click', '.cherry-spoiler-title', function (e) {
 		var $title = $(this),
