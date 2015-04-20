@@ -173,6 +173,41 @@ class Su_Shortcodes {
 		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'button' );
 	}
 
+	public static function title_box( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'title'      => '',
+			'subtitle'   => '',
+			'icon'       => '',
+			'icon_size'  => 20,
+			'icon_color' => '',
+			'class'      => ''
+		), $atts, 'title_box' );
+
+		if ( ! $atts['title'] || ! $atts['subtitle'] ) {
+			return;
+		}
+
+		$format = apply_filters(
+			'cherry_shortcodes_title_box_format',
+			'<div class="title-box %4$s">%3$s<div class="title-box_content"><h2 class="title-box_title">%1$s</h2><h4 class="title-box_subtitle">%2$s</h4></div></div>',
+			$atts
+		);
+
+		$style = array();
+
+		$style['font-size'] = ( 0 != absint( $atts['icon_size'] ) ) ? absint( $atts['icon_size'] ) . 'px' : false;
+		$style['color']     = ( !empty( $atts['icon_color'] ) ) ? esc_attr( $atts['icon_color'] ) : false;
+
+		$icon = Su_Tools::get_icon_html( $atts['icon'], 'title-box_icon', $atts['title'], $style );
+
+		$title    = wp_kses( $atts['title'], 'default' );
+		$subtitle = wp_kses( $atts['subtitle'], 'default' );
+		$class    = esc_attr( $atts['class'] );
+
+		return sprintf( $format, $title, $subtitle, $icon, $class );
+
+	}
+
 	public static function spacer( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'size'  => '20',

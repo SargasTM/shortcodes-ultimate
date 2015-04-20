@@ -840,10 +840,71 @@ class Su_Tools {
 		return false;
 	}
 
+	/**
+	 * Get icon HTML markup from icon attr value in shortcode
+	 * Get icon HTML for Cherry shortcodes
+	 *
+	 * @param  string $icon  passed icon
+	 * @param  string $class custom class  for icon
+	 * @param  string $alt   alt aatribute value if icon is iamge
+	 * @return string        icon HTML markup
+	 */
+	public static function get_icon_html( $icon, $class = 'cherry-icon', $alt = null, $style = array() ) {
+
+		if ( ! $icon ) {
+			return false;
+		}
+
+		if ( false !== strpos( $icon, 'icon:' ) ) {
+
+			$icon = trim( str_replace( 'icon:', '', $icon ) );
+
+			if ( ! empty( $style ) ) {
+				$style = sprintf( ' style="%s"', Su_Tools::prepare_styles( $style ) );
+			}
+
+			return sprintf(
+				'<span class="%1$s %2$s"%3$s></span>',
+				esc_attr( $icon ), esc_attr( $class ), $style
+			);
+		} else {
+			return sprintf(
+				'<span class="%2$s"><img src="%1$s" alt="%3$s"></span>',
+				esc_url( $icon ), esc_attr( $class ), esc_attr( $alt )
+			);
+		}
+
+	}
+
+	/**
+	 * Grab CSS styles from styles array into CSS string
+	 *
+	 * @param  array  $style  defined styles array
+	 */
+	public static function prepare_styles( $style = array() ) {
+
+		if ( empty( $style ) ) {
+			return;
+		}
+
+		$result = '';
+		foreach ( $style as $property => $value ) {
+
+			if ( empty( $value ) ) {
+				continue;
+			}
+
+			$result .= $property . ':' . $value . ';';
+		}
+
+		return $result;
+
+	}
+
 	public static function icons() {
 		$icons = array();
 		if ( is_callable( array( 'Su_Data', 'icons' ) ) ) foreach ( (array) Su_Data::icons() as $icon ) {
-				$icons[] = '<i class="fa fa-' . $icon . '" title="' . $icon . '"></i>';
+				$icons[] = '<i class="' . $icon . '" title="' . $icon . '"></i>';
 			}
 		return implode( '', $icons );
 	}

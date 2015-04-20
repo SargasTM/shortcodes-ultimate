@@ -55,7 +55,13 @@ class Su_Generator {
 		add_action( 'admin_footer', array( __CLASS__, 'popup' ) );
 		// Request assets
 		wp_enqueue_media();
-		su_query_asset( 'css', array( 'simpleslider', 'farbtastic', 'magnific-popup', 'font-awesome', 'su-generator' ) );
+
+		$admin_styles = apply_filters(
+			'cherry_shortcodes_admin_styles',
+			array( 'simpleslider', 'farbtastic', 'magnific-popup', 'font-awesome', 'su-generator' )
+		);
+
+		su_query_asset( 'css', $admin_styles );
 		su_query_asset( 'js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse', 'simpleslider', 'farbtastic', 'magnific-popup', 'su-generator' ) );
 		// Print/return result
 		if ( $args['echo'] ) echo $button;
