@@ -120,7 +120,8 @@
   float: left;
   margin: 0 20px 0 0;
   line-height: 1.2em;
-  cursor: default; }
+  cursor: default;
+  display: block; }
 .title-box_content {
   overflow: hidden; }
 
@@ -144,6 +145,16 @@
   .cherry-dropcap .cherry-icon,
   .cherry-dropcap img {
     max-width: 100%; }
+
+.cherry-banner_wrap {
+  background-size: cover;
+  background-position: 50% 50%; }
+.cherry-banner_content {
+  padding: 20px; }
+.cherry-banner_link {
+  text-decoration: none; }
+  .cherry-banner_link:hover, .cherry-banner_link:active, .cherry-banner_link:focus {
+    text-decoration: none; }
 
 /*      Clear
 ---------------------------------------------------------------*/

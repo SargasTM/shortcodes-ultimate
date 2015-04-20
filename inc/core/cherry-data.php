@@ -333,6 +333,47 @@ class Su_Data {
 					'desc'    => __( 'Insert custom icon', 'cherry-shortcodes' ),
 					'icon'    => 'info-circle'
 				),
+				'banner' => array(
+					'name'  => __( 'Banner', 'cherry-shortcodes' ),
+					'type'  => 'wrap',
+					'group' => 'content',
+					'atts'  => array(
+						'image' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'Banner Image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Upload banner image', 'cherry-shortcodes' ),
+						),
+						'url' => array(
+							'default' => '/',
+							'name'    => __( 'Banner URL', 'cherry-shortcodes' ),
+							'desc'    => __( 'Banner link URL', 'cherry-shortcodes' )
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#444444',
+							'name'    => __( 'Text color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Banner text color', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						),
+						'template' => array(
+							'type'   => 'select',
+							'values' => array(
+								'default.tmpl' => 'default.tmpl',
+							),
+							'default' => 'default.tmpl',
+							'name'    => __( 'Template', 'cherry-shortcodes' ),
+							'desc'    => __( 'Shortcode template', 'cherry-shortcodes' ),
+						),
+					),
+					'desc'    => __( 'Banner', 'cherry-shortcodes' ),
+					'icon'    => 'picture-o'
+				),
 				'title_box' => array(
 					'name'  => __( 'Title Box', 'cherry-shortcodes' ),
 					'type'  => 'single',
@@ -363,6 +404,20 @@ class Su_Data {
 							'name'    => __( 'Icon size', 'cherry-shortcodes' ),
 							'desc'    => __( 'Font size in px (only for font icons)', 'cherry-shortcodes' ),
 						),
+						'title_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#444444',
+							'name'    => __( 'Title Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Title text color', 'cherry-shortcodes' ),
+						),
+						'subtitle_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#444444',
+							'name'    => __( 'Subtitle Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Subtitle text color', 'cherry-shortcodes' ),
+						),
 						'icon_color' => array(
 							'type'    => 'color',
 							'values'  => array(),
@@ -376,6 +431,7 @@ class Su_Data {
 							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
 						)
 					),
+					'content' => __( 'Banner content goes here', 'cherry-shortcodes' ),
 					'desc'    => __( 'Title box', 'cherry-shortcodes' ),
 					'icon'    => 'header'
 				),

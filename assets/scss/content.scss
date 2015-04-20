@@ -172,6 +172,7 @@
 		margin: 0 20px 0 0;
 		line-height: 1.2em;
 		cursor: default;
+		display: block;
 	}
 	&_content {
 		overflow: hidden;
@@ -204,5 +205,24 @@
 	.cherry-icon,
 	img {
 		max-width: 100%;
+	}
+}
+
+// Banner
+.cherry-banner {
+	&_wrap {
+		background-size: cover;
+		background-position: 50% 50%;
+	}
+	&_content {
+		padding: 20px;
+	}
+	&_link {
+		text-decoration: none;
+		&:hover,
+		&:active,
+		&:focus {
+			text-decoration: none;
+		}
 	}
 }

@@ -187,6 +187,11 @@ class Su_Assets {
 			plugins_url( 'assets/css/shortcodes.css', SU_PLUGIN_FILE ), array(), SU_PLUGIN_VERSION, 'all'
 		);
 
+		wp_enqueue_style(
+			'font-awesome',
+			'//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', false, '4.3.0', 'all'
+		);
+
 		// Prepare unique theme prefix.
 		if ( function_exists( 'cherry_get_prefix' ) ) {
 			$theme_prefix = cherry_get_prefix();

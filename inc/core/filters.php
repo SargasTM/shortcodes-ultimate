@@ -31,6 +31,7 @@ function cherry_shortcodes_unset_taxonomy( $taxes ) {
 function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 
 	if ( 'posts' == $shortcode ) {
+
 		$macros_buttons['date'] = array(
 			'id'    => 'cherry_date',
 			'value' => 'Date',
@@ -66,6 +67,40 @@ function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 			'close' => '',
 			'title' => __( 'Helper information for `Excerpt` macros', 'cherry-shortcodes-templater' ),
 		);
+
+	} elseif ( 'banner' == $shortcode ) {
+
+		$macros_buttons = array();
+
+		$macros_buttons['image'] = array(
+			'id'    => 'cherry_image',
+			'value' => 'Image URL',
+			'open'  => '%%IMAGE%%',
+			'close' => '',
+			'title' => __( 'Banner image URL', 'cherry-shortcodes-templater' ),
+		);
+		$macros_buttons['url'] = array(
+			'id'    => 'cherry_url',
+			'value' => 'Banner URL',
+			'open'  => '%%URL%%',
+			'close' => '',
+			'title' => __( 'Banner link URL', 'cherry-shortcodes-templater' ),
+		);
+		$macros_buttons['content'] = array(
+			'id'    => 'cherry_content',
+			'value' => 'Banner text content',
+			'open'  => '%%CONTENT%%',
+			'close' => '',
+			'title' => __( 'Banner content', 'cherry-shortcodes-templater' ),
+		);
+		$macros_buttons['class'] = array(
+			'id'    => 'cherry_class',
+			'value' => 'Custom CSS class',
+			'open'  => '%%CLASS"%%',
+			'close' => '',
+			'title' => __( 'Custom CSS class', 'cherry-shortcodes-templater' ),
+		);
+
 	}
 
 	return $macros_buttons;

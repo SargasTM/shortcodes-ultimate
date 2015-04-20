@@ -198,6 +198,53 @@ class Su_Shortcodes {
 
 	}
 
+	public static function banner( $atts = null, $content = null ) {
+
+		$atts = shortcode_atts( array(
+			'image'    => '',
+			'url'      => '',
+			'color'    => '',
+			'class'    => '',
+			'template' => 'default.tmpl',
+		), $atts, 'banner' );
+
+		$image         = esc_url( $atts['image'] );
+		$url           = esc_url( str_replace( '%home_url%', home_url(), $atts['url'] ) );
+		$class         = esc_attr( $atts['class'] );
+		$color         = esc_attr( $atts['color'] );
+		$template_name = sanitize_file_name( $atts['template'] );
+
+		// Item template's file.
+		$template_file = self::get_template_path( $template_name, 'banner' );
+
+		if ( false == $template_file ) {
+			return '<h4>' . __( 'Template file (*.tmpl) not found', 'tm' ) . '</h4>';
+		}
+
+		ob_start();
+		require( $template_file );
+		$template = ob_get_contents();
+		ob_end_clean();
+
+		// Reset the `postdata`.
+		self::$postdata = array();
+
+		self::$postdata = array(
+			'image'   => $image,
+			'url'     => $url,
+			'class'   => $class,
+			'color'   => $color,
+			'content' => '<div class="cherry-banner_content">' . do_shortcode( $content ) . '</div>'
+		);
+
+		$result = preg_replace_callback( "/%%.+?%%/", array( 'Su_Shortcodes', 'replace_callback' ), $template );
+
+		$result = '<div class="cherry-banner ' . $class . '">' . $result . '</div>';
+
+		return $result;
+
+	}
+
 	public static function dropcap( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'size'       => 20,
@@ -252,12 +299,14 @@ class Su_Shortcodes {
 
 	public static function title_box( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
-			'title'      => '',
-			'subtitle'   => '',
-			'icon'       => '',
-			'icon_size'  => 20,
-			'icon_color' => '',
-			'class'      => ''
+			'title'          => '',
+			'subtitle'       => '',
+			'icon'           => '',
+			'icon_size'      => 20,
+			'icon_color'     => '',
+			'title_color'    => '',
+			'subtitle_color' => '',
+			'class'          => ''
 		), $atts, 'title_box' );
 
 		if ( ! $atts['title'] || ! $atts['subtitle'] ) {
@@ -266,7 +315,7 @@ class Su_Shortcodes {
 
 		$format = apply_filters(
 			'cherry_shortcodes_title_box_format',
-			'<div class="title-box %4$s">%3$s<div class="title-box_content"><h2 class="title-box_title">%1$s</h2><h4 class="title-box_subtitle">%2$s</h4></div></div>',
+			'<div class="title-box %4$s">%3$s<div class="title-box_content"><h2 class="title-box_title">%1$s</h2><h4 class="title-box_subtitle">%2$s</h4></div>%5$s</div>',
 			$atts
 		);
 
@@ -277,11 +326,25 @@ class Su_Shortcodes {
 
 		$icon = Su_Tools::get_icon_html( $atts['icon'], 'title-box_icon', $atts['title'], $style );
 
+		$uniq_class = 'title-box_' . rand(1000,9999);
+
+		$title_color    = esc_attr( $atts['title_color'] );
+		$subtitle_color = esc_attr( $atts['subtitle_color'] );
+
+		$title_style  = '<style>';
+		if ( $title_color ) {
+			$title_style .= '.' . $uniq_class . ' .title-box_title { color: ' . $title_color . '; }';
+		}
+		if ( $subtitle_color ) {
+			$title_style .= '.' . $uniq_class . ' .title-box_subtitle { color: ' . $subtitle_color . '; }';
+		}
+		$title_style .= '</style>';
+
 		$title    = wp_kses( $atts['title'], 'default' );
 		$subtitle = wp_kses( $atts['subtitle'], 'default' );
-		$class    = esc_attr( $atts['class'] );
+		$class    = esc_attr( $atts['class'] . ' ' . $uniq_class );
 
-		return sprintf( $format, $title, $subtitle, $icon, $class );
+		return sprintf( $format, $title, $subtitle, $icon, $class, $title_style );
 
 	}
 
