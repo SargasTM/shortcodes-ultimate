@@ -153,6 +153,7 @@
 	text-align: center;
 }
 
+// title_box shortcode
 .title-box {
 	&:after {
 		clear: both;
@@ -175,4 +176,11 @@
 	&_content {
 		overflow: hidden;
 	}
+}
+
+// icon shortcode
+.cherry-icon {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 1.2em;
 }

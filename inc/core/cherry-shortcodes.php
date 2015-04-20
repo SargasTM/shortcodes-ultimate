@@ -173,6 +173,31 @@ class Su_Shortcodes {
 		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'button' );
 	}
 
+	public static function icon( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'icon'  => '',
+			'size'  => 20,
+			'color' => '',
+			'class' => ''
+		), $atts, 'icon' );
+
+		if ( ! $atts['icon'] ) {
+			return;
+		}
+
+		$style = array();
+
+		$style['font-size'] = ( 0 != absint( $atts['size'] ) ) ? absint( $atts['size'] ) . 'px' : false;
+		$style['color']     = ( !empty( $atts['color'] ) ) ? esc_attr( $atts['color'] ) : false;
+
+		$class = esc_attr( $atts['class'] );
+
+		$icon = Su_Tools::get_icon_html( $atts['icon'], 'cherry-icon ' . $class, null, $style );
+
+		return $icon;
+
+	}
+
 	public static function title_box( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'title'      => '',

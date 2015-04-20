@@ -297,6 +297,42 @@ class Su_Data {
 					'desc'    => __( 'Clearing block', 'cherry-shortcodes' ),
 					'icon'    => 'eraser',
 				),
+				'icon' => array(
+					'name'  => __( 'Icon', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'content',
+					'atts'  => array(
+						'icon' => array(
+							'type' => 'icon',
+							'default' => '',
+							'name' => __( 'Icon', 'cherry-shortcodes' ),
+							'desc' => __( 'You can upload custom icon for this button or pick a built-in icon', 'cherry-shortcodes' )
+						),
+						'size' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 150,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Icon size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Font size in px (only for font icons)', 'cherry-shortcodes' ),
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#333333',
+							'name'    => __( 'Icon Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Fon icon color', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'desc'    => __( 'Insert custom icon', 'cherry-shortcodes' ),
+					'icon'    => 'info-circle'
+				),
 				'title_box' => array(
 					'name'  => __( 'Title Box', 'cherry-shortcodes' ),
 					'type'  => 'single',

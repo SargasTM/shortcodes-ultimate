@@ -124,6 +124,11 @@
 .title-box_content {
   overflow: hidden; }
 
+.cherry-icon {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.2em; }
+
 /*      Clear
 ---------------------------------------------------------------*/
 .cherry-clear {
