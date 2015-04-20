@@ -86,6 +86,20 @@ function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 			'close' => '',
 			'title' => __( 'Banner link URL', 'cherry-shortcodes-templater' ),
 		);
+		$macros_buttons['color'] = array(
+			'id'    => 'cherry_color',
+			'value' => 'Text color',
+			'open'  => '%%COLOR%%',
+			'close' => '',
+			'title' => __( 'Banner default text color', 'cherry-shortcodes-templater' ),
+		);
+		$macros_buttons['bg_color'] = array(
+			'id'    => 'cherry_bg_color',
+			'value' => 'Background color',
+			'open'  => '%%BGCOLOR%%',
+			'close' => '',
+			'title' => __( 'Banner background color', 'cherry-shortcodes-templater' ),
+		);
 		$macros_buttons['content'] = array(
 			'id'    => 'cherry_content',
 			'value' => 'Banner text content',

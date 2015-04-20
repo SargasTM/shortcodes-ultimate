@@ -204,6 +204,7 @@ class Su_Shortcodes {
 			'image'    => '',
 			'url'      => '',
 			'color'    => '',
+			'bg_color' => '',
 			'class'    => '',
 			'template' => 'default.tmpl',
 		), $atts, 'banner' );
@@ -212,6 +213,7 @@ class Su_Shortcodes {
 		$url           = esc_url( str_replace( '%home_url%', home_url(), $atts['url'] ) );
 		$class         = esc_attr( $atts['class'] );
 		$color         = esc_attr( $atts['color'] );
+		$bgcolor       = esc_attr( $atts['bg_color'] );
 		$template_name = sanitize_file_name( $atts['template'] );
 
 		// Item template's file.
@@ -234,6 +236,7 @@ class Su_Shortcodes {
 			'url'     => $url,
 			'class'   => $class,
 			'color'   => $color,
+			'bgcolor' => $bgcolor,
 			'content' => '<div class="cherry-banner_content">' . do_shortcode( $content ) . '</div>'
 		);
 

@@ -356,6 +356,13 @@ class Su_Data {
 							'name'    => __( 'Text color', 'cherry-shortcodes' ),
 							'desc'    => __( 'Banner text color', 'cherry-shortcodes' ),
 						),
+						'bg_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#DDDDDD',
+							'name'    => __( 'Background color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Banner background color', 'cherry-shortcodes' ),
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),

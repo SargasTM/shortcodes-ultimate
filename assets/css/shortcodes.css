@@ -146,15 +146,19 @@
   .cherry-dropcap img {
     max-width: 100%; }
 
-.cherry-banner_wrap {
-  background-size: cover;
-  background-position: 50% 50%; }
-.cherry-banner_content {
-  padding: 20px; }
-.cherry-banner_link {
-  text-decoration: none; }
-  .cherry-banner_link:hover, .cherry-banner_link:active, .cherry-banner_link:focus {
+.cherry-banner {
+  margin: 0 0 20px 0; }
+  .cherry-banner_wrap {
+    background-size: cover;
+    background-position: 50% 50%; }
+  .cherry-banner_content {
+    padding: 20px; }
+  .cherry-banner_link {
     text-decoration: none; }
+    .cherry-banner_link:hover, .cherry-banner_link:active, .cherry-banner_link:focus {
+      text-decoration: none; }
+    .cherry-banner_link.image-link {
+      display: block; }
 
 /*      Clear
 ---------------------------------------------------------------*/
