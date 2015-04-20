@@ -198,6 +198,58 @@ class Su_Shortcodes {
 
 	}
 
+	public static function dropcap( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'size'       => 20,
+			'color'      => '#FFFFFF',
+			'background' => '#2D89EF',
+			'align'      => 'left',
+			'shape'      => 'circle',
+			'class'      => ''
+		), $atts, 'dropcap' );
+
+		$style = array();
+
+		$size   = ( 0 != absint( $atts['size'] ) ) ? absint( $atts['size'] ) : 20;
+		$factor = apply_filters( 'cherry_shortcodes_dropcap_factor', 1.5 );
+		$metric = floor( $size * $factor );
+
+		$style['font-size']  = $size . 'px';
+		$style['width']      = $style['height'] = $style['line-height'] = $metric . 'px';
+		$style['color']      = ( !empty( $atts['color'] ) ) ? esc_attr( $atts['color'] ) : false;
+		$style['background'] = ( !empty( $atts['background'] ) ) ? esc_attr( $atts['background'] ) : false;
+
+		switch ( $atts['shape'] ) {
+			case 'square':
+				$border_radius = 0;
+				break;
+
+			case 'rounded':
+				$border_radius = floor( $metric / 5 );
+				break;
+
+			default:
+				$border_radius = ceil( $metric / 2 );
+				break;
+		}
+
+		$style['border-radius'] = $border_radius . 'px';
+
+		$classes = array();
+
+		$classes[] = 'cherry-dropcap';
+		$classes[] = esc_attr( $atts['class'] );
+		$classes[] = 'align-' . $atts['align'];
+
+		$format  = '<div class="%1$s" style="%2$s">%3$s</div>';
+		$classes = implode( ' ', $classes );
+		$style   = Su_Tools::prepare_styles( $style );
+		$content = do_shortcode( $content );
+
+		return sprintf( $format, $classes, $style, $content );
+
+	}
+
 	public static function title_box( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'title'      => '',

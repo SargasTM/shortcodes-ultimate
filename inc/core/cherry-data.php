@@ -368,7 +368,7 @@ class Su_Data {
 							'values'  => array(),
 							'default' => '#333333',
 							'name'    => __( 'Icon Color', 'cherry-shortcodes' ),
-							'desc'    => __( 'Fon icon color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Font icon color', 'cherry-shortcodes' ),
 						),
 						'class' => array(
 							'default' => '',
@@ -378,6 +378,66 @@ class Su_Data {
 					),
 					'desc'    => __( 'Title box', 'cherry-shortcodes' ),
 					'icon'    => 'header'
+				),
+				'dropcap' => array(
+					'name'  => __( 'Dropcap', 'cherry-shortcodes' ),
+					'type'  => 'wrap',
+					'group' => 'content',
+					'atts'  => array(
+						'size' => array(
+							'type'    => 'number',
+							'min'     => 10,
+							'max'     => 150,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Text size', 'cherry-shortcodes' ),
+							'desc'    => __( 'Text size in px (total dropcap size automatically claculated)', 'cherry-shortcodes' ),
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#FFFFFF',
+							'name'    => __( 'Text Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Dropcap text color', 'cherry-shortcodes' ),
+						),
+						'background' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#2D89EF',
+							'name'    => __( 'Background Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Dropcap background color', 'cherry-shortcodes' ),
+						),
+						'align' => array(
+							'type'   => 'select',
+							'values' => array(
+								'left'   => __( 'Left', 'cherry-shortcodes' ),
+								'right'  => __( 'Right', 'cherry-shortcodes' ),
+								'center' => __( 'Center', 'cherry-shortcodes' ),
+							),
+							'default' => 'left',
+							'name' => __( 'Align', 'cherry-shortcodes' ),
+							'desc' => __( 'Dropcap alignment', 'cherry-shortcodes' )
+						),
+						'shape' => array(
+							'type'   => 'select',
+							'values' => array(
+								'circle'  => __( 'Circle', 'cherry-shortcodes' ),
+								'square'  => __( 'Square', 'cherry-shortcodes' ),
+								'rounded' => __( 'Rounded corners', 'cherry-shortcodes' ),
+							),
+							'default' => 'circle',
+							'name' => __( 'Shape', 'cherry-shortcodes' ),
+							'desc' => __( 'Dropcap shape type', 'cherry-shortcodes' )
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
+						)
+					),
+					'content' => __( 'A', 'cherry-shortcodes' ),
+					'desc'    => __( 'Dropcap box', 'cherry-shortcodes' ),
+					'icon'    => 'question-circle'
 				),
 				'button' => array(
 					'name'  => __( 'Button', 'cherry-shortcodes' ),

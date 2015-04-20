@@ -184,3 +184,25 @@
 	vertical-align: middle;
 	line-height: 1.2em;
 }
+
+// Dropcap
+.cherry-dropcap {
+	text-align: center;
+	cursor: default;
+	&.align-left {
+		float: left;
+		margin: 0 20px 20px 0;
+	}
+	&.align-right {
+		float: right;
+		margin: 0 0 20px 20px;
+	}
+	&.align-center {
+		float: none;
+		margin: 0 auto 20px;
+	}
+	.cherry-icon,
+	img {
+		max-width: 100%;
+	}
+}
