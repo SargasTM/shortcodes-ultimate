@@ -248,6 +248,18 @@ class Su_Shortcodes {
 
 	}
 
+	public static function box( $atts = null, $content = null ) {
+
+		$atts = shortcode_atts( array(
+			'class' => ''
+		), $atts, 'box' );
+
+		$class = esc_attr( $atts['class'] );
+
+		return '<div class="cherry-box ' . $class . '">' . do_shortcode( $content ) . '</div>';
+
+	}
+
 	public static function dropcap( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'size'       => 20,

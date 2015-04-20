@@ -333,6 +333,21 @@ class Su_Data {
 					'desc'    => __( 'Insert custom icon', 'cherry-shortcodes' ),
 					'icon'    => 'info-circle'
 				),
+				'box' => array(
+					'name'  => __( 'Box', 'cherry-shortcodes' ),
+					'type'  => 'wrap',
+					'group' => 'box',
+					'atts'  => array(
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'content' => __( 'Your content goes here', 'cherry-shortcodes' ),
+					'desc'    => __( 'Box', 'cherry-shortcodes' ),
+					'icon'    => 'file-o'
+				),
 				'banner' => array(
 					'name'  => __( 'Banner', 'cherry-shortcodes' ),
 					'type'  => 'wrap',
@@ -378,6 +393,7 @@ class Su_Data {
 							'desc'    => __( 'Shortcode template', 'cherry-shortcodes' ),
 						),
 					),
+					'content' => __( 'Banner content goes here', 'cherry-shortcodes' ),
 					'desc'    => __( 'Banner', 'cherry-shortcodes' ),
 					'icon'    => 'picture-o'
 				),
@@ -438,7 +454,6 @@ class Su_Data {
 							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' )
 						)
 					),
-					'content' => __( 'Banner content goes here', 'cherry-shortcodes' ),
 					'desc'    => __( 'Title box', 'cherry-shortcodes' ),
 					'icon'    => 'header'
 				),
