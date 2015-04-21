@@ -894,6 +894,10 @@ class Su_Tools {
 				continue;
 			}
 
+			if ( 'background-image' == $property ) {
+				$value = 'url(' . $value . ')';
+			}
+
 			$result .= $property . ':' . $value . ';';
 		}
 

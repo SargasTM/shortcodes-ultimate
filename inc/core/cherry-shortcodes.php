@@ -251,12 +251,61 @@ class Su_Shortcodes {
 	public static function box( $atts = null, $content = null ) {
 
 		$atts = shortcode_atts( array(
-			'class' => ''
+			'preset'        => '',
+			'bg_color'      => '',
+			'bg_image'      => '',
+			'bg_position'   => 'center',
+			'bg_repeat'     => 'no-repeat',
+			'bg_attachment' => 'scroll',
+			'class'         => ''
 		), $atts, 'box' );
 
-		$class = esc_attr( $atts['class'] );
+		$classes[] = 'cherry-box';
+		$classes[] = esc_attr( $atts['class'] );
 
-		return '<div class="cherry-box ' . $class . '">' . do_shortcode( $content ) . '</div>';
+		// prepare preset
+		if ( ! empty( $atts['preset'] ) ) {
+			$classes[] = 'box-' . esc_attr( $atts['preset'] );
+		}
+
+		$classes = array_filter( $classes );
+		$class   = implode( ' ', $classes );
+
+		// prepare CSS array
+		$styles = array();
+
+		if ( ! empty( $atts['bg_image'] ) ) {
+
+			$styles['background-image'] = esc_url( $atts['bg_image'] );
+
+			$allowed_repeat     = array( 'repeat', 'no-repeat', 'repeat-x', 'repeat-y' );
+			$allowed_position   = array( 'top left', 'top center', 'top right', 'left', 'center', 'right', 'bottom left', 'bottom center', 'bottom right' );
+			$allowed_attachment = array( 'fixed', 'scroll' );
+
+			// prepare image BG properties
+			$repeat = esc_attr( $atts['bg_repeat'] );
+			$repeat = in_array( $repeat, $allowed_repeat ) ? $repeat : 'no-repeat';
+
+			$position = str_replace( '-', ' ', esc_attr( $atts['bg_position'] ) );
+			$position = in_array( $position, $allowed_position ) ? $position : 'center';
+
+			$attachment = esc_attr( $atts['bg_attachment'] );
+			$attachment = in_array( $attachment, $allowed_attachment ) ? $attachment : 'scroll';
+
+			$styles['background-repeat']     = $repeat;
+			$styles['background-position']   = $position;
+			$styles['background-attachment'] = $attachment;
+		}
+
+		if ( ! empty( $atts['bg_color'] ) ) {
+			$styles['background-color'] = esc_attr( $atts['bg_color'] );
+		}
+
+		$style = Su_Tools::prepare_styles( $styles );
+
+		$format = '<div class="%s" style="%s">%s</div>';
+
+		return sprintf( $format, $class, $style, do_shortcode( $content ) );
 
 	}
 
@@ -447,6 +496,7 @@ class Su_Shortcodes {
 			'push_sm'   => 'none',
 			'push_md'   => 'none',
 			'push_lg'   => 'none',
+			'collapse'  => 'no',
 			'class'     => '',
 		), $atts, 'col' );
 
@@ -467,6 +517,7 @@ class Su_Shortcodes {
 		$class .= ( 'none' == $atts['push_md']  )  ? '' : ' col-md-push-' . sanitize_key( $atts['push_md'] );
 		$class .= ( 'none' == $atts['push_sm']  )  ? '' : ' col-sm-push-' . sanitize_key( $atts['push_sm'] );
 		$class .= ( 'none' == $atts['push_xs']  )  ? '' : ' col-xs-push-' . sanitize_key( $atts['push_xs'] );
+		$class .= ( 'yes' != $atts['collapse']  )  ? '' : ' collapse-col';
 
 		$output = '<div class="' . trim( esc_attr( $class ) ) . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
 		$output = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'col' );

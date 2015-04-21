@@ -206,6 +206,16 @@ class Su_Data {
 							'name'    => __( 'Push', 'cherry-shortcodes' ),
 							'desc'    => __( 'Select column push.', 'cherry-shortcodes' ),
 						),
+						'collapse' => array(
+							'type'   => 'select',
+							'values' => array(
+								'no'  => __( 'No', 'cherry-shortcodes' ),
+								'yes' => __( 'Yes', 'cherry-shortcodes' )
+							),
+							'default' => 'no',
+							'name'    => __( 'Collapse column paddings', 'cherry-shortcodes' ),
+							'desc'    => __( 'Collapse column paddings', 'cherry-shortcodes' ),
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
@@ -247,6 +257,16 @@ class Su_Data {
 							'name'    => __( 'Push', 'cherry-shortcodes' ),
 							'desc'    => __( 'Select column push.', 'cherry-shortcodes' ),
 						),
+						'collapse' => array(
+							'type'   => 'select',
+							'values' => array(
+								'no'  => __( 'No', 'cherry-shortcodes' ),
+								'yes' => __( 'Yes', 'cherry-shortcodes' )
+							),
+							'default' => 'no',
+							'name'    => __( 'Collapse column paddings', 'cherry-shortcodes' ),
+							'desc'    => __( 'Collapse column paddings', 'cherry-shortcodes' ),
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
@@ -282,7 +302,7 @@ class Su_Data {
 					'desc'    => __( 'Vertical spacer between blocks', 'cherry-shortcodes' ),
 					'icon'    => 'arrows-v',
 				),
-				// spacer
+				// clear
 				'clear' => array(
 					'name'  => __( 'Clear', 'cherry-shortcodes' ),
 					'type'  => 'single',
@@ -297,6 +317,7 @@ class Su_Data {
 					'desc'    => __( 'Clearing block', 'cherry-shortcodes' ),
 					'icon'    => 'eraser',
 				),
+				// icon
 				'icon' => array(
 					'name'  => __( 'Icon', 'cherry-shortcodes' ),
 					'type'  => 'single',
@@ -322,7 +343,7 @@ class Su_Data {
 							'values'  => array(),
 							'default' => '#333333',
 							'name'    => __( 'Icon Color', 'cherry-shortcodes' ),
-							'desc'    => __( 'Fon icon color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Font icon color', 'cherry-shortcodes' ),
 						),
 						'class' => array(
 							'default' => '',
@@ -333,11 +354,78 @@ class Su_Data {
 					'desc'    => __( 'Insert custom icon', 'cherry-shortcodes' ),
 					'icon'    => 'info-circle'
 				),
+				// box
 				'box' => array(
 					'name'  => __( 'Box', 'cherry-shortcodes' ),
 					'type'  => 'wrap',
 					'group' => 'box',
 					'atts'  => array(
+						'preset' => array(
+							'type'   => 'select',
+							'values' => array(
+								'primary'          => __( 'Primary', 'cherry-shortcodes' ),
+								'secondary'        => __( 'Secondary', 'cherry-shortcodes' ),
+								'gray'             => __( 'Gray', 'cherry-shortcodes' ),
+								'primary-border'   => __( 'Primary border', 'cherry-shortcodes' ),
+								'secondary-border' => __( 'Secondary border', 'cherry-shortcodes' ),
+								'gray-border'      => __( 'Gray border', 'cherry-shortcodes' ),
+							),
+							'default' => '',
+							'name' => __( 'Box styling preset', 'cherry-shortcodes' ),
+							'desc' => __( 'Select box styling preset', 'cherry-shortcodes' )
+						),
+						'bg_color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#ffffff',
+							'name'    => __( 'Background Color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Select box background color', 'cherry-shortcodes' ),
+						),
+						'bg_image' => array(
+							'type'    => 'upload',
+							'default' => '',
+							'name'    => __( 'Background Image', 'cherry-shortcodes' ),
+							'desc'    => __( 'Upload box background image', 'cherry-shortcodes' ),
+						),
+						'bg_position' => array(
+							'type'   => 'select',
+							'values' => array(
+								'top-left'      => __( 'Top Left', 'cherry-shortcodes' ),
+								'top-center'    => __( 'Top Center', 'cherry-shortcodes' ),
+								'top-right'     => __( 'Top Right', 'cherry-shortcodes' ),
+								'left'          => __( 'Middle Left', 'cherry-shortcodes' ),
+								'center'        => __( 'Middle Center', 'cherry-shortcodes' ),
+								'right'         => __( 'Middle Right', 'cherry-shortcodes' ),
+								'bottom-left'   => __( 'Bottom Left', 'cherry-shortcodes' ),
+								'bottom-center' => __( 'Bottom Center', 'cherry-shortcodes' ),
+								'bottom-right'  => __( 'Bottom Right', 'cherry-shortcodes' )
+							),
+							'default' => 'center',
+							'name' => __( 'Background image position', 'cherry-shortcodes' ),
+							'desc' => __( 'Select background image position', 'cherry-shortcodes' )
+						),
+						'bg_repeat' => array(
+							'type'   => 'select',
+							'values' => array(
+								'no-repeat' => __( 'No Repeat', 'cherry-shortcodes' ),
+								'repeat'    => __( 'Repeat All', 'cherry-shortcodes' ),
+								'repeat-x'  => __( 'Repeat Horizontally', 'cherry-shortcodes' ),
+								'repeat-y'  => __( 'Repeat Vertically', 'cherry-shortcodes' )
+							),
+							'default' => 'no-repeat',
+							'name' => __( 'Background image repeat', 'cherry-shortcodes' ),
+							'desc' => __( 'Select background image repeat', 'cherry-shortcodes' )
+						),
+						'bg_attachment' => array(
+							'type'   => 'select',
+							'values' => array(
+								'scroll' => __( 'Scroll normally', 'cherry-shortcodes' ),
+								'fixed'  => __( 'Fixed in place', 'cherry-shortcodes' )
+							),
+							'default' => 'scroll',
+							'name' => __( 'Background image attachment', 'cherry-shortcodes' ),
+							'desc' => __( 'Select background image attachment', 'cherry-shortcodes' )
+						),
 						'class' => array(
 							'default' => '',
 							'name'    => __( 'Class', 'cherry-shortcodes' ),
@@ -348,6 +436,7 @@ class Su_Data {
 					'desc'    => __( 'Box', 'cherry-shortcodes' ),
 					'icon'    => 'file-o'
 				),
+				//banner
 				'banner' => array(
 					'name'  => __( 'Banner', 'cherry-shortcodes' ),
 					'type'  => 'wrap',
