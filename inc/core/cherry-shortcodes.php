@@ -173,6 +173,35 @@ class Su_Shortcodes {
 		return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'button' );
 	}
 
+	public static function hr( $atts = null, $content = null ) {
+		$atts = shortcode_atts( array(
+			'height'        => 1,
+			'color'         => '#ddd',
+			'indent_before' => 20,
+			'indent_after'  => 20,
+			'class'         => ''
+		), $atts, 'hr' );
+
+		$height        = absint( $atts['height'] );
+		$color         = esc_attr( $atts['color'] );
+		$indent_before = absint( $atts['indent_before'] );
+		$indent_after  = absint( $atts['indent_after'] );
+		$class         = esc_attr( $atts['class'] );
+
+		$styles = array();
+
+		$styles['height']           = ( 0 != $height ) ? $height . 'px' : '1px';
+		$styles['margin-top']       = ( 0 != $indent_before ) ? $indent_before . 'px' : '20px';
+		$styles['margin-bottom']    = ( 0 != $indent_after ) ? $indent_after . 'px' : '20px';
+		$styles['background-color'] = $color;
+
+		$class = esc_attr( $atts['class'] );
+		$style = Su_Tools::prepare_styles( $styles );
+
+		return sprintf( '<div class="cherry-hr %s" style="%s"></div>', $class, $style );
+
+	}
+
 	public static function icon( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
 			'icon'  => '',
@@ -316,6 +345,7 @@ class Su_Shortcodes {
 			'background' => '#2D89EF',
 			'align'      => 'left',
 			'shape'      => 'circle',
+			'border'     => 'none',
 			'class'      => ''
 		), $atts, 'dropcap' );
 
@@ -329,6 +359,9 @@ class Su_Shortcodes {
 		$style['width']      = $style['height'] = $style['line-height'] = $metric . 'px';
 		$style['color']      = ( !empty( $atts['color'] ) ) ? esc_attr( $atts['color'] ) : false;
 		$style['background'] = ( !empty( $atts['background'] ) ) ? esc_attr( $atts['background'] ) : false;
+		$style['border']     = esc_attr( $atts['border'] );
+
+		$border_width = absint( preg_filter( '/^(\d+)px.+$/', '$1', $atts['border'] ) );
 
 		switch ( $atts['shape'] ) {
 			case 'square':
@@ -336,11 +369,11 @@ class Su_Shortcodes {
 				break;
 
 			case 'rounded':
-				$border_radius = floor( $metric / 5 );
+				$border_radius = floor( ( $metric + 2*$border_width ) / 5 );
 				break;
 
 			default:
-				$border_radius = ceil( $metric / 2 );
+				$border_radius = ceil( ( $metric + 2*$border_width ) / 2 );
 				break;
 		}
 

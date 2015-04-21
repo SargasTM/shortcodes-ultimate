@@ -486,6 +486,55 @@ class Su_Data {
 					'desc'    => __( 'Banner', 'cherry-shortcodes' ),
 					'icon'    => 'picture-o'
 				),
+				// hr
+				'hr' => array(
+					'name'  => __( 'Horizontal Rule', 'cherry-shortcodes' ),
+					'type'  => 'single',
+					'group' => 'content',
+					'atts'  => array(
+						'height' => array(
+							'type'    => 'number',
+							'min'     => 1,
+							'max'     => 30,
+							'step'    => 1,
+							'default' => 1,
+							'name'    => __( 'Line height', 'cherry-shortcodes' ),
+							'desc'    => __( 'Horizontal rule height', 'cherry-shortcodes' ),
+						),
+						'color' => array(
+							'type'    => 'color',
+							'values'  => array(),
+							'default' => '#dddddd',
+							'name'    => __( 'Line color', 'cherry-shortcodes' ),
+							'desc'    => __( 'Horizontal rule color', 'cherry-shortcodes' ),
+						),
+						'indent_top' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 150,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Indent before', 'cherry-shortcodes' ),
+							'desc'    => __( 'Indent before horizontal rule', 'cherry-shortcodes' ),
+						),
+						'indent_bottom' => array(
+							'type'    => 'number',
+							'min'     => 0,
+							'max'     => 150,
+							'step'    => 1,
+							'default' => 20,
+							'name'    => __( 'Indent after', 'cherry-shortcodes' ),
+							'desc'    => __( 'Indent after horizontal rule', 'cherry-shortcodes' ),
+						),
+						'class' => array(
+							'default' => '',
+							'name'    => __( 'Class', 'cherry-shortcodes' ),
+							'desc'    => __( 'Extra CSS class', 'cherry-shortcodes' ),
+						)
+					),
+					'desc'    => __( 'Horizontal Rule', 'cherry-shortcodes' ),
+					'icon'    => 'arrows-h'
+				),
 				'title_box' => array(
 					'name'  => __( 'Title Box', 'cherry-shortcodes' ),
 					'type'  => 'single',
@@ -595,6 +644,12 @@ class Su_Data {
 							'default' => 'circle',
 							'name' => __( 'Shape', 'cherry-shortcodes' ),
 							'desc' => __( 'Dropcap shape type', 'cherry-shortcodes' )
+						),
+						'border' => array(
+							'type'    => 'border',
+							'default' => 'none',
+							'name' => __( 'Border', 'cherry-shortcodes' ),
+							'desc' => __( 'Setup dropcap border', 'cherry-shortcodes' )
 						),
 						'class' => array(
 							'default' => '',
