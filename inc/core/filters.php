@@ -115,6 +115,8 @@ function cherry_templater_add_macros_buttons( $macros_buttons, $shortcode ) {
 			'title' => __( 'Custom CSS class', 'cherry-shortcodes-templater' ),
 		);
 
+	} elseif ( 'swiper_carousel' == $shortcode ) {
+		$macros_buttons = apply_filters( 'cherry_shortcodes_add_carousel_macros', $macros_buttons );
 	}
 
 	return $macros_buttons;
