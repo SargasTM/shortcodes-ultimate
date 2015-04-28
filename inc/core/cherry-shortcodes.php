@@ -487,8 +487,9 @@ class Su_Shortcodes {
 
 		$type = sanitize_key( $atts['type'] );
 
-		$container = ( 'fixed-width' == $type ) ? '<div class="container">%s</div>' : '%s';
-		$output    = '<div class="row' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
+		$container = ( 'fixed-width' == $type ) ? '<div class="row' . su_ecssc( $atts ) . '"><div class="container">%s</div></div>' : '%s';
+		$class     = ( 'fixed-width' == $type ) ? '' : su_ecssc( $atts );
+		$output    = '<div class="row' . $class . '">' . do_shortcode( $content ) . '</div>';
 		$output    = sprintf( $container, $output );
 		$output    = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'row' );
 
@@ -503,8 +504,9 @@ class Su_Shortcodes {
 
 		$type = sanitize_key( $atts['type'] );
 
-		$container = ( 'fixed-width' == $type ) ? '<div class="container">%s</div>' : '%s';
-		$output    = '<div class="row' . su_ecssc( $atts ) . '">' . do_shortcode( $content ) . '</div>';
+		$container = ( 'fixed-width' == $type ) ? '<div class="row' . su_ecssc( $atts ) . '"><div class="container">%s</div></div>' : '%s';
+		$class     = ( 'fixed-width' == $type ) ? '' : su_ecssc( $atts );
+		$output    = '<div class="row' . $class . '">' . do_shortcode( $content ) . '</div>';
 		$output    = sprintf( $container, $output );
 		$output    = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'row_inner' );
 
